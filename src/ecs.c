@@ -2,15 +2,19 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 Entity entities[MAX_ENTITIES];
 int entity_count = 0;
 int free_ids[MAX_ENTITIES];
 int free_id_count = 0;
 
+
 ComponentPool component_pools[NUM_COMPONENT_TYPES];
+
 
 Position positions[MAX_ENTITIES];
 Velocity velocities[MAX_ENTITIES];
+
 
 void init_ecs(void) {
     for (int i = 0; i < MAX_ENTITIES; i++) {
@@ -38,6 +42,7 @@ void init_ecs(void) {
     }
 }
 
+
 int create_entity(void) {
     int id;
     if (free_id_count > 0) {
@@ -55,6 +60,7 @@ int create_entity(void) {
 
     return id;
 }
+
 
 void destroy_entity(int entity_id) {
     if (entity_id < 0 || entity_id >= MAX_ENTITIES || entities[entity_id].id == INVALID_ENTITY_ID) return;
@@ -78,6 +84,7 @@ void destroy_entity(int entity_id) {
         free_ids[free_id_count++] = entity_id;
     }
 }
+
 
 void add_component(int entity_id, int component_type, void* component_data) {
     if (entity_id < 0 || entity_id >= MAX_ENTITIES || entities[entity_id].id == INVALID_ENTITY_ID) return;
@@ -104,6 +111,7 @@ Position* get_position(int entity_id) {
     if (index == INVALID_COMPONENT_INDEX) return NULL;
     return &((Position*)component_pools[COMPONENT_POSITION].data)[index];
 }
+
 
 Velocity* get_velocity(int entity_id) {
     int index = entities[entity_id].component_indices[COMPONENT_VELOCITY];

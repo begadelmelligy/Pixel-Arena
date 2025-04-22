@@ -5,8 +5,10 @@ typedef struct {
     float x, y;
 } Position;
 
+
 typedef struct {
     float dx, dy;
 } Velocity;
+
 
 #endif

@@ -2,11 +2,12 @@
 #include "ecs.h"
 #include "raylib.h"
 
+
 extern Entity entities[MAX_ENTITIES];
 extern int entity_count;
 extern ComponentPool component_pools[NUM_COMPONENT_TYPES];
 
-// Movement system: Updates position based on velocity
+
 void movement_system(float delta) {
     for (int i = 0; i < entity_count; i++) {
         if (entities[i].id == INVALID_ENTITY_ID) continue;
@@ -21,7 +22,7 @@ void movement_system(float delta) {
     }
 }
 
-// Render system: Draws entities with position components
+
 void render_system() {
     BeginDrawing();
     ClearBackground(BLACK);
