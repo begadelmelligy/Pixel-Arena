@@ -9,26 +9,28 @@ int main(void) {
 
     init_ecs();
 
-    // Create some entities
     int e1 = create_entity();
     if (e1 != INVALID_ENTITY_ID) {
-        add_position(e1, 100, 100);
-        add_velocity(e1, 50, 50);
+        Position p = {100, 100};
+        Velocity v = {50, 50};
+        add_component(e1, COMPONENT_POSITION, &p);
+        add_component(e1, COMPONENT_VELOCITY, &v);
     }
 
     int e2 = create_entity();
     if (e2 != INVALID_ENTITY_ID) {
-        add_position(e2, 200, 200);
-        add_velocity(e2, -30, 20);
+        Position p = {200, 200};
+        Velocity v = {-30, 20};
+        add_component(e2, COMPONENT_POSITION, &p);
+        add_component(e2, COMPONENT_VELOCITY, &v);
     }
-    printf("Entity id: %d", e1);
+
 
     while (!WindowShouldClose()) {
         float delta = GetFrameTime();
         movement_system(delta);
         render_system();
     }
-
 
     CloseWindow();
     return 0;

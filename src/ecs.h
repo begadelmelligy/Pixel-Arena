@@ -14,26 +14,25 @@ enum ComponentType {
     COMPONENT_VELOCITY = 1
 };
 
-
 typedef struct {
-    void* data;                // Array of component data (e.g., Position[MAX_ENTITIES])
-    size_t component_size;     // Size of one component (e.g., sizeof(Position))
-    int free_ids[MAX_ENTITIES]; // Free list for component slots
-    int free_count;            // Number of free slots
-    int active_count;          // Number of active components
+    void* data;
+    size_t component_size;
+    int free_ids[MAX_ENTITIES];
+    int free_count;
+    int active_count;
 } ComponentPool;
-
 
 typedef struct {
     int id;
     int component_indices[NUM_COMPONENT_TYPES];
 } Entity;
 
-
 void init_ecs(void);
 int create_entity(void);
 void destroy_entity(int entity_id);
-void add_position(int entity_id, float x, float y);
-void add_velocity(int entity_id, float dx, float dy);
+
+void add_component(int entity_id, int component_type, void* component_data);
+Position* get_position(int entity_id);
+Velocity* get_velocity(int entity_id);
 
 #endif
