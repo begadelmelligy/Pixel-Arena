@@ -1,39 +1,24 @@
 #ifndef GAME_H
 #define GAME_H
 
-
-#include <raylib.h>
-
-
-#define SCREEN_WIDTH 1600
-#define SCREEN_HEIGHT 1200
+#include <stdbool.h>
 
 
-typedef enum
-{
-    MAIN_MENU_SCENE,
-    ARENA_SCENE,
-    GAME_OVER_SCENE,
-    VICTORY_SCENE
-
-} GameScenes;
-
-
-typedef struct
-{
-    GameScenes current_scene;
-
-} GameState;
+typedef enum {
+    GAME_STATE_MENU,
+    GAME_STATE_BUILD_WAVE,
+    GAME_STATE_COMBAT,
+    GAME_STATE_GAME_OVER
+} GameMode;
 
 
 typedef struct {
-    bool running;
-} Game;
-
-
-void InitGame(Game *game);
-void UpdateGame(Game *game, float deltaTime);
-void DrawGame(const Game *game);
+    GameMode mode;
+    int currentWave;
+    int playerGold;
+    int playerEvoToken;
+    bool isPaused;
+} GameState;
 
 
 #endif

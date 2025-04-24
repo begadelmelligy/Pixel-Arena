@@ -11,4 +11,21 @@ typedef struct {
 } Velocity;
 
 
+typedef struct {
+    float maxHealth;
+    float currentHealth;
+} Health;
+
+
+typedef struct {
+    float maxMana;
+    float currentMana;
+} Mana;
+
+
+typedef struct {
+    float maxStamina;
+    float currentStamina;
+} Stamina;
+
 #endif

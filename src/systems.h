@@ -2,8 +2,17 @@
 #define SYSTEMS_H
 
 
-void movement_system(float delta);
-void render_system();
+void sMovement(float delta);
+void queueDamage(int entity, float amount);
+void applyDamage(int entity, float amount);
+void sDamage();
+void sRender();
+
+
+typedef struct{
+    int target;
+    float amount;
+} DamageEvent;
 
 
 #endif // SYSTEMS_H
