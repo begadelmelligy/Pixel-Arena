@@ -1,5 +1,5 @@
 #include "ecs.h"
-#include <stdlib.h>
+#include "components.h"
 #include <string.h>
 
 
@@ -13,9 +13,10 @@ int free_id_count = 0;
 ComponentPool component_pools[NUM_COMPONENT_TYPES];
 
 /*Add more components here*/
-Position positions[MAX_ENTITIES];
-Velocity velocities[MAX_ENTITIES];
-Health health[MAX_ENTITIES];
+cPosition positions[MAX_ENTITIES];
+cVelocity velocities[MAX_ENTITIES];
+cHealth health[MAX_ENTITIES];
+cProperties properties[MAX_ENTITIES];
 
 
 void init_ecs(void) {
@@ -27,29 +28,38 @@ void init_ecs(void) {
 
     component_pools[COMPONENT_POSITION] = (ComponentPool){
         .data = positions,
-        .component_size = sizeof(Position),
+        .component_size = sizeof(cPosition),
         .free_count = 0,
         .active_count = 0
     };
 
     component_pools[COMPONENT_VELOCITY] = (ComponentPool){
         .data = velocities,
-        .component_size = sizeof(Velocity),
+        .component_size = sizeof(cVelocity),
         .free_count = 0,
         .active_count = 0
     };
 
     component_pools[COMPONENT_HEALTH] = (ComponentPool){
         .data = health,
-        .component_size = sizeof(Health),
+        .component_size = sizeof(cHealth),
         .free_count = 0,
         .active_count = 0
     };
+
+    component_pools[COMPONENT_PROPERTIES] = (ComponentPool){
+        .data = properties,
+        .component_size = sizeof(cProperties),
+        .free_count = 0,
+        .active_count = 0
+    };
+
 
     for (int i = 0; i < MAX_ENTITIES; i++) {
         component_pools[COMPONENT_POSITION].free_ids[i] = INVALID_COMPONENT_INDEX;
         component_pools[COMPONENT_VELOCITY].free_ids[i] = INVALID_COMPONENT_INDEX;
         component_pools[COMPONENT_HEALTH].free_ids[i] = INVALID_COMPONENT_INDEX;
+        component_pools[COMPONENT_PROPERTIES].free_ids[i] = INVALID_COMPONENT_INDEX;
     }
 }
 
@@ -117,26 +127,29 @@ void add_component(int entity_id, int component_type, void* component_data) {
 }
 
 
-Position* get_position(int entity_id) {
+cPosition* get_position(int entity_id) {
     int index = entities[entity_id].component_indices[COMPONENT_POSITION];
     if (index == INVALID_COMPONENT_INDEX) return NULL;
-    return &((Position*)component_pools[COMPONENT_POSITION].data)[index];
+    return &((cPosition*)component_pools[COMPONENT_POSITION].data)[index];
 }
 
 
-Velocity* get_velocity(int entity_id) {
+cVelocity* get_velocity(int entity_id) {
     int index = entities[entity_id].component_indices[COMPONENT_VELOCITY];
     if (index == INVALID_COMPONENT_INDEX) return NULL;
-    return &((Velocity*)component_pools[COMPONENT_VELOCITY].data)[index];
+    return &((cVelocity*)component_pools[COMPONENT_VELOCITY].data)[index];
 }
 
 
-Health* get_health(int entity_id) {
+cHealth* get_health(int entity_id) {
     int index = entities[entity_id].component_indices[COMPONENT_HEALTH];
     if (index == INVALID_COMPONENT_INDEX) return NULL;
-    return &((Health*)component_pools[COMPONENT_HEALTH].data)[index];
+    return &((cHealth*)component_pools[COMPONENT_HEALTH].data)[index];
 }
 
 
-
-
+cProperties* get_properties(int entity_id) {
+    int index = entities[entity_id].component_indices[COMPONENT_PROPERTIES];
+    if (index == INVALID_COMPONENT_INDEX) return NULL;
+    return &((cProperties*)component_pools[COMPONENT_PROPERTIES].data)[index];
+}

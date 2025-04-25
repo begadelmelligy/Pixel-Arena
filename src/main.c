@@ -22,8 +22,8 @@ int main(void) {
 
     int enemyHero = create_entity();
     if (enemyHero != INVALID_ENTITY_ID) {
-        Position p = {WIDTH/2, HEIGHT/2};
-        Health h = {100, 100};
+        cPosition p = {WIDTH/2, HEIGHT/2};
+        cHealth h = {100, 100};
         add_component(enemyHero, COMPONENT_POSITION, &p);
         add_component(enemyHero, COMPONENT_HEALTH, &h);
     }
