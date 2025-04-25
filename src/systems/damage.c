@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include "../../systems/damage.h"
 
-#include "../ecs.h"
-#include "../entity.c"
-
 DamageEvent damageEvents[MAX_EVENTS];
 int damageEventCount = 0;
 

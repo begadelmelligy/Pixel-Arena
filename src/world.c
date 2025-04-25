@@ -50,6 +50,11 @@ World *create_world(void){
 }
 
 
+void destroy_world(World *world) {
+    if (!world) return;
+    free(world);
+}
+
 
 cPosition* get_position(int entity_id, World *world) {
     int index = entities[entity_id].component_indices[COMPONENT_POSITION];
