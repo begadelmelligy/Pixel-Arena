@@ -2,6 +2,7 @@
 #define DAMAGE_H
 
 #include "../src/world.h"
+#include "../src/entity.h"
 
 
 typedef struct{

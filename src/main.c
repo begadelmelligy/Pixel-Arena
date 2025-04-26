@@ -1,8 +1,10 @@
+#include "globals.h"
 #include "raylib.h"
+#include <stdio.h>
+
 #include "ecs.h"
 #include "entity.h"
 #include "world.h"
-#include <stdio.h>
 
 #include "../systems/damage.h"
 #include "../systems/movement.h"
@@ -38,14 +40,8 @@ int main(void) {
     }
 
 
-    int counter = 0;
     while (!WindowShouldClose()) {
         float delta = GetFrameTime();
-        if (counter >= 200) {
-            applyDamage(world, enemyHero, 10);
-            counter = 0;
-        }
-        counter++;
         ecs_update(world, delta);
     }
 
