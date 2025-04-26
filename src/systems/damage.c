@@ -14,7 +14,7 @@ void queueDamage(int entity, float amount) {
 
 void applyDamage(World *world, int entity_id, float amount) {
         if (entity_id == INVALID_ENTITY_ID) return;
-        int health_idx = entities[entity_id].component_indices[COMPONENT_HEALTH];
+        int health_idx = world->entities[entity_id].component_indices[COMPONENT_HEALTH];
         if (health_idx != INVALID_COMPONENT_INDEX){
             cHealth* health = &((cHealth*)world->component_pools[COMPONENT_HEALTH].data)[health_idx];
 
@@ -22,16 +22,18 @@ void applyDamage(World *world, int entity_id, float amount) {
             health->currentHealth -= amount;
             if (health->currentHealth < 0){
                 health->currentHealth = 0;
+                destroy_entity(world, entity_id);
             }
-            printf("Entity %d has taken %f damage\n", entities[entity_id].id, amount);
+            printf("Entity %d has taken %f damage\n", world->entities[entity_id].id, amount);
             printf("Remaining life is %f\n\n", health->currentHealth);
         }
 }
 
 
-void sDamage(void){
+void sDamage(World *world, float dt){
+    (void)dt;
     for (int i = 0; i < damageEventCount; i++) {
-        applyDamage(damageEvents[i].target, damageEvents[i].amount);
+        applyDamage(world, damageEvents[i].target, damageEvents[i].amount);
     }
 
     damageEventCount = 0;

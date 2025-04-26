@@ -2,7 +2,7 @@
 
 #define MAX_SYSTEMS 4
 
-static void (*systems[MAX_SYSTEMS])(struct World*, float);
+static void (*systems[MAX_SYSTEMS])(World*, float);
 static SystemID system_count = 0;
 
 
@@ -14,7 +14,7 @@ void init_ecs(void) {
 }
 
 
-SystemID ecs_register_system(void (*system)(struct World *, float)) {
+SystemID ecs_register_system(void (*system)(World*, float)) {
     if (system_count >= MAX_SYSTEMS) {
         return INVALID_SYSTEM;
     }
@@ -23,7 +23,7 @@ SystemID ecs_register_system(void (*system)(struct World *, float)) {
 }
 
 
-void ecs_update(struct World *world, float delta_time) {
+void ecs_update(World *world, float delta_time) {
     for (SystemID i = 0; i < system_count; i++) {
         if (systems[i]) {
             systems[i](world, delta_time);

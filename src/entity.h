@@ -1,15 +1,11 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include "ecs.h"
+#include "globals.h"
 #include "world.h"
 
-typedef struct {
-    int id;
-    int component_indices[NUM_COMPONENT_TYPES];
-} Entity;
 
-int create_entity(void);
-void destroy_entity(int entity_id, World *world);
+int create_entity(World *world);
+void destroy_entity(World *world, int entity_id);
 
 #endif

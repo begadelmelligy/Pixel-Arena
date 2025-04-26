@@ -1,6 +1,8 @@
 #ifndef MOVEMENT_H
 #define MOVEMENT_H
 
-void sMovement(float delta);
+#include "../src/world.h"
+
+void sMovement(World *world, float dt);
 
 #endif

@@ -1,4 +1,5 @@
 #include "ecs.h"
+#include "entity.h"
 #include "components.h"
 #include <string.h>
 

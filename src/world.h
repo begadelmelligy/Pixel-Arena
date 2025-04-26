@@ -1,12 +1,15 @@
 #ifndef WORLD_H
 #define WORLD_H
 
-#include "ecs.h"
+#include "stdlib.h"
+#include "globals.h"
+
 
 #include "../components/velocity.h"
 #include "../components/position.h"
 #include "../components/health.h"
 #include "../components/properties.h"
+
 
 /*Add more components here*/
 enum ComponentType {
@@ -27,6 +30,10 @@ typedef struct {
 
 
 typedef struct {
+    int free_ids[MAX_ENTITIES];
+    int free_id_count;
+    Entity entities[MAX_ENTITIES];
+    int entity_count;
     cPosition positions[MAX_ENTITIES];
     cVelocity velocities[MAX_ENTITIES];
     cHealth health[MAX_ENTITIES];
@@ -39,11 +46,11 @@ typedef struct {
 World *create_world(void);
 void destroy_world(World *world);
 
-void add_component(int entity_id, int component_type, void* component_data);
+void add_component(World *world, int entity_id, int component_type, void* component_data);
 
-cPosition* get_position(int entity_id, World *world);
-cVelocity* get_velocity(int entity_id, World *world);
-cHealth* get_health(int entity_id, World *world);
-cProperties* get_properties(int entity_id, World *world);
+cPosition* get_position(World *world, int entity_id);
+cVelocity* get_velocity(World *world, int entity_id);
+cHealth* get_health(World *world, int entity_id);
+cProperties* get_properties(World *world, int entity_id);
 
 #endif
