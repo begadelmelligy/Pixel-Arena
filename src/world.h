@@ -1,6 +1,8 @@
 #ifndef WORLD_H
 #define WORLD_H
 
+#include "raylib.h"
+#include "stdbool.h"
 #include "stdlib.h"
 #include "globals.h"
 
@@ -20,6 +22,15 @@ enum ComponentType {
 };
 
 
+enum GameState {
+    TITLE_SCREEN = 0,
+    HUB = 1,
+    WAVESETUP = 2,
+    COMBAT = 3,
+    ENDGAME = 4
+};
+
+
 typedef struct {
     void* data;
     size_t component_size;
@@ -30,15 +41,37 @@ typedef struct {
 
 
 typedef struct {
+    Vector2 mouse_position;
+    bool left_click;
+    bool right_click;
+    bool key_space;
+    bool key_shift;
+    int selected_menu_item;
+    int selected_unit_id;
+} Keys;
+
+
+typedef struct {
+    enum GameState game_state;
+    bool is_paused;
+} GameState;
+
+
+typedef struct {
+    Entity entities[MAX_ENTITIES];
     int free_ids[MAX_ENTITIES];
     int free_id_count;
-    Entity entities[MAX_ENTITIES];
     int entity_count;
+
     cPosition positions[MAX_ENTITIES];
     cVelocity velocities[MAX_ENTITIES];
     cHealth health[MAX_ENTITIES];
     cProperties properties[MAX_ENTITIES];
+
     ComponentPool *component_pools;
+    GameState game_state;
+
+    Keys keys;
 } World;
 
 

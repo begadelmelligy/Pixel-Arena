@@ -32,6 +32,7 @@ void applyDamage(World *world, int entity_id, float amount) {
 
 void sDamage(World *world, float dt){
     (void)dt;
+
     for (int i = 0; i < damageEventCount; i++) {
         applyDamage(world, damageEvents[i].target, damageEvents[i].amount);
     }

@@ -4,6 +4,7 @@
 
 
 void sMovement(World *world, float delta) {
+
     for (int i = 0; i < world->entity_count; i++) {
         if (world->entities[i].id == INVALID_ENTITY_ID) continue;
         int pos_idx = world->entities[i].component_indices[COMPONENT_POSITION];

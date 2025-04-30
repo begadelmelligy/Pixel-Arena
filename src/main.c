@@ -1,7 +1,7 @@
-#include "globals.h"
 #include "raylib.h"
 #include <stdio.h>
 
+#include "globals.h"
 #include "ecs.h"
 #include "entity.h"
 #include "world.h"
@@ -9,11 +9,18 @@
 #include "../systems/damage.h"
 #include "../systems/movement.h"
 #include "../systems/render.h"
+#include "../systems/input.h"
 
 #define HEIGHT 1200.0
 #define WIDTH 1600.0
 #define FPS 60
 #define TITLE "PIXEL ARENA"
+
+
+void game_start(World *world) {
+    world->game_state.game_state = TITLE_SCREEN;
+    world->game_state.is_paused = false;
+}
 
 
 int main(void) {
@@ -24,6 +31,7 @@ int main(void) {
     init_ecs();
 
     /*Register the systems here*/
+    ecs_register_system(sInput);
     ecs_register_system(sMovement);
     ecs_register_system(sDamage);
     ecs_register_system(sRender);
@@ -33,17 +41,21 @@ int main(void) {
     if (enemyHero != INVALID_ENTITY_ID) {
         cPosition p = {WIDTH/2, HEIGHT/2};
         cHealth h = {100, 100};
-        cVelocity v = {40, 40};
         add_component(world, enemyHero, COMPONENT_POSITION, &p);
         add_component(world, enemyHero, COMPONENT_HEALTH, &h);
-        add_component(world, enemyHero, COMPONENT_VELOCITY, &v);
     }
+
+    game_start(world);
+    float delta;
 
 
     while (!WindowShouldClose()) {
-        float delta = GetFrameTime();
+
+        delta = GetFrameTime();
         ecs_update(world, delta);
-    }
+
+        }
+
 
     destroy_world(world);
     CloseWindow();

@@ -1,5 +1,6 @@
 #include "world.h"
 #include "helper.h"
+#include "raylib.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -20,6 +21,8 @@ World *create_world(void){
     initialize_component_pool(world, COMPONENT_VELOCITY, world->velocities, sizeof(cVelocity));
     initialize_component_pool(world, COMPONENT_HEALTH, world->health, sizeof(cHealth));
     initialize_component_pool(world, COMPONENT_PROPERTIES, world->properties, sizeof(cProperties));
+
+    initialize_keys(world);
 
     return world;
 }
