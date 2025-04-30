@@ -1,5 +1,4 @@
 #include "ecs.h"
-#include "world.h"
 
 #define MAX_SYSTEMS 5
 

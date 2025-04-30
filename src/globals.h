@@ -1,6 +1,11 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
+#define HEIGHT 1200.0
+#define WIDTH 1600.0
+#define FPS 60
+#define TITLE "PIXEL ARENA"
+
 #define MAX_ENTITIES 1000
 #define MAX_EVENTS 1000
 #define NUM_COMPONENT_TYPES 4

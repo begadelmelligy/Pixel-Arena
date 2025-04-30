@@ -1,6 +1,5 @@
 #include "world.h"
 #include "helper.h"
-#include "raylib.h"
 
 #include <stdlib.h>
 #include <string.h>

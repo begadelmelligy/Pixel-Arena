@@ -1,5 +1,4 @@
 #include "../../systems/input.h"
-#include "raylib.h"
 #include <stdio.h>
 
 
@@ -58,7 +57,7 @@ void sInput(World *world, float dt) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         case ENDGAME:
             if (world->keys.key_space){
-                world->game_state.game_state = TITLE_SCREEN;
+                world->game_state.game_state = HUB;
             }
             break;
 

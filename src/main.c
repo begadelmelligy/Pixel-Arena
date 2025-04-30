@@ -1,4 +1,3 @@
-#include "raylib.h"
 #include <stdio.h>
 
 #include "globals.h"
@@ -6,15 +5,12 @@
 #include "entity.h"
 #include "world.h"
 
+
 #include "../systems/damage.h"
 #include "../systems/movement.h"
-#include "../systems/render.h"
 #include "../systems/input.h"
+#include "../systems/render.h"
 
-#define HEIGHT 1200.0
-#define WIDTH 1600.0
-#define FPS 60
-#define TITLE "PIXEL ARENA"
 
 
 void game_start(World *world) {
