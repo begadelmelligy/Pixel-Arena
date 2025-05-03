@@ -20,6 +20,7 @@ World *create_world(void){
     initialize_component_pool(world, COMPONENT_VELOCITY, world->velocities, sizeof(cVelocity));
     initialize_component_pool(world, COMPONENT_HEALTH, world->health, sizeof(cHealth));
     initialize_component_pool(world, COMPONENT_PROPERTIES, world->properties, sizeof(cProperties));
+    initialize_component_pool(world, COMPONENT_GRIDPOSITION, world->properties, sizeof(cProperties));
 
     initialize_keys(world);
 
@@ -79,4 +80,10 @@ cProperties* get_properties(World *world, int entity_id) {
     int index = world->entities[entity_id].component_indices[COMPONENT_PROPERTIES];
     if (index == INVALID_COMPONENT_INDEX) return NULL;
     return &((cProperties*)world->component_pools[COMPONENT_PROPERTIES].data)[index];
+}
+
+cGridPosition* get_grid_position(World *world, int entity_id) {
+    int index = world->entities[entity_id].component_indices[COMPONENT_GRIDPOSITION];
+    if (index == INVALID_COMPONENT_INDEX) return NULL;
+    return &((cGridPosition*)world->component_pools[COMPONENT_GRIDPOSITION].data)[index];
 }

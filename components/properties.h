@@ -22,7 +22,7 @@ typedef enum {
     MYTHIC
 } UnitRarity;
 
-typedef struct {
+typedef struct cProperties {
     UnitType types[NUM_UNIT_TYPE];
     UnitRarity rarity;
     int num_types;

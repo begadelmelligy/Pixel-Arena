@@ -1,6 +1,4 @@
-#include "../globals.h"
 #include "../../systems/render.h"
-#include "../../components/position.h"
 
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
@@ -12,7 +10,6 @@ void sRender(World *world, float dt) {
 
     BeginDrawing();
         ClearBackground(BLACK);
-
 
         switch(world->game_state.game_state) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,6 +34,7 @@ void sRender(World *world, float dt) {
             case WAVESETUP:
                 text = "SETUP WAVE";
                 DrawText(text, 800, 100, 30, RED);
+                debug_draw_grid(world);
                 for (int i = 0; i < world->entity_count; i++) {
                     if (world->entities[i].id == INVALID_ENTITY_ID) continue;
                     int pos_idx = world->entities[i].component_indices[COMPONENT_POSITION];

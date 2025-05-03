@@ -37,8 +37,10 @@ int main(void) {
     if (enemyHero != INVALID_ENTITY_ID) {
         cPosition p = {WIDTH/2, HEIGHT/2};
         cHealth h = {100, 100};
+        cGridPosition g = {100, 100};
         add_component(world, enemyHero, COMPONENT_POSITION, &p);
         add_component(world, enemyHero, COMPONENT_HEALTH, &h);
+        add_component(world, enemyHero, COMPONENT_GRIDPOSITION, &g);
     }
 
     game_start(world);

@@ -1,7 +1,7 @@
 #ifndef POSITION_H
 #define POSITION_H
 
-typedef struct {
+typedef struct cPosition {
     float x, y;
 } cPosition;
 
