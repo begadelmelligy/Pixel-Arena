@@ -9,24 +9,24 @@
 
 
 typedef struct Node {
+    int entity_id;
     int x, y;
     int g, h, f;
     bool walkable;
     int closed;
     int open;
     struct Node* parent;
-    int entity_id;
 } Node;
 
 
 typedef struct NodeList {
-    Node* nodes[GRID_WIDTH * GRID_HEIGHT];
+    Node *nodes[GRID_WIDTH * GRID_HEIGHT];
     int count;
 } NodeList;
 
 
 typedef struct Grid {
-    Node grid[GRID_HEIGHT][GRID_WIDTH];
+    Node node[GRID_HEIGHT][GRID_WIDTH];
 } Grid;
 
 

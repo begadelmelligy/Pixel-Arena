@@ -16,13 +16,16 @@ World *create_world(void){
     world->free_id_count = 0;
     world->entity_count = 0;
 
-    initialize_component_pool(world, COMPONENT_POSITION, world->positions, sizeof(cPosition));
-    initialize_component_pool(world, COMPONENT_VELOCITY, world->velocities, sizeof(cVelocity));
-    initialize_component_pool(world, COMPONENT_HEALTH, world->health, sizeof(cHealth));
-    initialize_component_pool(world, COMPONENT_PROPERTIES, world->properties, sizeof(cProperties));
-    initialize_component_pool(world, COMPONENT_GRIDPOSITION, world->properties, sizeof(cProperties));
+    /*Add compoenents here and updte every argument*/
+    initialize_component_pool(world, COMPONENT_POSITION, &world->positions, sizeof(cPosition));
+    initialize_component_pool(world, COMPONENT_VELOCITY, &world->velocities, sizeof(cVelocity));
+    initialize_component_pool(world, COMPONENT_HEALTH, &world->health, sizeof(cHealth));
+    initialize_component_pool(world, COMPONENT_PROPERTIES, &world->properties, sizeof(cProperties));
+    initialize_component_pool(world, COMPONENT_GRIDPOSITION, &world->grid_position, sizeof(cGridPosition));
+    initialize_component_pool(world, COMPONENT_PATH, &world->path, sizeof(cPath));
 
     initialize_keys(world);
+    initialize_grid(world);
 
     return world;
 }
@@ -86,4 +89,10 @@ cGridPosition* get_grid_position(World *world, int entity_id) {
     int index = world->entities[entity_id].component_indices[COMPONENT_GRIDPOSITION];
     if (index == INVALID_COMPONENT_INDEX) return NULL;
     return &((cGridPosition*)world->component_pools[COMPONENT_GRIDPOSITION].data)[index];
+}
+
+cPath* get_path(World *world, int entity_id) {
+    int index = world->entities[entity_id].component_indices[COMPONENT_PATH];
+    if (index == INVALID_COMPONENT_INDEX) return NULL;
+    return &((cPath*)world->component_pools[COMPONENT_PATH].data)[index];
 }

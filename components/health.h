@@ -2,8 +2,8 @@
 #define HEALTH_H
 
 typedef struct cHealth {
-    float maxHealth;
-    float currentHealth;
+    float max_health;
+    float current_health;
 } cHealth;
 
 #endif

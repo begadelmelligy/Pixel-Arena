@@ -1,4 +1,5 @@
 #include "astar.h"
+#include <stdint.h>
 #include <stdio.h>
 
 
@@ -35,21 +36,44 @@ Node* get_lowest_f(NodeList *list) {
     return lowest;
 }
 
-
-void reconstruct_path(Node *goal) {
+void reconstruct_path(Node *goal, cPath *path) {
     Node *current = goal;
-    printf("Path:\n");
+    Node *temp_nodes[GRID_WIDTH * GRID_HEIGHT];
+    int count = 0;
+
     while (current != NULL) {
-        printf("(%d, %d)\n", current->x, current->y);
+        temp_nodes[count++] = current;
         current = current->parent;
+    }
+
+    for (int i = 0; i < count; i++) {
+        path->nodes[i] = temp_nodes[count - 1 - i];
+    }
+
+    path->length = count;
+    path->current_index = 0;
+    path->active = true;
+
+    printf("Reconstructed path (%d nodes):\n", count);
+    for (int i = 0; i < count; i++) {
+        printf("Node %d: (%d, %d)\n", i, path->nodes[i]->x, path->nodes[i]->y);
     }
 }
 
 
-void a_star(World *world, Node *start, Node *goal) {
+void a_star(World *world, Node *start, Node *goal, cPath *path) {
+    for (int y = 0; y < GRID_HEIGHT; y++) {
+        for (int x = 0; x < GRID_WIDTH; x++) {
+            Node *node = &world->grid.node[y][x];
+            node->f = node->g = node->h = 0;
+            node->parent = NULL;
+            node->closed = 0;
+            node->open = 0;
+        }
+    }
+
     NodeList open_list = { .count = 0 };
     add_to_open(&open_list, start);
-
     start->g = 0;
     start->h = heuristic(start, goal);
     start->f = start->h;
@@ -57,13 +81,11 @@ void a_star(World *world, Node *start, Node *goal) {
     while (open_list.count > 0) {
         Node *current = get_lowest_f(&open_list);
         if (current == goal) {
-            reconstruct_path(goal);
+            reconstruct_path(goal, path);
             return;
         }
-
         remove_from_open(&open_list, current);
         current->closed = 1;
-
         int dirs[4][2] = { {0,1}, {1,0}, {0,-1}, {-1,0} };
         for (int i = 0; i < 4; i++) {
             int nx = current->x + dirs[i][0];
@@ -71,8 +93,8 @@ void a_star(World *world, Node *start, Node *goal) {
 
             if (nx < 0 || ny < 0 || nx >= GRID_WIDTH || ny >= GRID_HEIGHT)
                 continue;
+            Node *neighbor = &world->grid.node[ny][nx];
 
-            Node *neighbor = &world->grid.grid[ny][nx];
             if (!neighbor->walkable || neighbor->closed)
                 continue;
 
@@ -90,4 +112,6 @@ void a_star(World *world, Node *start, Node *goal) {
     }
 
     printf("No path found.\n");
+    path->active = false;
+    path->length = 0;
 }

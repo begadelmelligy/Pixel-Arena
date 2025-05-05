@@ -4,6 +4,8 @@
 #include "raylib.h"
 #include "stdbool.h"
 #include "stdlib.h"
+#include <math.h>
+
 #include "globals.h"
 #include "grid.h"
 
@@ -12,6 +14,7 @@
 #include "../components/health.h"
 #include "../components/properties.h"
 #include "../components/grid_position.h"
+#include "../components/path.h"
 
 
 /*Add more components here*/
@@ -21,6 +24,7 @@ enum ComponentType {
     COMPONENT_HEALTH = 2,
     COMPONENT_PROPERTIES = 3,
     COMPONENT_GRIDPOSITION = 4,
+    COMPONENT_PATH = 5,
 };
 
 
@@ -70,6 +74,7 @@ typedef struct World {
     cHealth health[MAX_ENTITIES];
     cProperties properties[MAX_ENTITIES];
     cGridPosition grid_position[MAX_ENTITIES];
+    cPath path[MAX_ENTITIES];
 
     ComponentPool *component_pools;
     GameState game_state;
@@ -90,5 +95,6 @@ cVelocity* get_velocity(World *world, int entity_id);
 cHealth* get_health(World *world, int entity_id);
 cProperties* get_properties(World *world, int entity_id);
 cGridPosition* get_grid_position(World *world, int entity_id);
+cPath* get_path(World *world, int entity_id);
 
 #endif

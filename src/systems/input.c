@@ -15,6 +15,7 @@ void sInput(World *world, float dt) {
         case TITLE_SCREEN:
             if (world->keys.key_space) {
                 world->game_state.game_state = HUB;
+                world->game_state.is_paused = true;
             }
             break;
 
@@ -23,6 +24,7 @@ void sInput(World *world, float dt) {
         case HUB:
             if (world->keys.key_space){
                 world->game_state.game_state = WAVESETUP;
+                world->game_state.is_paused = true;
             }
             break;
 
@@ -42,6 +44,7 @@ void sInput(World *world, float dt) {
 
             if (world->keys.key_space) {
                 world->game_state.game_state = COMBAT;
+                world->game_state.is_paused = false;
             }
             break;
 
@@ -50,6 +53,7 @@ void sInput(World *world, float dt) {
         case COMBAT:
             if (world->keys.key_space) {
                 world->game_state.game_state = ENDGAME;
+                world->game_state.is_paused = true;
             }
             break;
 
@@ -58,6 +62,7 @@ void sInput(World *world, float dt) {
         case ENDGAME:
             if (world->keys.key_space){
                 world->game_state.game_state = HUB;
+                world->game_state.is_paused = true;
             }
             break;
 

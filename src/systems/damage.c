@@ -19,13 +19,13 @@ void applyDamage(World *world, int entity_id, float amount) {
             cHealth* health = &((cHealth*)world->component_pools[COMPONENT_HEALTH].data)[health_idx];
 
 
-            health->currentHealth -= amount;
-            if (health->currentHealth < 0){
-                health->currentHealth = 0;
+            health->current_health -= amount;
+            if (health->current_health < 0){
+                health->current_health = 0;
                 destroy_entity(world, entity_id);
             }
             printf("Entity %d has taken %f damage\n", world->entities[entity_id].id, amount);
-            printf("Remaining life is %f\n\n", health->currentHealth);
+            printf("Remaining life is %f\n\n", health->current_health);
         }
 }
 
@@ -33,9 +33,11 @@ void applyDamage(World *world, int entity_id, float amount) {
 void sDamage(World *world, float dt){
     (void)dt;
 
-    for (int i = 0; i < damageEventCount; i++) {
-        applyDamage(world, damageEvents[i].target, damageEvents[i].amount);
-    }
+    if (!world->game_state.is_paused) {
+        for (int i = 0; i < damageEventCount; i++) {
+            applyDamage(world, damageEvents[i].target, damageEvents[i].amount);
+        }
 
-    damageEventCount = 0;
+        damageEventCount = 0;
+    }
 }

@@ -1,6 +1,6 @@
 #include "ecs.h"
 
-#define MAX_SYSTEMS 5
+#define MAX_SYSTEMS 7
 
 static void (*systems[MAX_SYSTEMS])(World*, float);
 static SystemID system_count = 0;

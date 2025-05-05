@@ -41,7 +41,6 @@ void sRender(World *world, float dt) {
                     if (pos_idx != INVALID_COMPONENT_INDEX) {
                         cPosition* pos = &((cPosition*)world->component_pools[COMPONENT_POSITION].data)[pos_idx];
 
-
                         DrawCircle((int)pos->x, (int)pos->y, 50, RED);
                     }
                 }
