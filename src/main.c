@@ -56,6 +56,7 @@ int main(void) {
         add_component(world, enemyHero, COMPONENT_PATH, &path);
     }
 
+
     game_start(world);
     float delta;
 

@@ -48,6 +48,7 @@ void add_component(World *world, int entity_id, int component_type, void* compon
 
     memcpy((char*)pool->data + index * pool->component_size, component_data, pool->component_size);
     world->entities[entity_id].component_indices[component_type] = index;
+    world->entities[entity_id].component_masks |= (1 << component_type);
 }
 
 

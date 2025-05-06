@@ -36,6 +36,7 @@ Node* get_lowest_f(NodeList *list) {
     return lowest;
 }
 
+
 void reconstruct_path(Node *goal, cPath *path) {
     Node *current = goal;
     Node *temp_nodes[GRID_WIDTH * GRID_HEIGHT];
@@ -84,6 +85,7 @@ void a_star(World *world, Node *start, Node *goal, cPath *path) {
             reconstruct_path(goal, path);
             return;
         }
+
         remove_from_open(&open_list, current);
         current->closed = 1;
         int dirs[4][2] = { {0,1}, {1,0}, {0,-1}, {-1,0} };

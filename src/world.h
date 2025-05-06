@@ -17,15 +17,6 @@
 #include "../components/path.h"
 
 
-/*Add more components here*/
-enum ComponentType {
-    COMPONENT_POSITION = 0,
-    COMPONENT_VELOCITY = 1,
-    COMPONENT_HEALTH = 2,
-    COMPONENT_PROPERTIES = 3,
-    COMPONENT_GRIDPOSITION = 4,
-    COMPONENT_PATH = 5,
-};
 
 
 enum GameState {
