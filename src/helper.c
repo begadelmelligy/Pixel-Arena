@@ -2,7 +2,9 @@
 #include "grid.h"
 #include "raylib.h"
 
-void initialize_component_pool(World *world, enum ComponentType type, void *data, size_t component_size) {
+void initialize_component_pool(World *world, enum ComponentType type,
+                               void *data, size_t component_size)
+{
     if (type >= NUM_COMPONENT_TYPES) {
         return;
     }
@@ -17,7 +19,8 @@ void initialize_component_pool(World *world, enum ComponentType type, void *data
     }
 }
 
-void initialize_keys(World *world) {
+void initialize_keys(World *world)
+{
     world->keys.mouse_position = (Vector2){0, 0};
     world->keys.left_click = 0;
     world->keys.right_click = 0;
@@ -27,8 +30,8 @@ void initialize_keys(World *world) {
     world->keys.selected_unit_id = 0;
 }
 
-
-void initialize_grid(World *world) {
+void initialize_grid(World *world)
+{
     for (int y = 0; y < GRID_HEIGHT; y++) {
         for (int x = 0; x < GRID_WIDTH; x++) {
             world->grid.node[y][x].entity_id = -1;
@@ -49,11 +52,12 @@ void initialize_grid(World *world) {
     }
 }
 
-void debug_draw_grid(World *world) {
+void debug_draw_grid(World *world)
+{
     for (int y = 0; y < GRID_HEIGHT; y++) {
         for (int x = 0; x < GRID_WIDTH; x++) {
-            DrawRectangleLines(x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE, CELL_SIZE, WHITE);
+            DrawRectangleLines(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE,
+                               CELL_SIZE, WHITE);
         }
     }
 }
-

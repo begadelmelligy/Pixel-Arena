@@ -2,7 +2,7 @@
 #define VELOCITY_H
 
 typedef struct cVelocity {
-    float dx, dy;
+  float dx, dy;
 } cVelocity;
 
 #endif

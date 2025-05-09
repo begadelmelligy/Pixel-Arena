@@ -2,7 +2,7 @@
 #define GRID_POSITION_H
 
 typedef struct cGridPosition {
-    int x, y;
+  int x, y;
 } cGridPosition;
 
 #endif

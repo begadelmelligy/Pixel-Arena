@@ -2,7 +2,7 @@
 #define POSITION_H
 
 typedef struct cPosition {
-    float x, y;
+  float x, y;
 } cPosition;
 
 #endif

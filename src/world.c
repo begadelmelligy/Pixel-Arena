@@ -4,11 +4,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-World *create_world(void){
+World *create_world(void)
+{
     World *world = malloc(sizeof(World));
-    if (!world) return NULL;
-    world->component_pools = malloc(NUM_COMPONENT_TYPES* sizeof(ComponentPool));
+    if (!world)
+        return NULL;
+    world->component_pools = malloc(NUM_COMPONENT_TYPES * sizeof(ComponentPool));
 
     for (int i = 0; i < MAX_ENTITIES; i++) {
         world->free_ids[i] = INVALID_ENTITY_ID;
@@ -18,6 +19,7 @@ World *create_world(void){
 
     /*Add compoenents here and updte every argument*/
     initialize_component_pool(world, COMPONENT_POSITION, &world->positions, sizeof(cPosition));
+
     initialize_component_pool(world, COMPONENT_VELOCITY, &world->velocities, sizeof(cVelocity));
     initialize_component_pool(world, COMPONENT_HEALTH, &world->health, sizeof(cHealth));
     initialize_component_pool(world, COMPONENT_PROPERTIES, &world->properties, sizeof(cProperties));
@@ -30,70 +32,82 @@ World *create_world(void){
     return world;
 }
 
+void add_component(World *world, int entity_id, int component_type, void *component_data)
+{
+    if (entity_id < 0 || entity_id >= MAX_ENTITIES || world->entities[entity_id].id == INVALID_ENTITY_ID)
+        return;
+    if (world->entities[entity_id].component_indices[component_type] != INVALID_COMPONENT_INDEX)
+        return;
 
-void add_component(World *world, int entity_id, int component_type, void* component_data) {
-    if (entity_id < 0 || entity_id >= MAX_ENTITIES || world->entities[entity_id].id == INVALID_ENTITY_ID) return;
-    if (world->entities[entity_id].component_indices[component_type] != INVALID_COMPONENT_INDEX) return;
-
-    ComponentPool* pool = &world->component_pools[component_type];
+    ComponentPool *pool = &world->component_pools[component_type];
     int index;
 
     if (pool->free_count > 0) {
         index = pool->free_ids[--pool->free_count];
         pool->free_ids[pool->free_count] = INVALID_COMPONENT_INDEX;
     } else {
-        if (pool->active_count >= MAX_ENTITIES) return;
+        if (pool->active_count >= MAX_ENTITIES)
+            return;
         index = pool->active_count++;
     }
 
-    memcpy((char*)pool->data + index * pool->component_size, component_data, pool->component_size);
+    memcpy((char *)pool->data + index * pool->component_size, component_data, pool->component_size);
     world->entities[entity_id].component_indices[component_type] = index;
     world->entities[entity_id].component_masks |= (1 << component_type);
 }
 
-
-void destroy_world(World *world) {
-    if (!world) return;
+void destroy_world(World *world)
+{
+    if (!world)
+        return;
     free(world->component_pools);
     free(world);
 }
 
-
-cPosition* get_position(World *world, int entity_id) {
+cPosition *get_position(World *world, int entity_id)
+{
     int index = world->entities[entity_id].component_indices[COMPONENT_POSITION];
-    if (index == INVALID_COMPONENT_INDEX) return NULL;
-    return &((cPosition*)world->component_pools[COMPONENT_POSITION].data)[index];
+    if (index == INVALID_COMPONENT_INDEX)
+        return NULL;
+    return &((cPosition *)world->component_pools[COMPONENT_POSITION].data)[index];
 }
 
-
-cVelocity* get_velocity(World *world, int entity_id) {
+cVelocity *get_velocity(World *world, int entity_id)
+{
     int index = world->entities[entity_id].component_indices[COMPONENT_VELOCITY];
-    if (index == INVALID_COMPONENT_INDEX) return NULL;
-    return &((cVelocity*)world->component_pools[COMPONENT_VELOCITY].data)[index];
+    if (index == INVALID_COMPONENT_INDEX)
+        return NULL;
+    return &((cVelocity *)world->component_pools[COMPONENT_VELOCITY].data)[index];
 }
 
-
-cHealth* get_health(World *world, int entity_id) {
+cHealth *get_health(World *world, int entity_id)
+{
     int index = world->entities[entity_id].component_indices[COMPONENT_HEALTH];
-    if (index == INVALID_COMPONENT_INDEX) return NULL;
-    return &((cHealth*)world->component_pools[COMPONENT_HEALTH].data)[index];
+    if (index == INVALID_COMPONENT_INDEX)
+        return NULL;
+    return &((cHealth *)world->component_pools[COMPONENT_HEALTH].data)[index];
 }
 
-
-cProperties* get_properties(World *world, int entity_id) {
+cProperties *get_properties(World *world, int entity_id)
+{
     int index = world->entities[entity_id].component_indices[COMPONENT_PROPERTIES];
-    if (index == INVALID_COMPONENT_INDEX) return NULL;
-    return &((cProperties*)world->component_pools[COMPONENT_PROPERTIES].data)[index];
+    if (index == INVALID_COMPONENT_INDEX)
+        return NULL;
+    return &((cProperties *)world->component_pools[COMPONENT_PROPERTIES].data)[index];
 }
 
-cGridPosition* get_grid_position(World *world, int entity_id) {
+cGridPosition *get_grid_position(World *world, int entity_id)
+{
     int index = world->entities[entity_id].component_indices[COMPONENT_GRIDPOSITION];
-    if (index == INVALID_COMPONENT_INDEX) return NULL;
-    return &((cGridPosition*)world->component_pools[COMPONENT_GRIDPOSITION].data)[index];
+    if (index == INVALID_COMPONENT_INDEX)
+        return NULL;
+    return &((cGridPosition *)world->component_pools[COMPONENT_GRIDPOSITION].data)[index];
 }
 
-cPath* get_path(World *world, int entity_id) {
+cPath *get_path(World *world, int entity_id)
+{
     int index = world->entities[entity_id].component_indices[COMPONENT_PATH];
-    if (index == INVALID_COMPONENT_INDEX) return NULL;
-    return &((cPath*)world->component_pools[COMPONENT_PATH].data)[index];
+    if (index == INVALID_COMPONENT_INDEX)
+        return NULL;
+    return &((cPath *)world->component_pools[COMPONENT_PATH].data)[index];
 }

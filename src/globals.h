@@ -17,7 +17,6 @@
 
 #define NUM_COMPONENT_TYPES 6
 
-
 /*Add more components here*/
 enum ComponentType {
     COMPONENT_POSITION = 0,
@@ -29,7 +28,6 @@ enum ComponentType {
 };
 
 typedef uint64_t ComponentMask;
-
 
 typedef struct Entity {
     int id;

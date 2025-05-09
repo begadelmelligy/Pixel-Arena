@@ -7,7 +7,6 @@
 #define GRID_HEIGHT 100
 #define CELL_SIZE 32
 
-
 typedef struct Node {
     int entity_id;
     int x, y;
@@ -15,19 +14,16 @@ typedef struct Node {
     bool walkable;
     int closed;
     int open;
-    struct Node* parent;
+    struct Node *parent;
 } Node;
-
 
 typedef struct NodeList {
     Node *nodes[GRID_WIDTH * GRID_HEIGHT];
     int count;
 } NodeList;
 
-
 typedef struct Grid {
     Node node[GRID_HEIGHT][GRID_WIDTH];
 } Grid;
 
-
-#endif 
+#endif

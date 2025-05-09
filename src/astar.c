@@ -2,18 +2,16 @@
 #include <stdint.h>
 #include <stdio.h>
 
+int heuristic(Node *a, Node *b) { return abs(a->x - b->x) + abs(a->y - b->y); }
 
-int heuristic(Node *a, Node *b) {
-    return abs(a->x - b->x) + abs(a->y - b->y);
-}
-
-void add_to_open(NodeList *list, Node *node) {
+void add_to_open(NodeList *list, Node *node)
+{
     list->nodes[list->count++] = node;
     node->open = 1;
 }
 
-
-void remove_from_open(NodeList *list, Node *node) {
+void remove_from_open(NodeList *list, Node *node)
+{
     for (int i = 0; i < list->count; i++) {
         if (list->nodes[i] == node) {
             for (int j = i; j < list->count - 1; j++) {
@@ -26,9 +24,9 @@ void remove_from_open(NodeList *list, Node *node) {
     }
 }
 
-
-Node* get_lowest_f(NodeList *list) {
-    Node* lowest = list->nodes[0];
+Node *get_lowest_f(NodeList *list)
+{
+    Node *lowest = list->nodes[0];
     for (int i = 1; i < list->count; i++) {
         if (list->nodes[i]->f < lowest->f)
             lowest = list->nodes[i];
@@ -36,8 +34,8 @@ Node* get_lowest_f(NodeList *list) {
     return lowest;
 }
 
-
-void reconstruct_path(Node *goal, cPath *path) {
+void reconstruct_path(Node *goal, cPath *path)
+{
     Node *current = goal;
     Node *temp_nodes[GRID_WIDTH * GRID_HEIGHT];
     int count = 0;
@@ -61,8 +59,8 @@ void reconstruct_path(Node *goal, cPath *path) {
     }
 }
 
-
-void a_star(World *world, Node *start, Node *goal, cPath *path) {
+void a_star(World *world, Node *start, Node *goal, cPath *path)
+{
     for (int y = 0; y < GRID_HEIGHT; y++) {
         for (int x = 0; x < GRID_WIDTH; x++) {
             Node *node = &world->grid.node[y][x];
@@ -73,7 +71,7 @@ void a_star(World *world, Node *start, Node *goal, cPath *path) {
         }
     }
 
-    NodeList open_list = { .count = 0 };
+    NodeList open_list = {.count = 0};
     add_to_open(&open_list, start);
     start->g = 0;
     start->h = heuristic(start, goal);
@@ -88,7 +86,7 @@ void a_star(World *world, Node *start, Node *goal, cPath *path) {
 
         remove_from_open(&open_list, current);
         current->closed = 1;
-        int dirs[4][2] = { {0,1}, {1,0}, {0,-1}, {-1,0} };
+        int dirs[4][2] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
         for (int i = 0; i < 4; i++) {
             int nx = current->x + dirs[i][0];
             int ny = current->y + dirs[i][1];
