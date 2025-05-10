@@ -3,31 +3,32 @@
 #include "../../components/velocity.h"
 #include "stdio.h"
 
-#define SPEED 120.0f
-#define PATH_REACH_THRESHOLD 1.0f
+#define PATH_REACH_THRESHOLD 5.0f
 
-void sPathFollowing(World *world, float delta) {
-    ComponentMask required = (1 << COMPONENT_POSITION) |
-                             (1 << COMPONENT_VELOCITY) |
-                             (1 << COMPONENT_GRIDPOSITION) |
-                             (1 << COMPONENT_PATH);
+void sPathFollowing(World *world, float dt)
+{
+    (void)dt;
 
+    ComponentMask required =
+        (1 << COMPONENT_POSITION) | (1 << COMPONENT_VELOCITY) | (1 << COMPONENT_GRIDPOSITION) | (1 << COMPONENT_PATH);
 
     if (!world->game_state.is_paused) {
 
         for (int i = 0; i < world->entity_count; i++) {
-            if (world->entities[i].id == INVALID_ENTITY_ID) continue;
-            if ((world->entities[i].component_masks & required) == 0) continue;
+            if (world->entities[i].id == INVALID_ENTITY_ID)
+                continue;
+            if ((world->entities[i].component_masks & required) == 0)
+                continue;
 
             int pos_idx = world->entities[i].component_indices[COMPONENT_POSITION];
             int vel_idx = world->entities[i].component_indices[COMPONENT_VELOCITY];
             int grid_idx = world->entities[i].component_indices[COMPONENT_GRIDPOSITION];
             int path_idx = world->entities[i].component_indices[COMPONENT_PATH];
 
-            cPosition*      pos = &((cPosition*)world->component_pools[COMPONENT_POSITION].data)[pos_idx];
-            cVelocity*      vel = &((cVelocity*)world->component_pools[COMPONENT_VELOCITY].data)[vel_idx];
-            cGridPosition*  grid = &((cGridPosition*)world->component_pools[COMPONENT_GRIDPOSITION].data)[grid_idx];
-            cPath*          path = &((cPath*)world->component_pools[COMPONENT_PATH].data)[path_idx];
+            cPosition *pos = &((cPosition *)world->component_pools[COMPONENT_POSITION].data)[pos_idx];
+            cVelocity *vel = &((cVelocity *)world->component_pools[COMPONENT_VELOCITY].data)[vel_idx];
+            cGridPosition *grid = &((cGridPosition *)world->component_pools[COMPONENT_GRIDPOSITION].data)[grid_idx];
+            cPath *path = &((cPath *)world->component_pools[COMPONENT_PATH].data)[path_idx];
 
             if (!path->active || path->current_index >= path->length - 1) {
                 vel->dx = 0;
@@ -47,9 +48,9 @@ void sPathFollowing(World *world, float delta) {
             /*    }*/
             /*}*/
 
-            Node *target = path->nodes[path->current_index + 1];
+            Node *target = path->nodes[path->current_index];
             if (target == NULL) {
-                fprintf(stderr, "Path node at index %d is NULL\n", path->current_index + 1);
+                fprintf(stderr, "Path node at index %d is NULL\n", path->current_index);
                 path->active = false;
                 vel->dx = 0;
                 vel->dy = 0;
@@ -75,36 +76,38 @@ void sPathFollowing(World *world, float delta) {
                     vel->dy = 0;
                 }
             } else {
-                vel->dx = (dx / dist) * SPEED;
-                vel->dy = (dy / dist) * SPEED;
+
+                vel->dx = (dx / dist) * vel->speed;
+                vel->dy = (dy / dist) * vel->speed;
             }
         }
     }
 }
 
-
-void sPathRequest(World *world, float dt) {
-
-    ComponentMask required = (1 << COMPONENT_GRIDPOSITION) |
-                             (1 << COMPONENT_PATH);
+void sPathRequest(World *world, float dt)
+{
+    (void)dt;
+    ComponentMask required = (1 << COMPONENT_GRIDPOSITION) | (1 << COMPONENT_PATH);
 
     if (!world->game_state.is_paused) {
         for (int i = 0; i < world->entity_count; i++) {
 
-        if (world->entities[i].id == INVALID_ENTITY_ID) continue;
-        if ((world->entities[i].component_masks & required) == 0) continue;
+            if (world->entities[i].id == INVALID_ENTITY_ID)
+                continue;
+            if ((world->entities[i].component_masks & required) == 0)
+                continue;
 
-        int grid_idx = world->entities[i].component_indices[COMPONENT_GRIDPOSITION];
-        int path_idx = world->entities[i].component_indices[COMPONENT_PATH];
+            int grid_idx = world->entities[i].component_indices[COMPONENT_GRIDPOSITION];
+            int path_idx = world->entities[i].component_indices[COMPONENT_PATH];
 
-        cGridPosition *grid = &((cGridPosition*)world->component_pools[COMPONENT_GRIDPOSITION].data)[grid_idx];
-        cPath *path = &((cPath*)world->component_pools[COMPONENT_PATH].data)[path_idx];
+            cGridPosition *grid = &((cGridPosition *)world->component_pools[COMPONENT_GRIDPOSITION].data)[grid_idx];
+            cPath *path = &((cPath *)world->component_pools[COMPONENT_PATH].data)[path_idx];
 
-        if (!path->active) {
-            Node *start = &world->grid.node[grid->y][grid->x];
-            Node *goal = &world->grid.node[10][7];
+            if (!path->active) {
+                Node *start = &world->grid.node[grid->y][grid->x];
+                Node *goal = &world->grid.node[10][7];
 
-            a_star(world, start, goal, path);
+                a_star(world, start, goal, path);
             }
         }
     }

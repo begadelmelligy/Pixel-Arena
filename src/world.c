@@ -1,4 +1,5 @@
 #include "world.h"
+#include "globals.h"
 #include "helper.h"
 
 #include <stdlib.h>
@@ -19,12 +20,12 @@ World *create_world(void)
 
     /*Add compoenents here and updte every argument*/
     initialize_component_pool(world, COMPONENT_POSITION, &world->positions, sizeof(cPosition));
-
     initialize_component_pool(world, COMPONENT_VELOCITY, &world->velocities, sizeof(cVelocity));
     initialize_component_pool(world, COMPONENT_HEALTH, &world->health, sizeof(cHealth));
     initialize_component_pool(world, COMPONENT_PROPERTIES, &world->properties, sizeof(cProperties));
     initialize_component_pool(world, COMPONENT_GRIDPOSITION, &world->grid_position, sizeof(cGridPosition));
     initialize_component_pool(world, COMPONENT_PATH, &world->path, sizeof(cPath));
+    initialize_component_pool(world, COMPONENT_TARGET, &world->target, sizeof(cTarget));
 
     initialize_keys(world);
     initialize_grid(world);
@@ -110,4 +111,12 @@ cPath *get_path(World *world, int entity_id)
     if (index == INVALID_COMPONENT_INDEX)
         return NULL;
     return &((cPath *)world->component_pools[COMPONENT_PATH].data)[index];
+}
+
+cTarget *get_target(World *world, int entity_id)
+{
+    int index = world->entities[entity_id].component_indices[COMPONENT_TARGET];
+    if (index == INVALID_COMPONENT_INDEX)
+        return NULL;
+    return &((cTarget *)world->component_pools[COMPONENT_TARGET].data)[index];
 }

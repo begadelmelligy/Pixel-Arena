@@ -53,10 +53,10 @@ void reconstruct_path(Node *goal, cPath *path)
     path->current_index = 0;
     path->active = true;
 
-    printf("Reconstructed path (%d nodes):\n", count);
-    for (int i = 0; i < count; i++) {
-        printf("Node %d: (%d, %d)\n", i, path->nodes[i]->x, path->nodes[i]->y);
-    }
+    /*printf("Reconstructed path (%d nodes):\n", count);*/
+    /*for (int i = 0; i < count; i++) {*/
+    /*    printf("Node %d: (%d, %d)\n", i, path->nodes[i]->x, path->nodes[i]->y);*/
+    /*}*/
 }
 
 void a_star(World *world, Node *start, Node *goal, cPath *path)

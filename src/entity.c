@@ -23,23 +23,26 @@ int create_entity(World *world)
 
 void destroy_entity(World *world, int entity_id)
 {
-    if (entity_id < 0 || entity_id >= MAX_ENTITIES ||
-        world->entities[entity_id].id == INVALID_ENTITY_ID)
+    if (entity_id < 0 || entity_id >= MAX_ENTITIES || world->entities[entity_id].id == INVALID_ENTITY_ID)
         return;
 
     for (int i = 0; i < NUM_COMPONENT_TYPES; i++) {
         int index = world->entities[entity_id].component_indices[i];
         if (index != INVALID_COMPONENT_INDEX) {
-            memset((char *)world->component_pools->data +
-                       index * world->component_pools->component_size,
-                   0, world->component_pools->component_size);
-            if (world->component_pools->free_count < MAX_ENTITIES) {
-                world->component_pools
-                    ->free_ids[world->component_pools->free_count++] = index;
+            void *component_data =
+                (char *)world->component_pools[i].data + index * world->component_pools[i].component_size;
+            if (i == COMPONENT_PATH) {
+                freePath(component_data);
             }
-            world->component_pools->active_count--;
-            world->entities[entity_id].component_indices[i] =
-                INVALID_COMPONENT_INDEX;
+            memset(component_data, 0, world->component_pools[i].component_size);
+            /*memset((char *)world->component_pools->data + index * world->component_pools->component_size, 0,*/
+            /*       world->component_pools->component_size);*/
+            if (world->component_pools[i].free_count < MAX_ENTITIES) {
+                world->component_pools[i].free_ids[world->component_pools[i].free_count++] = index;
+            }
+
+            world->component_pools[i].active_count--;
+            world->entities[entity_id].component_indices[i] = INVALID_COMPONENT_INDEX;
         }
     }
 
