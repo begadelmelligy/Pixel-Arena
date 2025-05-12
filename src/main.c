@@ -10,6 +10,7 @@
 #include "../systems/input.h"
 #include "../systems/movement.h"
 #include "../systems/path_following.h"
+#include "../systems/proximity.h"
 #include "../systems/render.h"
 #include "../systems/state_change.h"
 #include "../systems/targeting.h"
@@ -32,6 +33,8 @@ int main(void)
     ecs_register_system(sInput);
     ecs_register_system(sStateChange);
     ecs_register_system(sTargeting);
+    ecs_register_system(sProximity);
+    ecs_register_system(sPathRequest);
     ecs_register_system(sPathFollowing);
     ecs_register_system(sMovement);
     ecs_register_system(sDamage);
@@ -47,7 +50,7 @@ int main(void)
         cGridPosition g = {.x = p.x / CELL_SIZE, .y = p.y / CELL_SIZE};
         cPath path = {.length = 0, .current_index = 0, .active = false};
         cTarget target = {.current_target = 0, .target_distance = 100000};
-        cAIState state = {.current_state = CHASING, .next_state = EMPTY};
+        cAIState state = {.current_state = STATE_IDLE, .next_state = STATE_EMPTY};
 
         add_component(world, enemyHero, COMPONENT_POSITION, &p);
         add_component(world, enemyHero, COMPONENT_VELOCITY, &v);

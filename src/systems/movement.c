@@ -1,7 +1,4 @@
 #include "../../systems/movement.h"
-#include "../../components/grid_position.h"
-#include "../../components/position.h"
-#include "../../components/velocity.h"
 
 void sMovement(World *world, float delta)
 {

@@ -51,13 +51,13 @@ void sRender(World *world, float dt)
             text = "COMBAT";
             DrawText(text, 800, 100, 30, RED);
 
-            ComponentMask required = (1 << COMPONENT_POSITION);
+            ComponentMask required_comp = (1 << COMPONENT_POSITION);
 
             for (int i = 0; i < world->entity_count; i++) {
 
                 if (world->entities[i].id == INVALID_ENTITY_ID)
                     continue;
-                if ((world->entities[i].component_masks & required) == 0)
+                if ((world->entities[i].component_masks & required_comp) == 0)
                     continue;
 
                 int pos_idx = world->entities[i].component_indices[COMPONENT_POSITION];

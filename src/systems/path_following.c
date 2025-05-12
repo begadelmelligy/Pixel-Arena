@@ -1,6 +1,4 @@
 #include "../../systems/path_following.h"
-#include "../../components/position.h"
-#include "../../components/velocity.h"
 #include "stdio.h"
 
 #define PATH_REACH_THRESHOLD 5.0f
@@ -9,7 +7,7 @@ void sPathFollowing(World *world, float dt)
 {
     (void)dt;
 
-    ComponentMask required =
+    ComponentMask required_comp =
         (1 << COMPONENT_POSITION) | (1 << COMPONENT_VELOCITY) | (1 << COMPONENT_GRIDPOSITION) | (1 << COMPONENT_PATH);
 
     if (!world->game_state.is_paused) {
@@ -17,7 +15,7 @@ void sPathFollowing(World *world, float dt)
         for (int i = 0; i < world->entity_count; i++) {
             if (world->entities[i].id == INVALID_ENTITY_ID)
                 continue;
-            if ((world->entities[i].component_masks & required) == 0)
+            if ((world->entities[i].component_masks & required_comp) == 0)
                 continue;
 
             int pos_idx = world->entities[i].component_indices[COMPONENT_POSITION];
@@ -87,14 +85,14 @@ void sPathFollowing(World *world, float dt)
 void sPathRequest(World *world, float dt)
 {
     (void)dt;
-    ComponentMask required = (1 << COMPONENT_GRIDPOSITION) | (1 << COMPONENT_PATH);
+    ComponentMask required_comp = (1 << COMPONENT_GRIDPOSITION) | (1 << COMPONENT_PATH) | (1 << COMPONENT_TARGET);
 
     if (!world->game_state.is_paused) {
         for (int i = 0; i < world->entity_count; i++) {
 
             if (world->entities[i].id == INVALID_ENTITY_ID)
                 continue;
-            if ((world->entities[i].component_masks & required) == 0)
+            if ((world->entities[i].component_masks & required_comp) == 0)
                 continue;
 
             int grid_idx = world->entities[i].component_indices[COMPONENT_GRIDPOSITION];
@@ -103,9 +101,9 @@ void sPathRequest(World *world, float dt)
             cGridPosition *grid = &((cGridPosition *)world->component_pools[COMPONENT_GRIDPOSITION].data)[grid_idx];
             cPath *path = &((cPath *)world->component_pools[COMPONENT_PATH].data)[path_idx];
 
-            if (!path->active) {
+            if (!path->active && path->request.request_pending) {
                 Node *start = &world->grid.node[grid->y][grid->x];
-                Node *goal = &world->grid.node[10][7];
+                Node *goal = &world->grid.node[path->request.target_y][path->request.target_x];
 
                 a_star(world, start, goal, path);
             }

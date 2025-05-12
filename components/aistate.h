@@ -5,10 +5,10 @@
 #define NUM_STATES 3
 
 enum AIState {
-    EMPTY = -1,
-    IDLE = 0,
-    CHASING = 1,
-    COMBAT = 2,
+    STATE_EMPTY = -1,
+    STATE_IDLE = 0,
+    STATE_CHASING = 1,
+    STATE_COMBAT = 2,
 };
 
 typedef struct cAIState {

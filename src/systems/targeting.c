@@ -25,14 +25,10 @@ void sTargeting(World *world, float dt)
 
             int grid_pos_idx = world->entities[i].component_indices[COMPONENT_GRIDPOSITION];
             int target_idx = world->entities[i].component_indices[COMPONENT_TARGET];
-            int path_idx = world->entities[i].component_indices[COMPONENT_PATH];
-            int state_idx = world->entities[i].component_indices[COMPONENT_AISTATE];
 
             cGridPosition *grid_pos_targetee =
                 &((cGridPosition *)world->component_pools[COMPONENT_GRIDPOSITION].data)[grid_pos_idx];
             cTarget *target = &((cTarget *)world->component_pools[COMPONENT_TARGET].data)[target_idx];
-            cPath *path = &((cPath *)world->component_pools[COMPONENT_PATH].data)[path_idx];
-            cAIState *state = &((cAIState *)world->component_pools[COMPONENT_AISTATE].data)[state_idx];
 
             for (int j = 0; j < world->entity_count; j++) {
                 if (world->entities[j].id == INVALID_ENTITY_ID)
@@ -51,46 +47,13 @@ void sTargeting(World *world, float dt)
 
                 if (world->entities[target->current_target].id == INVALID_ENTITY_ID) {
                     target->target_distance = 10000;
+                    target->active = false;
                 }
 
-                /*if the distance to target is bigger and it is a new target, update the coponent*/
-                if (target->target_distance > temp_target_distance && target->current_target != world->entities[j].id) {
+                if (target->target_distance > temp_target_distance) {
                     target->target_distance = temp_target_distance;
                     target->current_target = world->entities[j].id;
                     target->active = true;
-                }
-            }
-
-            /*Move this to a different system. The targeting system should only target*/
-            if (target->active) {
-                switch (state->current_state) {
-                    case EMPTY:
-                        break;
-
-                    case IDLE:
-                        break;
-
-                    case CHASING:
-                        target->active = false;
-                        for (int k = 0; k < path->length; k++) {
-                            path->nodes[k] = NULL;
-                        }
-                        path->length = 0;
-                        path->current_index = 0;
-                        path->active = true;
-
-                        int target_entity_id = target->current_target;
-                        int grid_pos_idx = world->entities[target_entity_id].component_indices[COMPONENT_GRIDPOSITION];
-                        cGridPosition *grid_pos_target =
-                            &((cGridPosition *)world->component_pools[COMPONENT_GRIDPOSITION].data)[grid_pos_idx];
-
-                        Node *start = &world->grid.node[grid_pos_targetee->y][grid_pos_targetee->x];
-                        Node *goal = &world->grid.node[grid_pos_target->y][grid_pos_target->x];
-                        a_star(world, start, goal, path);
-                        break;
-
-                    case COMBAT:
-                        break;
                 }
             }
         }
