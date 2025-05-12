@@ -18,7 +18,13 @@
 #include "../components/target.h"
 #include "../components/velocity.h"
 
-enum GameState { TITLE_SCREEN = 0, HUB = 1, WAVESETUP = 2, GAME_COMBAT = 3, ENDGAME = 4 };
+enum GameState {
+    TITLE_SCREEN = 0,
+    HUB = 1,
+    WAVESETUP = 2,
+    GAME_COMBAT = 3,
+    ENDGAME = 4,
+};
 
 typedef struct ComponentPool {
     void *data;
@@ -50,10 +56,10 @@ typedef struct World {
     int entity_count;
 
     cPosition positions[MAX_ENTITIES];
+    cGridPosition grid_position[MAX_ENTITIES];
     cVelocity velocities[MAX_ENTITIES];
     cHealth health[MAX_ENTITIES];
     cProperties properties[MAX_ENTITIES];
-    cGridPosition grid_position[MAX_ENTITIES];
     cPath path[MAX_ENTITIES];
     cTarget target[MAX_ENTITIES];
     cAIState ai_state[MAX_ENTITIES];

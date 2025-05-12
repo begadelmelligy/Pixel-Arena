@@ -6,7 +6,7 @@ void sMovement(World *world, float delta)
     ComponentMask required_comp = (1 << COMPONENT_POSITION) | (1 << COMPONENT_VELOCITY) | (1 << COMPONENT_GRIDPOSITION);
 
     if (!world->game_state.is_paused) {
-        for (int i = 0; i < world->entity_count; i++) {
+        for (int i = 0; i < MAX_ENTITIES; i++) {
 
             if (world->entities[i].id == INVALID_ENTITY_ID)
                 continue;

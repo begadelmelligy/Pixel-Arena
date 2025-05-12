@@ -8,7 +8,7 @@
 #define FPS 60
 #define TITLE "PIXEL ARENA"
 
-#define MAX_ENTITIES 1000
+#define MAX_ENTITIES 20
 #define MAX_EVENTS 1000
 
 #define INVALID_ENTITY_ID -1

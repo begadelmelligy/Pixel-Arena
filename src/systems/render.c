@@ -1,4 +1,5 @@
 #include "../../systems/render.h"
+#include <stdio.h>
 
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
@@ -34,7 +35,7 @@ void sRender(World *world, float dt)
             text = "SETUP WAVE";
             DrawText(text, 800, 100, 30, RED);
             debug_draw_grid(world);
-            for (int i = 0; i < world->entity_count; i++) {
+            for (int i = 0; i < MAX_ENTITIES; i++) {
                 if (world->entities[i].id == INVALID_ENTITY_ID)
                     continue;
                 int pos_idx = world->entities[i].component_indices[COMPONENT_POSITION];
@@ -53,7 +54,12 @@ void sRender(World *world, float dt)
 
             ComponentMask required_comp = (1 << COMPONENT_POSITION);
 
-            for (int i = 0; i < world->entity_count; i++) {
+            for (int i = 0; i < MAX_ENTITIES; i++) {
+                /*printf("id: %d, ci: %d, %d, %d, %d, %d, %d, %d, %d\n", world->entities[i].id,*/
+                /*       world->entities[i].component_indices[0], world->entities[i].component_indices[1],*/
+                /*       world->entities[i].component_indices[2], world->entities[i].component_indices[3],*/
+                /*       world->entities[i].component_indices[4], world->entities[i].component_indices[5],*/
+                /*       world->entities[i].component_indices[6], world->entities[i].component_indices[7]);*/
 
                 if (world->entities[i].id == INVALID_ENTITY_ID)
                     continue;
@@ -63,7 +69,7 @@ void sRender(World *world, float dt)
                 int pos_idx = world->entities[i].component_indices[COMPONENT_POSITION];
                 cPosition *pos = &((cPosition *)world->component_pools[COMPONENT_POSITION].data)[pos_idx];
 
-                DrawCircle((int)pos->x, (int)pos->y, 50, RED);
+                DrawCircle((int)pos->x, (int)pos->y, 30, RED);
             }
 
             break;

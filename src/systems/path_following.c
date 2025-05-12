@@ -12,7 +12,7 @@ void sPathFollowing(World *world, float dt)
 
     if (!world->game_state.is_paused) {
 
-        for (int i = 0; i < world->entity_count; i++) {
+        for (int i = 0; i < MAX_ENTITIES; i++) {
             if (world->entities[i].id == INVALID_ENTITY_ID)
                 continue;
             if ((world->entities[i].component_masks & required_comp) == 0)
@@ -88,7 +88,7 @@ void sPathRequest(World *world, float dt)
     ComponentMask required_comp = (1 << COMPONENT_GRIDPOSITION) | (1 << COMPONENT_PATH) | (1 << COMPONENT_TARGET);
 
     if (!world->game_state.is_paused) {
-        for (int i = 0; i < world->entity_count; i++) {
+        for (int i = 0; i < MAX_ENTITIES; i++) {
 
             if (world->entities[i].id == INVALID_ENTITY_ID)
                 continue;

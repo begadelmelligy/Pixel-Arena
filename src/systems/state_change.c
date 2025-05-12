@@ -6,7 +6,7 @@ void sStateChange(World *world, float dt)
     ComponentMask required_comp = (1 << COMPONENT_AISTATE);
 
     if (!world->game_state.is_paused) {
-        for (int i = 0; i < world->entity_count; i++) {
+        for (int i = 0; i < MAX_ENTITIES; i++) {
 
             if (world->entities[i].id == INVALID_ENTITY_ID)
                 continue;

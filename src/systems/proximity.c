@@ -2,13 +2,15 @@
 #include "stdbool.h"
 #include <stdio.h>
 
+#define PROXIMITY_RANGE 10
+
 void sProximity(World *world, float dt)
 {
     (void)dt;
     ComponentMask required_comp = (1 << COMPONENT_AISTATE) | (1 << COMPONENT_TARGET) | (1 << COMPONENT_PATH);
 
     if (!world->game_state.is_paused) {
-        for (int i = 0; i < world->entity_count; i++) {
+        for (int i = 0; i < MAX_ENTITIES; i++) {
 
             if (world->entities[i].id == INVALID_ENTITY_ID)
                 continue;
@@ -29,7 +31,7 @@ void sProximity(World *world, float dt)
 
             if (target->active) {
 
-                if (target->target_distance > 10) {
+                if (target->target_distance > PROXIMITY_RANGE) {
                     bool can_transition = transition(state, STATE_CHASING);
 
                     if (can_transition) {
@@ -41,7 +43,7 @@ void sProximity(World *world, float dt)
                     }
                 }
 
-                if (target->target_distance <= 10) {
+                if (target->target_distance <= PROXIMITY_RANGE) {
                     bool can_transition = transition(state, STATE_COMBAT);
 
                     if (can_transition) {
@@ -52,7 +54,6 @@ void sProximity(World *world, float dt)
                         path->current_index = 0;
                         path->active = 0;
                         path->request.request_pending = false;
-                        printf("current state: %d\n", state->current_state);
                         continue;
                     }
                 }

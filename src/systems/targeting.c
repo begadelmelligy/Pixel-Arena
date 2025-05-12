@@ -1,4 +1,5 @@
 #include "../../systems/targeting.h"
+#include <stdio.h>
 
 int distance(int x, int y, int x_target, int y_target) { return abs(x - x_target) + abs(y - y_target); }
 
@@ -15,7 +16,7 @@ void sTargeting(World *world, float dt)
     ComponentMask required_tag_target = TAG_PLAYER_CREEPS;
 
     if (!world->game_state.is_paused)
-        for (int i = 0; i < world->entity_count; i++) {
+        for (int i = 0; i < MAX_ENTITIES; i++) {
             if (world->entities[i].id == INVALID_ENTITY_ID)
                 continue;
             if ((world->entities[i].tag_mask & required_tag) == 0)
@@ -30,7 +31,12 @@ void sTargeting(World *world, float dt)
                 &((cGridPosition *)world->component_pools[COMPONENT_GRIDPOSITION].data)[grid_pos_idx];
             cTarget *target = &((cTarget *)world->component_pools[COMPONENT_TARGET].data)[target_idx];
 
-            for (int j = 0; j < world->entity_count; j++) {
+            if (world->entities[target->current_target].id == INVALID_ENTITY_ID) {
+                target->target_distance = 10000;
+                target->active = false;
+            }
+
+            for (int j = 0; j < MAX_ENTITIES; j++) {
                 if (world->entities[j].id == INVALID_ENTITY_ID)
                     continue;
                 if ((world->entities[j].tag_mask & required_tag_target) == 0)
@@ -42,13 +48,8 @@ void sTargeting(World *world, float dt)
                 cGridPosition *grid_pos_target =
                     &((cGridPosition *)world->component_pools[COMPONENT_GRIDPOSITION].data)[grid_pos_idx];
 
-                int temp_target_distance =
+                float temp_target_distance =
                     distance(grid_pos_targetee->x, grid_pos_targetee->y, grid_pos_target->x, grid_pos_target->y);
-
-                if (world->entities[target->current_target].id == INVALID_ENTITY_ID) {
-                    target->target_distance = 10000;
-                    target->active = false;
-                }
 
                 if (target->target_distance > temp_target_distance) {
                     target->target_distance = temp_target_distance;
