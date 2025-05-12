@@ -8,6 +8,7 @@
 World *create_world(void)
 {
     World *world = malloc(sizeof(World));
+
     if (!world)
         return NULL;
     world->component_pools = malloc(NUM_COMPONENT_TYPES * sizeof(ComponentPool));
@@ -26,6 +27,7 @@ World *create_world(void)
     initialize_component_pool(world, COMPONENT_GRIDPOSITION, &world->grid_position, sizeof(cGridPosition));
     initialize_component_pool(world, COMPONENT_PATH, &world->path, sizeof(cPath));
     initialize_component_pool(world, COMPONENT_TARGET, &world->target, sizeof(cTarget));
+    initialize_component_pool(world, COMPONENT_AISTATE, &world->ai_state, sizeof(cAIState));
 
     initialize_keys(world);
     initialize_grid(world);
@@ -119,4 +121,12 @@ cTarget *get_target(World *world, int entity_id)
     if (index == INVALID_COMPONENT_INDEX)
         return NULL;
     return &((cTarget *)world->component_pools[COMPONENT_TARGET].data)[index];
+}
+
+cAIState *get_ai_state(World *world, int entity_id)
+{
+    int index = world->entities[entity_id].component_indices[COMPONENT_AISTATE];
+    if (index == INVALID_COMPONENT_INDEX)
+        return NULL;
+    return &((cAIState *)world->component_pools[COMPONENT_AISTATE].data)[index];
 }

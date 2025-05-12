@@ -9,6 +9,7 @@
 #include "globals.h"
 #include "grid.h"
 
+#include "../components/aistate.h"
 #include "../components/grid_position.h"
 #include "../components/health.h"
 #include "../components/path.h"
@@ -17,7 +18,7 @@
 #include "../components/target.h"
 #include "../components/velocity.h"
 
-enum GameState { TITLE_SCREEN = 0, HUB = 1, WAVESETUP = 2, COMBAT = 3, ENDGAME = 4 };
+enum GameState { TITLE_SCREEN = 0, HUB = 1, WAVESETUP = 2, GAME_COMBAT = 3, ENDGAME = 4 };
 
 typedef struct ComponentPool {
     void *data;
@@ -55,6 +56,7 @@ typedef struct World {
     cGridPosition grid_position[MAX_ENTITIES];
     cPath path[MAX_ENTITIES];
     cTarget target[MAX_ENTITIES];
+    cAIState ai_state[MAX_ENTITIES];
 
     ComponentPool *component_pools;
     GameState game_state;
@@ -75,5 +77,6 @@ cProperties *get_properties(World *world, int entity_id);
 cGridPosition *get_grid_position(World *world, int entity_id);
 cPath *get_path(World *world, int entity_id);
 cTarget *get_target(World *world, int entity_id);
+cAIState *get_ai_state(World *world, int entity_id);
 
 #endif

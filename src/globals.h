@@ -15,7 +15,7 @@
 #define INVALID_SYSTEM -1
 #define INVALID_COMPONENT_INDEX -1
 
-#define NUM_COMPONENT_TYPES 7
+#define NUM_COMPONENT_TYPES 8
 
 /*Add more components here*/
 enum ComponentType {
@@ -26,6 +26,7 @@ enum ComponentType {
     COMPONENT_GRIDPOSITION = 4,
     COMPONENT_PATH = 5,
     COMPONENT_TARGET = 6,
+    COMPONENT_AISTATE = 7,
 };
 
 enum EntityTag {

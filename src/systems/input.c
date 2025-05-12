@@ -1,8 +1,8 @@
 #include "../../systems/input.h"
 #include <stdio.h>
 
-
-void sInput(World *world, float dt) {
+void sInput(World *world, float dt)
+{
     (void)dt;
     world->keys.mouse_position = GetMousePosition();
     world->keys.left_click = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
@@ -10,8 +10,7 @@ void sInput(World *world, float dt) {
     world->keys.key_space = IsKeyPressed(KEY_SPACE);
     world->keys.key_shift = IsKeyPressed(KEY_LEFT_SHIFT);
 
-
-    switch(world->game_state.game_state) {
+    switch (world->game_state.game_state) {
         case TITLE_SCREEN:
             if (world->keys.key_space) {
                 world->game_state.game_state = HUB;
@@ -19,17 +18,15 @@ void sInput(World *world, float dt) {
             }
             break;
 
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         case HUB:
-            if (world->keys.key_space){
+            if (world->keys.key_space) {
                 world->game_state.game_state = WAVESETUP;
                 world->game_state.is_paused = true;
             }
             break;
 
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         case WAVESETUP:
             if (world->keys.left_click) {
                 int e = create_entity(world);
@@ -39,35 +36,30 @@ void sInput(World *world, float dt) {
                     add_component(world, e, COMPONENT_POSITION, &p);
                     add_component(world, e, COMPONENT_HEALTH, &h);
                 }
-
             }
 
             if (world->keys.key_space) {
-                world->game_state.game_state = COMBAT;
+                world->game_state.game_state = GAME_COMBAT;
                 world->game_state.is_paused = false;
             }
             break;
 
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        case COMBAT:
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        case GAME_COMBAT:
             if (world->keys.key_space) {
                 world->game_state.game_state = ENDGAME;
                 world->game_state.is_paused = true;
             }
             break;
 
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         case ENDGAME:
-            if (world->keys.key_space){
+            if (world->keys.key_space) {
                 world->game_state.game_state = HUB;
                 world->game_state.is_paused = true;
             }
             break;
 
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        }
-
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    }
 }

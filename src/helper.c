@@ -2,8 +2,7 @@
 #include "grid.h"
 #include "raylib.h"
 
-void initialize_component_pool(World *world, enum ComponentType type,
-                               void *data, size_t component_size)
+void initialize_component_pool(World *world, enum ComponentType type, void *data, size_t component_size)
 {
     if (type >= NUM_COMPONENT_TYPES) {
         return;
@@ -56,8 +55,7 @@ void debug_draw_grid(World *world)
 {
     for (int y = 0; y < GRID_HEIGHT; y++) {
         for (int x = 0; x < GRID_WIDTH; x++) {
-            DrawRectangleLines(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE,
-                               CELL_SIZE, WHITE);
+            DrawRectangleLines(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE, WHITE);
         }
     }
 }
