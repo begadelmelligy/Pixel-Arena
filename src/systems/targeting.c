@@ -52,6 +52,7 @@ void sTargeting(World *world, float dt)
                     distance(grid_pos_targetee->x, grid_pos_targetee->y, grid_pos_target->x, grid_pos_target->y);
 
                 if (target->target_distance > temp_target_distance) {
+
                     target->target_distance = temp_target_distance;
                     target->current_target = world->entities[j].id;
                     target->active = true;

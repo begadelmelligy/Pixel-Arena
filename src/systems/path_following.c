@@ -101,10 +101,19 @@ void sPathRequest(World *world, float dt)
             cGridPosition *grid = &((cGridPosition *)world->component_pools[COMPONENT_GRIDPOSITION].data)[grid_idx];
             cPath *path = &((cPath *)world->component_pools[COMPONENT_PATH].data)[path_idx];
 
-            if (!path->active && path->request.request_pending) {
+            if ((!path->active && path->request.pending)) {
+
+                for (int i = 0; i < path->length; i++) {
+                    path->nodes[i] = NULL;
+                }
+                path->length = 0;
+                path->current_index = 0;
+                path->active = false;
+
                 Node *start = &world->grid.node[grid->y][grid->x];
                 Node *goal = &world->grid.node[path->request.target_y][path->request.target_x];
 
+                /*printf("Starting Pathfind\n");*/
                 a_star(world, start, goal, path);
             }
         }

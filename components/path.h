@@ -6,7 +6,7 @@
 typedef struct PathRequest {
     int target_x;
     int target_y;
-    bool request_pending;
+    bool pending;
 } PathRequest;
 
 typedef struct cPath {
@@ -17,6 +17,7 @@ typedef struct cPath {
     PathRequest request;
 } cPath;
 
+void freePath(void *component_data);
 void freePath(void *component_data);
 
 #endif

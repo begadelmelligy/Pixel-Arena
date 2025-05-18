@@ -61,28 +61,6 @@ int main(void)
         add_component(world, enemyHero, COMPONENT_AISTATE, &state);
     }
 
-    /*int creep1 = create_entity(world);*/
-    /*if (creep1 != INVALID_ENTITY_ID) {*/
-    /*    world->entities[creep1].tag_mask |= TAG_PLAYER_CREEPS;*/
-    /**/
-    /*    cPosition p = {.x = 500.f, .y = 800.f};*/
-    /*    cGridPosition g = {.x = p.x / CELL_SIZE, .y = p.y / CELL_SIZE};*/
-    /**/
-    /*    add_component(world, creep1, COMPONENT_POSITION, &p);*/
-    /*    add_component(world, creep1, COMPONENT_GRIDPOSITION, &g);*/
-    /*}*/
-    /**/
-    /*int creep2 = create_entity(world);*/
-    /*if (creep2 != INVALID_ENTITY_ID) {*/
-    /*    world->entities[creep2].tag_mask |= TAG_PLAYER_CREEPS;*/
-    /**/
-    /*    cPosition p = {.x = 200.f, .y = 600.f};*/
-    /*    cGridPosition g = {.x = p.x / CELL_SIZE, .y = p.y / CELL_SIZE};*/
-    /**/
-    /*    add_component(world, creep2, COMPONENT_POSITION, &p);*/
-    /*    add_component(world, creep2, COMPONENT_GRIDPOSITION, &g);*/
-    /*}*/
-
     game_start(world);
 
     while (!WindowShouldClose()) {
