@@ -45,11 +45,6 @@ void sInput(World *world, float dt)
                     add_component(world, e, COMPONENT_POSITION, &p);
                     add_component(world, e, COMPONENT_GRIDPOSITION, &g);
                 }
-
-                printf("Entities: %d, %d, %d, %d, %d, %d, %d, %d, %d, %d\n", world->entities[1].id,
-                       world->entities[2].id, world->entities[3].id, world->entities[4].id, world->entities[5].id,
-                       world->entities[6].id, world->entities[7].id, world->entities[8].id, world->entities[9].id,
-                       world->entities[10].id);
             }
 
             if (world->keys.right_click) {

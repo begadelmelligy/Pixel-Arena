@@ -49,8 +49,10 @@ int main(void)
         cHealth h = {.max_health = 100, .current_health = 100};
         cGridPosition g = {.x = p.x / CELL_SIZE, .y = p.y / CELL_SIZE};
         cPath path = {.length = 0, .current_index = 0, .active = false};
-        cTarget target = {.current_target = 0, .target_distance = 100000};
+        cTarget target = {.current_target = 0, .target_distance = 100000, .is_new = true, .is_active = false};
         cAIState state = {.current_state = STATE_IDLE, .next_state = STATE_EMPTY};
+        cAbilityCaster ability_caster;
+        cCastRequest cast_request;
 
         add_component(world, enemyHero, COMPONENT_POSITION, &p);
         add_component(world, enemyHero, COMPONENT_VELOCITY, &v);
@@ -59,6 +61,8 @@ int main(void)
         add_component(world, enemyHero, COMPONENT_PATH, &path);
         add_component(world, enemyHero, COMPONENT_TARGET, &target);
         add_component(world, enemyHero, COMPONENT_AISTATE, &state);
+        add_component(world, enemyHero, COMPONENT_ABILITY_CASTER, &ability_caster);
+        add_component(world, enemyHero, COMPONENT_CAST_REQUEST, &cast_request);
     }
 
     game_start(world);

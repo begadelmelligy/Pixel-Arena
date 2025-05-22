@@ -29,6 +29,8 @@ World *create_world(void)
     initialize_component_pool(world, COMPONENT_PATH, world->path, sizeof(cPath));
     initialize_component_pool(world, COMPONENT_TARGET, world->target, sizeof(cTarget));
     initialize_component_pool(world, COMPONENT_AISTATE, world->ai_state, sizeof(cAIState));
+    initialize_component_pool(world, COMPONENT_ABILITY_CASTER, world->ability_caster, sizeof(cAbilityCaster));
+    initialize_component_pool(world, COMPONENT_CAST_REQUEST, world->cast_request, sizeof(cCastRequest));
 
     initialize_keys(world);
     initialize_grid(world);
@@ -135,4 +137,20 @@ cAIState *get_ai_state(World *world, int entity_id)
     if (index == INVALID_COMPONENT_INDEX)
         return NULL;
     return &((cAIState *)world->component_pools[COMPONENT_AISTATE].data)[index];
+}
+
+cAbilityCaster *get_ability_caster(World *world, int entity_id)
+{
+    int index = world->entities[entity_id].component_indices[COMPONENT_ABILITY_CASTER];
+    if (index == INVALID_COMPONENT_INDEX)
+        return NULL;
+    return &((cAbilityCaster *)world->component_pools[COMPONENT_ABILITY_CASTER].data)[index];
+}
+
+cCastRequest *get_cast_request(World *world, int entity_id)
+{
+    int index = world->entities[entity_id].component_indices[COMPONENT_CAST_REQUEST];
+    if (index == INVALID_COMPONENT_INDEX)
+        return NULL;
+    return &((cCastRequest *)world->component_pools[COMPONENT_CAST_REQUEST].data)[index];
 }

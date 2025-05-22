@@ -61,6 +61,14 @@ void reconstruct_path(Node *goal, cPath *path)
 
 void a_star(World *world, Node *start, Node *goal, cPath *path)
 {
+    /*Path Reset*/
+    for (int i = 0; i < path->length; i++) {
+        path->nodes[i] = NULL;
+    }
+    path->length = 0;
+    path->current_index = 0;
+
+    /*Grid Reset*/
     for (int y = 0; y < GRID_HEIGHT; y++) {
         for (int x = 0; x < GRID_WIDTH; x++) {
             Node *node = &world->grid.node[y][x];

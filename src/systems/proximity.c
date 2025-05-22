@@ -29,12 +29,13 @@ void sProximity(World *world, float dt)
             cGridPosition *target_grid_pos =
                 &((cGridPosition *)world->component_pools[COMPONENT_GRIDPOSITION].data)[target_grid_pos_idx];
 
-            if (target->active) {
+            if (target->is_active) {
 
                 if (target->target_distance > PROXIMITY_RANGE) {
-                    bool can_transition = transition(state, STATE_CHASING);
+                    enum AIState to_state = STATE_CHASING;
+                    bool can_transition = transition(state, to_state);
 
-                    if (can_transition || state->current_state == STATE_CHASING) {
+                    if (can_transition) {
 
                         path->request.pending = true;
                         path->request.target_x = target_grid_pos->x;
@@ -44,9 +45,10 @@ void sProximity(World *world, float dt)
                 }
 
                 if (target->target_distance <= PROXIMITY_RANGE) {
-                    bool can_transition = transition(state, STATE_COMBAT);
+                    enum AIState to_state = STATE_COMBAT;
+                    bool can_transition = transition(state, to_state);
 
-                    if (can_transition || state->current_state == STATE_COMBAT) {
+                    if (can_transition) {
                         for (int i = 0; i < path->length; i++) {
                             path->nodes[i] = NULL;
                         }

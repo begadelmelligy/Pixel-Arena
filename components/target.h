@@ -6,7 +6,8 @@
 typedef struct cTarget {
     int current_target;
     float target_distance;
-    int active;
+    bool is_new;
+    bool is_active;
 } cTarget;
 
 #endif

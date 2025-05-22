@@ -46,7 +46,7 @@ void sPathFollowing(World *world, float dt)
             /*    }*/
             /*}*/
 
-            Node *target = path->nodes[path->current_index];
+            Node *target = path->nodes[path->current_index + 1];
             if (target == NULL) {
                 fprintf(stderr, "Path node at index %d is NULL\n", path->current_index);
                 path->active = false;
@@ -101,7 +101,7 @@ void sPathRequest(World *world, float dt)
             cGridPosition *grid = &((cGridPosition *)world->component_pools[COMPONENT_GRIDPOSITION].data)[grid_idx];
             cPath *path = &((cPath *)world->component_pools[COMPONENT_PATH].data)[path_idx];
 
-            if ((!path->active && path->request.pending)) {
+            if ((path->request.pending)) {
 
                 for (int i = 0; i < path->length; i++) {
                     path->nodes[i] = NULL;
@@ -113,7 +113,6 @@ void sPathRequest(World *world, float dt)
                 Node *start = &world->grid.node[grid->y][grid->x];
                 Node *goal = &world->grid.node[path->request.target_y][path->request.target_x];
 
-                /*printf("Starting Pathfind\n");*/
                 a_star(world, start, goal, path);
             }
         }

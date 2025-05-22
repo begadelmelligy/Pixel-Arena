@@ -9,6 +9,7 @@
 #include "globals.h"
 #include "grid.h"
 
+#include "../components/ability.h"
 #include "../components/aistate.h"
 #include "../components/grid_position.h"
 #include "../components/health.h"
@@ -64,6 +65,9 @@ typedef struct World {
     cTarget target[MAX_ENTITIES];
     cAIState ai_state[MAX_ENTITIES];
 
+    cAbilityCaster ability_caster[MAX_RESTRICTED_ENTITIES];
+    cCastRequest cast_request[MAX_RESTRICTED_ENTITIES];
+
     ComponentPool *component_pools;
     GameState game_state;
 
@@ -84,5 +88,7 @@ cGridPosition *get_grid_position(World *world, int entity_id);
 cPath *get_path(World *world, int entity_id);
 cTarget *get_target(World *world, int entity_id);
 cAIState *get_ai_state(World *world, int entity_id);
+cAbilityCaster *get_ability_caster(World *world, int entity_id);
+cCastRequest *get_cast_request(World *world, int entity_id);
 
 #endif

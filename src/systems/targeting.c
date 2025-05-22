@@ -33,7 +33,7 @@ void sTargeting(World *world, float dt)
 
             if (world->entities[target->current_target].id == INVALID_ENTITY_ID) {
                 target->target_distance = 10000;
-                target->active = false;
+                target->is_active = false;
             }
 
             for (int j = 0; j < MAX_ENTITIES; j++) {
@@ -52,10 +52,16 @@ void sTargeting(World *world, float dt)
                     distance(grid_pos_targetee->x, grid_pos_targetee->y, grid_pos_target->x, grid_pos_target->y);
 
                 if (target->target_distance > temp_target_distance) {
+                    if (target->current_target == world->entities[j].id) {
+                        target->is_new = true;
+
+                    } else {
+                        target->is_new = false;
+                    }
 
                     target->target_distance = temp_target_distance;
                     target->current_target = world->entities[j].id;
-                    target->active = true;
+                    target->is_active = true;
                 }
             }
         }

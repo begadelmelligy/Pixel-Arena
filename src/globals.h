@@ -8,14 +8,16 @@
 #define FPS 60
 #define TITLE "PIXEL ARENA"
 
-#define MAX_ENTITIES 20
+#define ABILITY_COUNT 2
+#define MAX_ENTITIES 100
+#define MAX_RESTRICTED_ENTITIES 20
 #define MAX_EVENTS 1000
 
 #define INVALID_ENTITY_ID -1
 #define INVALID_SYSTEM -1
 #define INVALID_COMPONENT_INDEX -1
 
-#define NUM_COMPONENT_TYPES 8
+#define NUM_COMPONENT_TYPES 10
 
 /*Add more components here*/
 enum ComponentType {
@@ -27,6 +29,8 @@ enum ComponentType {
     COMPONENT_PATH = 5,
     COMPONENT_TARGET = 6,
     COMPONENT_AISTATE = 7,
+    COMPONENT_ABILITY_CASTER = 8,
+    COMPONENT_CAST_REQUEST = 9,
 };
 
 enum EntityTag {
