@@ -1,5 +1,5 @@
 #include "../../systems/ability_casting.h"
-#include "../game/data/ability_data.h"
+#include <stdio.h>
 
 void sAbilityCasting(World *world, float dt)
 {
@@ -7,7 +7,7 @@ void sAbilityCasting(World *world, float dt)
     ComponentMask required_comp = (1 << COMPONENT_ABILITY_CASTER) | (1 << COMPONENT_CAST_REQUEST);
 
     if (!world->game_state.is_paused) {
-        for (int i = 0; i < MAX_ENTITIES; i++) {
+        for (int i = 0; i < MAX_RESTRICTED_ENTITIES; i++) {
 
             if (world->entities[i].id == INVALID_ENTITY_ID)
                 continue;
@@ -26,11 +26,21 @@ void sAbilityCasting(World *world, float dt)
                 continue;
             }
 
-            /*Loop over all the abilities*/
-            /*If not on CD and not currently casting then cast and return*/
-            Ability ability = all_abilities[cast_request->ability_id];
+            float *remaining_cd = (float *)dictGet(&ability_caster->remaining_cd, cast_request->ability_id);
+            printf("remain: %f\n", *remaining_cd);
+            if (*remaining_cd > 0 || ability_caster->is_casting) {
+                continue;
+            }
 
-            if (ability_caster->)
+            Ability ability = all_abilities[cast_request->ability_id];
+            ability.cast_function(&world, world->entities[i].id, cast_request->target);
+            ability_caster->is_casting = true;
+            ability_caster->remaining_cast_time = ability.cast_time;
+
+            float cd = ability.cooldown;
+            dictUpdateValue(&ability_caster->remaining_cd, cast_request->ability_id, &cd);
+
+            cast_request->is_active = false;
         }
     }
 }

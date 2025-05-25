@@ -1,5 +1,8 @@
 #include "entity.h"
+#include "ds.h"
+#include "globals.h"
 #include "string.h"
+#include "world.h"
 
 int create_entity(World *world)
 {
@@ -43,6 +46,12 @@ void remove_component(World *world, int entity_id, int component_type)
     if (component_type == COMPONENT_PATH) {
         void *component_data = (char *)pool->data + index_to_remove * pool->component_size;
         freePath(component_data);
+    }
+
+    if (component_type == COMPONENT_ABILITY_CASTER) {
+        void *component_data = (char *)pool->data + index_to_remove * pool->component_size;
+        freePath(component_data);
+        dictFree(&get_ability_caster(world, entity_id)->abilities);
     }
 
     if (index_to_remove < pool->active_count - 1) {

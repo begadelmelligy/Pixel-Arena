@@ -1,7 +1,7 @@
 #ifndef ABILITY_H
 #define ABILITY_H
 
-#include "../src/globals.h"
+#include "../src/ds.h"
 #include "stdbool.h"
 
 typedef struct Ability {
@@ -14,8 +14,9 @@ typedef struct Ability {
 } Ability;
 
 typedef struct cAbilityCaster {
-    Ability abilities[ABILITY_COUNT];
-    float remaining_cd[ABILITY_COUNT];
+    int ability_count;
+    Dict abilities;
+    Dict remaining_cd;
     float remaining_cast_time;
     bool is_casting;
 } cAbilityCaster;
