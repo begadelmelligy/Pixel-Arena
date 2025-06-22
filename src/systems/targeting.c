@@ -1,5 +1,4 @@
 #include "../../systems/targeting.h"
-#include <stdio.h>
 
 int distance(int x, int y, int x_target, int y_target) { return abs(x - x_target) + abs(y - y_target); }
 

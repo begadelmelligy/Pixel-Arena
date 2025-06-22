@@ -17,7 +17,7 @@
 #define INVALID_SYSTEM -1
 #define INVALID_COMPONENT_INDEX -1
 
-#define NUM_COMPONENT_TYPES 10
+#define NUM_COMPONENT_TYPES 11
 
 /*Add more components here*/
 enum ComponentType {
@@ -31,6 +31,7 @@ enum ComponentType {
     COMPONENT_AISTATE = 7,
     COMPONENT_ABILITY_CASTER = 8,
     COMPONENT_CAST_REQUEST = 9,
+    COMPONENT_SPRITE = 10,
 };
 
 enum EntityTag {

@@ -16,6 +16,7 @@
 #include "../components/path.h"
 #include "../components/position.h"
 #include "../components/properties.h"
+#include "../components/sprite.h"
 #include "../components/target.h"
 #include "../components/velocity.h"
 
@@ -58,6 +59,7 @@ typedef struct World {
 
     cPosition positions[MAX_ENTITIES];
     cGridPosition grid_position[MAX_ENTITIES];
+    cSprite sprite[MAX_ENTITIES];
     cVelocity velocities[MAX_ENTITIES];
     cHealth health[MAX_ENTITIES];
     cProperties properties[MAX_ENTITIES];
@@ -90,5 +92,6 @@ cTarget *get_target(World *world, int entity_id);
 cAIState *get_ai_state(World *world, int entity_id);
 cAbilityCaster *get_ability_caster(World *world, int entity_id);
 cCastRequest *get_cast_request(World *world, int entity_id);
+cSprite *get_sprite(World *world, int entity_id);
 
 #endif

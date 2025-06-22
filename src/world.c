@@ -31,6 +31,7 @@ World *create_world(void)
     initialize_component_pool(world, COMPONENT_AISTATE, world->ai_state, sizeof(cAIState));
     initialize_component_pool(world, COMPONENT_ABILITY_CASTER, world->ability_caster, sizeof(cAbilityCaster));
     initialize_component_pool(world, COMPONENT_CAST_REQUEST, world->cast_request, sizeof(cCastRequest));
+    initialize_component_pool(world, COMPONENT_SPRITE, world->sprite, sizeof(cSprite));
 
     initialize_keys(world);
     initialize_grid(world);
@@ -153,4 +154,12 @@ cCastRequest *get_cast_request(World *world, int entity_id)
     if (index == INVALID_COMPONENT_INDEX)
         return NULL;
     return &((cCastRequest *)world->component_pools[COMPONENT_CAST_REQUEST].data)[index];
+}
+
+cSprite *get_sprite(World *world, int entity_id)
+{
+    int index = world->entities[entity_id].component_indices[COMPONENT_SPRITE];
+    if (index == INVALID_COMPONENT_INDEX)
+        return NULL;
+    return &((cSprite *)world->component_pools[COMPONENT_SPRITE].data)[index];
 }
