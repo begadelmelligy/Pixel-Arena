@@ -1,9 +1,9 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include "../src/world.h"
 #include "../src/entity.h"
-
+#include "../src/game/data/entity_data.h"
+#include "../src/world.h"
 
 void sInput(World *world, float dt);
 
