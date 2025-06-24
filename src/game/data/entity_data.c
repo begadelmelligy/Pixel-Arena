@@ -1,13 +1,13 @@
 #include "entity_data.h"
 
-int summon_enemy_caster(World *world, SpriteManager *sm)
+int summon_enemy_caster(World *world, SpriteManager *sm, float pos_x, float pos_y)
 {
 
     int id = create_entity(world);
     if (id != INVALID_ENTITY_ID) {
         world->entities[id].tag_mask |= TAG_ENEMY_HERO;
 
-        cPosition p = {.x = 100.f, .y = 0.f};
+        cPosition p = {.x = pos_x, .y = pos_y};
         cVelocity v = {.dx = 0.f, .dy = 0.f, .speed = 200.0f};
         cSprite sprite = {
             .spritesheet = sm->glad_texture,
@@ -50,14 +50,14 @@ int summon_enemy_caster(World *world, SpriteManager *sm)
     return id;
 }
 
-int summon_test_entity(World *world, SpriteManager *sm)
+int summon_test_entity(World *world, SpriteManager *sm, float pos_x, float pos_y)
 {
 
     int id = create_entity(world);
     if (id != INVALID_ENTITY_ID) {
         world->entities[id].tag_mask |= TAG_PLAYER_CREEPS;
 
-        cPosition p = {.x = 300.f, .y = 300.f};
+        cPosition p = {.x = pos_x, .y = pos_y};
         cVelocity v = {.dx = 0.f, .dy = 0.f, .speed = 200.0f};
         cSprite sprite = {
             .spritesheet = sm->glad_texture,

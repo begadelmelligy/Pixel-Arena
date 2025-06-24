@@ -36,15 +36,20 @@ void sInput(World *world, float dt)
 
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         case GAME_COMBAT:
+            /*if (world->keys.left_click) {*/
+            /*    int e = create_entity(world);*/
+            /*    if (e != INVALID_ENTITY_ID) {*/
+            /*        world->entities[e].tag_mask |= TAG_PLAYER_CREEPS;*/
+            /*        cPosition p = {world->keys.mouse_position.x, world->keys.mouse_position.y};*/
+            /*        cGridPosition g = {.x = p.x / CELL_SIZE, .y = p.y / CELL_SIZE};*/
+            /*        add_component(world, e, COMPONENT_POSITION, &p);*/
+            /*        add_component(world, e, COMPONENT_GRIDPOSITION, &g);*/
+            /*    }*/
+            /*}*/
+
             if (world->keys.left_click) {
-                int e = create_entity(world);
-                if (e != INVALID_ENTITY_ID) {
-                    world->entities[e].tag_mask |= TAG_PLAYER_CREEPS;
-                    cPosition p = {world->keys.mouse_position.x, world->keys.mouse_position.y};
-                    cGridPosition g = {.x = p.x / CELL_SIZE, .y = p.y / CELL_SIZE};
-                    add_component(world, e, COMPONENT_POSITION, &p);
-                    add_component(world, e, COMPONENT_GRIDPOSITION, &g);
-                }
+                summon_test_entity(world, world->sprite_manager, world->keys.mouse_position.x,
+                                   world->keys.mouse_position.y);
             }
 
             if (world->keys.right_click) {

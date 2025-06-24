@@ -31,7 +31,8 @@ int main(void)
     init_ecs();
 
     SpriteManager *sm = malloc(sizeof(SpriteManager));
-    init_sprite_manager(sm);
+    world->sprite_manager = sm;
+    init_sprite_manager(world->sprite_manager);
 
     /*Register the systems here*/
     ecs_register_system(sInput);
@@ -46,8 +47,8 @@ int main(void)
     ecs_register_system(sRender);
 
     /*summon entities*/
-    summon_enemy_caster(world, sm);
-    summon_test_entity(world, sm);
+    summon_enemy_caster(world, sm, 100.f, 0.f);
+    summon_test_entity(world, sm, 400.f, 200.f);
 
     game_start(world);
 

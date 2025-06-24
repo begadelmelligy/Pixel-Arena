@@ -8,6 +8,7 @@
 
 #include "globals.h"
 #include "grid.h"
+#include "sprite_manager.h"
 
 #include "../components/ability.h"
 #include "../components/aistate.h"
@@ -75,6 +76,7 @@ typedef struct World {
 
     Keys keys;
     Grid grid;
+    SpriteManager *sprite_manager;
 } World;
 
 World *create_world(void);

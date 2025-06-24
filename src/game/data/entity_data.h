@@ -6,7 +6,7 @@
 #include "../../world.h"
 #include "ability_data.h"
 
-int summon_test_entity(World *world, SpriteManager *sm);
-int summon_enemy_caster(World *world, SpriteManager *sm);
+int summon_test_entity(World *world, SpriteManager *sm, float pos_x, float pos_y);
+int summon_enemy_caster(World *world, SpriteManager *sm, float pos_x, float pos_y);
 
 #endif
