@@ -9,6 +9,7 @@ typedef struct cSprite {
     int sprite_width;
     int sprite_row;
     int sprite_col;
+    int direction;
 } cSprite;
 
 #endif

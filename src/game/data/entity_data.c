@@ -13,8 +13,9 @@ int summon_enemy_caster(World *world, SpriteManager *sm, float pos_x, float pos_
             .spritesheet = sm->glad_texture,
             .sprite_height = sm->glad_sprite_height,
             .sprite_width = sm->glad_sprite_width,
-            .sprite_row = 1,
-            .sprite_col = 2,
+            .sprite_row = 2,
+            .sprite_col = 6,
+            .direction = 1,
         };
         cHealth h = {.max_health = 100, .current_health = 100};
         cGridPosition g = {.x = p.x / CELL_SIZE, .y = p.y / CELL_SIZE};
@@ -63,8 +64,9 @@ int summon_test_entity(World *world, SpriteManager *sm, float pos_x, float pos_y
             .spritesheet = sm->glad_texture,
             .sprite_height = sm->glad_sprite_height,
             .sprite_width = sm->glad_sprite_width,
-            .sprite_row = 1,
-            .sprite_col = 1,
+            .sprite_row = 0,
+            .sprite_col = 3,
+            .direction = 1,
         };
         cHealth h = {.max_health = 100, .current_health = 100};
         cGridPosition g = {.x = p.x / CELL_SIZE, .y = p.y / CELL_SIZE};

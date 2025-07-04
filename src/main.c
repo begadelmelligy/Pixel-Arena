@@ -4,6 +4,7 @@
 #include "raylib.h"
 #include "sprite_manager.h"
 #include "world.h"
+#include <stdlib.h>
 
 #include "../systems/ability_casting.h"
 #include "../systems/damage.h"
@@ -14,7 +15,6 @@
 #include "../systems/render.h"
 #include "../systems/state_change.h"
 #include "../systems/targeting.h"
-#include <stdlib.h>
 
 void game_start(World *world)
 {

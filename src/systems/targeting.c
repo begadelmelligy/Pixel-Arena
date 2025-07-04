@@ -31,6 +31,7 @@ void sTargeting(World *world, float dt)
             cTarget *target = &((cTarget *)world->component_pools[COMPONENT_TARGET].data)[target_idx];
 
             if (world->entities[target->current_target].id == INVALID_ENTITY_ID) {
+                target->current_target = INVALID_ENTITY_ID;
                 target->target_distance = 10000;
                 target->is_active = false;
             }
