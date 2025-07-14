@@ -84,8 +84,8 @@ void initialize_debug_mode_parameters(World *world)
     world->debug.inpector_is_visible = false;
     world->debug.inpector_toggle_keys = false;
 
-    world->debug.window_position = (Vector2){WIDTH - 225, 25};
-    world->debug.window_size = (Vector2){200, 500};
+    world->debug.window_position = (Vector2){WIDTH - 275, 25};
+    world->debug.window_size = (Vector2){250, 500};
     world->debug.minimized = false;
     world->debug.moving = false;
     world->debug.resizing = false;

@@ -29,7 +29,11 @@ int main(void)
 {
     InitWindow(WIDTH, HEIGHT, TITLE);
     SetTargetFPS(FPS);
+
+    Font custom_font = LoadFont("assets/fonts/JetBrainsMonoNerdFont-Bold.ttf");
     /*GuiLoadStyleDark();*/
+    GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
+    GuiSetFont(custom_font);
 
     World *world = create_world();
     init_ecs();

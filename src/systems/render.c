@@ -16,7 +16,7 @@ void sRender(World *world, float dt)
     switch (world->game_state.game_state) {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         case TITLE_SCREEN:
-            /*GuiSetStyle(DEFAULT, TEXT_SIZE, 16);*/
+            GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
             if (GuiButton((Rectangle){WIDTH / 2 - WIDTH * 0.25 / 2, HEIGHT * 0.5, WIDTH * 0.25, 100}, "Start Game")) {
                 world->game_state.game_state = HUB;
             }
