@@ -1,5 +1,4 @@
 #include "entity_debugger.h"
-#include "raylib.h"
 #include <stdio.h>
 
 #if !defined(RAYGUI_WINDOWBOX_STATUSBAR_HEIGHT)
@@ -12,18 +11,20 @@
 
 static void DrawContent(World *world, Vector2 position, Vector2 scroll)
 {
-    int offsetY = 25;
+    int offsetY = 40;
 
     for (int i = 0; i < MAX_ENTITIES; i++) {
         if (world->entities[i].id == INVALID_ENTITY_ID)
             continue;
 
-        Rectangle toggle_rect = {position.x + 20 + scroll.x, position.y + offsetY + scroll.y, 100, 25};
+        Rectangle toggle_rect = {position.x + 20 + scroll.x, position.y + offsetY + scroll.y, 150, 25};
         char toggle_label[128];
-        snprintf(toggle_label, sizeof(toggle_label), "%s %s", world->debug.ele[i].is_toggled ? "-" : "+", "Entity");
+        snprintf(toggle_label, sizeof(toggle_label), "%s %s", world->debug.ele[i].is_toggled ? "-" : "+",
+                 world->debug.ele[i].name);
 
         if (GuiButton(toggle_rect, toggle_label)) {
             world->debug.ele[i].is_expanded = !world->debug.ele[i].is_expanded;
+            world->debug.ele[i].is_toggled = !world->debug.ele[i].is_toggled;
         }
 
         offsetY += 30;
@@ -32,17 +33,20 @@ static void DrawContent(World *world, Vector2 position, Vector2 scroll)
             for (int j = 0; j < NUM_COMPONENT_TYPES; j++) {
                 if (world->entities[i].component_indices[j] == INVALID_COMPONENT_INDEX)
                     continue;
-                Rectangle comp_label_rect = {position.x + 20 + scroll.x, position.y + offsetY + scroll.y, 50, 20};
-                Rectangle remove_button_rect = {position.x + 180 + scroll.x, position.y + offsetY + scroll.y, 50, 20};
 
-                GuiLabel(comp_label_rect, "Test");
+                Rectangle comp_label_rect = {position.x + 20 + scroll.x, position.y + offsetY + scroll.y, 150, 20};
+                Rectangle remove_button_rect = {position.x + 150 + scroll.x, position.y + offsetY + scroll.y, 20, 20};
+
+                enum ComponentType type = j;
+                GuiLabel(comp_label_rect, get_component_type_name(type));
                 if (GuiButton(remove_button_rect, "x")) {
-                    printf("Component Removed\n");
+                    printf("Component Removed: %s\n", get_component_type_name(type));
+                    remove_component(world, i, j);
                 }
                 offsetY += 20;
             }
         }
-        offsetY += 3;
+        offsetY += 5;
     }
 }
 

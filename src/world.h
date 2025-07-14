@@ -99,6 +99,7 @@ World *create_world(void);
 void destroy_world(World *world);
 
 void add_component(World *world, int entity_id, int component_type, void *component_data);
+void remove_component(World *world, int entity_id, int component_type);
 
 cPosition *get_position(World *world, int entity_id);
 cVelocity *get_velocity(World *world, int entity_id);

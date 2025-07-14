@@ -55,7 +55,7 @@ typedef struct Entity {
 
 typedef struct Elements {
     int id;
-    char str[16];
+    char name[16];
     bool is_toggled;
     bool is_expanded;
 } Elements;

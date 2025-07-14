@@ -29,52 +29,6 @@ int create_entity(World *world)
     return id;
 }
 
-void remove_component(World *world, int entity_id, int component_type)
-{
-    if (entity_id < 0 || entity_id >= MAX_ENTITIES || world->entities[entity_id].id == INVALID_ENTITY_ID)
-        return;
-
-    if (component_type < 0 || component_type >= NUM_COMPONENT_TYPES)
-        return;
-
-    int index_to_remove = world->entities[entity_id].component_indices[component_type];
-    if (index_to_remove == INVALID_COMPONENT_INDEX)
-        return;
-
-    ComponentPool *pool = &world->component_pools[component_type];
-
-    if (component_type == COMPONENT_PATH) {
-        void *component_data = (char *)pool->data + index_to_remove * pool->component_size;
-        freePath(component_data);
-    }
-
-    if (component_type == COMPONENT_ABILITY_CASTER) {
-        void *component_data = (char *)pool->data + index_to_remove * pool->component_size;
-        freePath(component_data);
-        dictFree(&get_ability_caster(world, entity_id)->abilities);
-    }
-
-    if (index_to_remove < pool->active_count - 1) {
-        void *dest = (char *)pool->data + index_to_remove * pool->component_size;
-        void *src = (char *)pool->data + (pool->active_count - 1) * pool->component_size;
-        memcpy(dest, src, pool->component_size);
-
-        for (int i = 0; i < MAX_ENTITIES; i++) {
-            if (world->entities[i].id != INVALID_ENTITY_ID &&
-                world->entities[i].component_indices[component_type] == pool->active_count - 1) {
-                // Update the component index
-                world->entities[i].component_indices[component_type] = index_to_remove;
-                break;
-            }
-        }
-    }
-
-    pool->active_count--;
-
-    world->entities[entity_id].component_indices[component_type] = INVALID_COMPONENT_INDEX;
-    world->entities[entity_id].component_masks &= ~(1 << component_type);
-}
-
 void destroy_entity(World *world, int entity_id)
 {
     if (entity_id < 0 || entity_id >= MAX_ENTITIES || world->entities[entity_id].id == INVALID_ENTITY_ID)

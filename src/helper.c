@@ -2,7 +2,11 @@
 #include "globals.h"
 #include "grid.h"
 #include "raylib.h"
+#include <stdio.h>
 #include <string.h>
+
+const char *ComponentTypeName[] = {"Position", "Velocity", "Health",         "Properties",   "Gridposition", "Path",
+                                   "Target",   "Aistate",  "Ability_caster", "Cast_request", "Sprite"};
 
 void initialize_component_pool(World *world, enum ComponentType type, void *data, size_t component_size)
 {
@@ -66,8 +70,12 @@ void debug_draw_grid(World *world)
 void initialize_debug_mode_parameters(World *world)
 {
     for (int i = 0; i < MAX_ENTITIES; i++) {
+        char temp[8];
         world->debug.ele[i].id = i;
-        strcat(world->debug.ele[i].str, "Test");
+        sprintf(temp, "%d", i);
+        strcat(world->debug.ele[i].name, "Entity #");
+        strcat(world->debug.ele[i].name, temp);
+
         world->debug.ele[i].is_toggled = false;
         world->debug.ele[i].is_expanded = false;
     }
@@ -81,6 +89,14 @@ void initialize_debug_mode_parameters(World *world)
     world->debug.minimized = false;
     world->debug.moving = false;
     world->debug.resizing = false;
-    world->debug.scroll_threshold = (Vector2){140, HEIGHT};
+    world->debug.scroll_threshold = (Vector2){300, HEIGHT};
     world->debug.scroll = (Vector2){0, 0};
+}
+
+const char *get_component_type_name(enum ComponentType type)
+{
+    if (type >= 0 && type < NUM_COMPONENT_TYPES) {
+        return ComponentTypeName[type];
+    }
+    return "INVALID";
 }

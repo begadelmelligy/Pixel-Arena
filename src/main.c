@@ -29,7 +29,7 @@ int main(void)
 {
     InitWindow(WIDTH, HEIGHT, TITLE);
     SetTargetFPS(FPS);
-    GuiLoadStyleDark();
+    /*GuiLoadStyleDark();*/
 
     World *world = create_world();
     init_ecs();
