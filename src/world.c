@@ -35,6 +35,7 @@ World *create_world(void)
 
     initialize_keys(world);
     initialize_grid(world);
+    initialize_debug_mode_parameters(world);
 
     return world;
 }

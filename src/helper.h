@@ -9,5 +9,6 @@ void initialize_keys(World *world);
 void initialize_grid(World *world);
 
 void debug_draw_grid(World *world);
+void initialize_debug_mode_parameters(World *world);
 
 #endif

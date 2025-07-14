@@ -5,6 +5,7 @@
 #include "sprite_manager.h"
 #include "world.h"
 #include <stdlib.h>
+#include <string.h>
 
 #include "../systems/ability_casting.h"
 #include "../systems/damage.h"
@@ -16,6 +17,8 @@
 #include "../systems/state_change.h"
 #include "../systems/targeting.h"
 
+#include "../styles/dark/style_dark.h"
+
 void game_start(World *world)
 {
     world->game_state.game_state = TITLE_SCREEN;
@@ -26,6 +29,7 @@ int main(void)
 {
     InitWindow(WIDTH, HEIGHT, TITLE);
     SetTargetFPS(FPS);
+    GuiLoadStyleDark();
 
     World *world = create_world();
     init_ecs();

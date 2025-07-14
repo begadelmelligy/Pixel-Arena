@@ -1,6 +1,7 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
+#include "stdbool.h"
 #include <stdint.h>
 
 #define HEIGHT 1200.0
@@ -51,5 +52,12 @@ typedef struct Entity {
     TagMask tag_mask;
     int component_indices[NUM_COMPONENT_TYPES];
 } Entity;
+
+typedef struct Elements {
+    int id;
+    char str[16];
+    bool is_toggled;
+    bool is_expanded;
+} Elements;
 
 #endif

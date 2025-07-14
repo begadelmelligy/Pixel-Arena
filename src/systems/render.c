@@ -1,7 +1,5 @@
 #include "../../systems/render.h"
 #include "raylib.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
@@ -18,7 +16,7 @@ void sRender(World *world, float dt)
     switch (world->game_state.game_state) {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         case TITLE_SCREEN:
-            GuiSetStyle(DEFAULT, TEXT_SIZE, 36);
+            /*GuiSetStyle(DEFAULT, TEXT_SIZE, 36);*/
             if (GuiButton((Rectangle){WIDTH / 2 - WIDTH * 0.25 / 2, HEIGHT * 0.5, WIDTH * 0.25, 100}, "Start Game")) {
                 world->game_state.game_state = HUB;
             }
@@ -119,7 +117,14 @@ void sRender(World *world, float dt)
 
                 DrawTexturePro(sprite->spritesheet, srcRect, srcDest, (Vector2){0, 0}, 0.0f, WHITE);
                 DrawCircle((int)pos->x, (int)pos->y, 5, RED);
+                // Debugging Section ---------------------------------------------------------------
             }
+            if (world->debug.inpector_is_visible) {
+                GuiWindowFloating(world, &world->debug.window_position, &world->debug.window_size,
+                                  &world->debug.minimized, &world->debug.moving, &world->debug.resizing,
+                                  world->debug.scroll_threshold, &world->debug.scroll, "Entity Inspector");
+            }
+            //---------------------------------------------------------------------------------
 
             break;
 

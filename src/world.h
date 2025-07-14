@@ -43,9 +43,24 @@ typedef struct Keys {
     bool right_click;
     bool key_space;
     bool key_shift;
+    bool key_a;
     int selected_menu_item;
     int selected_unit_id;
 } Keys;
+
+typedef struct Debug {
+    Elements ele[MAX_ENTITIES];
+    bool inpector_toggle_keys;
+    bool can_toggle_inspector;
+    bool inpector_is_visible;
+    Vector2 window_position;
+    Vector2 window_size;
+    bool minimized;
+    bool moving;
+    bool resizing;
+    Vector2 scroll_threshold;
+    Vector2 scroll;
+} Debug;
 
 typedef struct {
     enum GameState game_state;
@@ -75,6 +90,7 @@ typedef struct World {
     GameState game_state;
 
     Keys keys;
+    Debug debug;
     Grid grid;
     SpriteManager *sprite_manager;
 } World;

@@ -1,6 +1,8 @@
 #include "helper.h"
+#include "globals.h"
 #include "grid.h"
 #include "raylib.h"
+#include <string.h>
 
 void initialize_component_pool(World *world, enum ComponentType type, void *data, size_t component_size)
 {
@@ -53,9 +55,32 @@ void initialize_grid(World *world)
 
 void debug_draw_grid(World *world)
 {
+    (void)world;
     for (int y = 0; y < GRID_HEIGHT; y++) {
         for (int x = 0; x < GRID_WIDTH; x++) {
             DrawRectangleLines(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE, WHITE);
         }
     }
+}
+
+void initialize_debug_mode_parameters(World *world)
+{
+    for (int i = 0; i < MAX_ENTITIES; i++) {
+        world->debug.ele[i].id = i;
+        strcat(world->debug.ele[i].str, "Test");
+        world->debug.ele[i].is_toggled = false;
+        world->debug.ele[i].is_expanded = false;
+    }
+
+    world->debug.can_toggle_inspector = false;
+    world->debug.inpector_is_visible = false;
+    world->debug.inpector_toggle_keys = false;
+
+    world->debug.window_position = (Vector2){WIDTH - 225, 25};
+    world->debug.window_size = (Vector2){200, 500};
+    world->debug.minimized = false;
+    world->debug.moving = false;
+    world->debug.resizing = false;
+    world->debug.scroll_threshold = (Vector2){140, HEIGHT};
+    world->debug.scroll = (Vector2){0, 0};
 }
