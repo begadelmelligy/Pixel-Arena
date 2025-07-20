@@ -1,6 +1,22 @@
 #include "entity_data.h"
 
-int summon_enemy_caster(World *world, SpriteManager *sm, float pos_x, float pos_y)
+cSprite all_entitites_types[ENTITY_TYPE_COUNT] = {
+    [DARK_WIZARD] =
+        {
+            .sprite_row = 2,
+            .sprite_col = 5,
+            .direction = 1,
+        },
+
+    [LIGHT_WIZARD] =
+        {
+            .sprite_row = 2,
+            .sprite_col = 6,
+            .direction = 1,
+        },
+};
+
+int summon_enemy_caster(World *world, float pos_x, float pos_y)
 {
 
     int id = create_entity(world);
@@ -9,13 +25,18 @@ int summon_enemy_caster(World *world, SpriteManager *sm, float pos_x, float pos_
 
         cPosition p = {.x = pos_x, .y = pos_y};
         cVelocity v = {.dx = 0.f, .dy = 0.f, .speed = 200.0f};
+
+        /*cSprite dark_wizard_sprite = all_entitites_types[DARK_WIZARD];*/
         cSprite sprite = {
-            .spritesheet = sm->glad_texture,
-            .sprite_height = sm->glad_sprite_height,
-            .sprite_width = sm->glad_sprite_width,
+            .spritesheet = world->sprite_manager->glad_texture,
+            .sprite_height = world->sprite_manager->glad_sprite_height,
+            .sprite_width = world->sprite_manager->glad_sprite_width,
             .sprite_row = 2,
             .sprite_col = 6,
             .direction = 1,
+            /*.sprite_row = dark_wizard_sprite.sprite_row,*/
+            /*.sprite_col = dark_wizard_sprite.sprite_col,*/
+            /*.direction = dark_wizard_sprite.direction,*/
         };
         cHealth h = {.max_health = 100, .current_health = 100};
         cGridPosition g = {.x = p.x / CELL_SIZE, .y = p.y / CELL_SIZE};
@@ -51,7 +72,7 @@ int summon_enemy_caster(World *world, SpriteManager *sm, float pos_x, float pos_
     return id;
 }
 
-int summon_test_entity(World *world, SpriteManager *sm, float pos_x, float pos_y)
+int summon_test_entity(World *world, float pos_x, float pos_y)
 {
 
     int id = create_entity(world);
@@ -61,9 +82,9 @@ int summon_test_entity(World *world, SpriteManager *sm, float pos_x, float pos_y
         cPosition p = {.x = pos_x, .y = pos_y};
         cVelocity v = {.dx = 0.f, .dy = 0.f, .speed = 200.0f};
         cSprite sprite = {
-            .spritesheet = sm->glad_texture,
-            .sprite_height = sm->glad_sprite_height,
-            .sprite_width = sm->glad_sprite_width,
+            .spritesheet = world->sprite_manager->glad_texture,
+            .sprite_height = world->sprite_manager->glad_sprite_height,
+            .sprite_width = world->sprite_manager->glad_sprite_width,
             .sprite_row = 0,
             .sprite_col = 3,
             .direction = 1,

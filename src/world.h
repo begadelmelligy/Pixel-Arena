@@ -29,6 +29,12 @@ enum GameState {
     ENDGAME = 4,
 };
 
+enum MouseState {
+    FREE_MOUSE = 0,
+    DRAG_HIGHLIGHT = 1,
+    SUMMON_SELECT = 2,
+};
+
 typedef struct ComponentPool {
     void *data;
     size_t component_size;
@@ -39,11 +45,13 @@ typedef struct ComponentPool {
 
 typedef struct Keys {
     Vector2 mouse_position;
+    float mouse_wheel;
     bool left_click;
     bool right_click;
     bool key_space;
     bool key_shift;
     bool key_a;
+    bool key_s;
     int selected_menu_item;
     int selected_unit_id;
 } Keys;
@@ -88,11 +96,13 @@ typedef struct World {
 
     ComponentPool *component_pools;
     GameState game_state;
+    enum MouseState mouse_state;
+    AdjustableParameters adj_para;
 
-    Keys keys;
-    Debug debug;
-    Grid grid;
     SpriteManager *sprite_manager;
+    Keys keys;
+    Grid grid;
+    Debug debug;
 } World;
 
 World *create_world(void);

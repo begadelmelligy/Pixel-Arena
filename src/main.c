@@ -4,6 +4,7 @@
 #include "raylib.h"
 #include "sprite_manager.h"
 #include "world.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -38,10 +39,6 @@ int main(void)
     World *world = create_world();
     init_ecs();
 
-    SpriteManager *sm = malloc(sizeof(SpriteManager));
-    world->sprite_manager = sm;
-    init_sprite_manager(world->sprite_manager);
-
     /*Register the systems here*/
     ecs_register_system(sInput);
     ecs_register_system(sStateChange);
@@ -55,8 +52,8 @@ int main(void)
     ecs_register_system(sRender);
 
     /*summon entities*/
-    summon_enemy_caster(world, sm, 100.f, 0.f);
-    summon_test_entity(world, sm, 400.f, 200.f);
+    summon_enemy_caster(world, 100.f, 100.f);
+    summon_test_entity(world, 400.f, 200.f);
 
     game_start(world);
 
@@ -71,8 +68,8 @@ int main(void)
         ecs_update(world, delta);
     }
 
+    free(world->sprite_manager);
     destroy_world(world);
-    free(sm);
     CloseWindow();
     return 0;
 }

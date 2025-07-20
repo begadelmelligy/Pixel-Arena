@@ -43,6 +43,10 @@ enum EntityTag {
     TAG_PLAYER_HERO = 1 << 3
 };
 
+typedef struct AdjustableParameters {
+    int scroll_summon_spacing;
+} AdjustableParameters;
+
 typedef uint64_t ComponentMask;
 typedef uint8_t TagMask;
 
