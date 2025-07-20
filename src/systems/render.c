@@ -16,27 +16,24 @@ void highlight_summon(World *world, EntityType type, int num_entities, enum Form
         .x = summon_type.sprite_col * world->sprite_manager->glad_sprite_width,
         .y = summon_type.sprite_row * world->sprite_manager->glad_sprite_height,
         .width = world->sprite_manager->glad_sprite_width * summon_type.direction,
-        .height = summon_type.sprite_height,
+        .height = world->sprite_manager->glad_sprite_height,
     };
-
     int size_x = world->sprite_manager->glad_sprite_width * 3;
     int size_y = world->sprite_manager->glad_sprite_height * 3;
 
     switch (formation) {
         case CIRCLE:
             for (int i = 0; i < num_entities; i++) {
-                double x = world->keys.mouse_position.x + 10 * cos(i * angle);
-                double y = world->keys.mouse_position.y + 10 * sin(i * angle);
-                /*DrawCircle(x, y, 10, (Color){255, 0, 0, 127});*/
+                double x = world->keys.mouse_position.x + world->adj_para.scroll_summon_spacing * cos(i * angle);
+                double y = world->keys.mouse_position.y + world->adj_para.scroll_summon_spacing * sin(i * angle);
                 Rectangle srcDest = {
                     .x = x - (float)(size_x) / 2,
                     .y = y - (float)(size_y) / 2,
                     .width = size_x,
                     .height = size_y,
                 };
-
-                DrawTexturePro(world->sprite_manager->glad_texture, srcRect, srcDest, (Vector2){x, y}, 0.0f,
-                               (Color){0, 0, 0, 127});
+                DrawTexturePro(world->sprite_manager->glad_texture, srcRect, srcDest, (Vector2){0, 0}, 0.0f,
+                               (Color){255, 255, 255, 127});
             }
             break;
 
@@ -50,9 +47,8 @@ void highlight_summon(World *world, EntityType type, int num_entities, enum Form
                     .width = size_x,
                     .height = size_y,
                 };
-
-                DrawCircle(x, y, 10, (Color){255, 0, 0, 127});
-                DrawTexturePro(world->sprite_manager->glad_texture, srcRect, srcDest, (Vector2){x, y}, 0.0f, WHITE);
+                DrawTexturePro(world->sprite_manager->glad_texture, srcRect, srcDest, (Vector2){0, 0}, 0.0f,
+                               (Color){255, 255, 255, 127});
             }
             break;
     }
@@ -83,7 +79,6 @@ void draw_entities(World *world)
             float dx = target_pos->x - pos->x;
             float dir_x = (dx == 0) ? 1 : dx / fabs(dx);
             sprite->direction = -dir_x; // Negative because the sprites are aiming to the left nominally
-            printf("%d, %d\n", i, sprite->direction);
         }
 
         Rectangle srcRect = {
@@ -146,10 +141,10 @@ void sRender(World *world, float dt)
         case WAVESETUP:
             text = "SETUP WAVE";
             DrawText(text, 800, 100, 30, RED);
-            debug_draw_grid(world);
+            /*debug_draw_grid(world);*/
             draw_entities(world);
             if (world->mouse_state == SUMMON_SELECT) {
-                highlight_summon(world, DARK_WIZARD, 10, RECTANGLE);
+                highlight_summon(world, LIGHT_WIZARD, 10, CIRCLE);
             }
             break;
 
