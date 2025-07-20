@@ -29,6 +29,14 @@ void sProximity(World *world, float dt)
             cGridPosition *target_grid_pos =
                 &((cGridPosition *)world->component_pools[COMPONENT_GRIDPOSITION].data)[target_grid_pos_idx];
 
+            /*If target is gone (-1) stop pathing request*/
+            if (target->current_target == INVALID_ENTITY_ID) {
+                path->length = 0;
+                path->current_index = 0;
+                path->active = false;
+                path->request.pending = false;
+            }
+
             if (target->is_active) {
 
                 if (target->target_distance > PROXIMITY_RANGE) {
@@ -55,7 +63,7 @@ void sProximity(World *world, float dt)
 
                         path->length = 0;
                         path->current_index = 0;
-                        path->active = 0;
+                        path->active = false;
                         path->request.pending = false;
                         continue;
                     }

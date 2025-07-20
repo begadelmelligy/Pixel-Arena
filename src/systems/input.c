@@ -66,7 +66,7 @@ void sInput(World *world, float dt)
         case GAME_COMBAT:
 
             if (world->keys.right_click) {
-                summon_enemy_caster(world, world->keys.mouse_position.x, world->keys.mouse_position.y);
+                summon_test_entity(world, world->keys.mouse_position.x, world->keys.mouse_position.y);
             }
 
             if (world->keys.key_space) {

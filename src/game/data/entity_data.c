@@ -41,7 +41,8 @@ int summon_enemy_caster(World *world, float pos_x, float pos_y)
         cHealth h = {.max_health = 100, .current_health = 100};
         cGridPosition g = {.x = p.x / CELL_SIZE, .y = p.y / CELL_SIZE};
         cPath path = {.length = 0, .current_index = 0, .active = false};
-        cTarget target = {.current_target = 0, .target_distance = 100000, .is_new = true, .is_active = false};
+        cTarget target = {
+            .current_target = INVALID_ENTITY_ID, .target_distance = 100000, .is_new = true, .is_active = false};
         cAIState state = {.current_state = STATE_IDLE, .next_state = STATE_EMPTY};
         cAbilityCaster ability_caster;
 

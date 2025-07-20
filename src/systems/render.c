@@ -1,6 +1,7 @@
 #include "../../systems/render.h"
 #include "raylib.h"
 #include <math.h>
+#include <stdio.h>
 
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
@@ -75,12 +76,14 @@ void draw_entities(World *world)
         cTarget *target = &((cTarget *)world->component_pools[COMPONENT_TARGET].data)[target_idx];
         cSprite *sprite = &((cSprite *)world->component_pools[COMPONENT_SPRITE].data)[sprite_idx];
 
-        int target_pos_idx = world->entities[target->current_target].component_indices[COMPONENT_POSITION];
-        cPosition *target_pos = &((cPosition *)world->component_pools[COMPONENT_POSITION].data)[target_pos_idx];
-
-        if (target->current_target != INVALID_ENTITY_ID) {
-            float dir_x = (target_pos->x - pos->x) / fabs(target_pos->x - pos->x);
+        if (target->current_target != INVALID_ENTITY_ID &&
+            world->entities[target->current_target].component_indices[COMPONENT_POSITION] != INVALID_COMPONENT_INDEX) {
+            int target_pos_idx = world->entities[target->current_target].component_indices[COMPONENT_POSITION];
+            cPosition *target_pos = &((cPosition *)world->component_pools[COMPONENT_POSITION].data)[target_pos_idx];
+            float dx = target_pos->x - pos->x;
+            float dir_x = (dx == 0) ? 1 : dx / fabs(dx);
             sprite->direction = -dir_x; // Negative because the sprites are aiming to the left nominally
+            printf("%d, %d\n", i, sprite->direction);
         }
 
         Rectangle srcRect = {
@@ -143,11 +146,11 @@ void sRender(World *world, float dt)
         case WAVESETUP:
             text = "SETUP WAVE";
             DrawText(text, 800, 100, 30, RED);
-            /*debug_draw_grid(world);*/
+            debug_draw_grid(world);
             draw_entities(world);
-            /*if (world->mouse_state == SUMMON_SELECT) {*/
-            /*    highlight_summon(world, DARK_WIZARD, 10, RECTANGLE);*/
-            /*}*/
+            if (world->mouse_state == SUMMON_SELECT) {
+                highlight_summon(world, DARK_WIZARD, 10, RECTANGLE);
+            }
             break;
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
