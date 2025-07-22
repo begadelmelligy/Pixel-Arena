@@ -1,5 +1,8 @@
 #include "entity_debugger.h"
 #include "entity.h"
+#include "globals.h"
+#include "helper.h"
+#include "raygui.h"
 #include <stdio.h>
 
 #if !defined(RAYGUI_WINDOWBOX_STATUSBAR_HEIGHT)

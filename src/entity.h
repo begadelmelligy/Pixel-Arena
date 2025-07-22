@@ -1,7 +1,6 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include "globals.h"
 #include "world.h"
 
 int create_entity(World *world);

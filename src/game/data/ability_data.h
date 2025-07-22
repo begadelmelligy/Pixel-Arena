@@ -2,7 +2,6 @@
 #define ABILITY_DATA_H
 
 #include "../../../components/ability.h"
-#include "../effects/ability_effects.h"
 
 #define ABILITY_COUNT 2
 

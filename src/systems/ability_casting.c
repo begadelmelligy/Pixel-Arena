@@ -1,4 +1,5 @@
 #include "../../systems/ability_casting.h"
+#include "../game/data/ability_data.h"
 #include <stdio.h>
 
 void sAbilityCasting(World *world, float dt)

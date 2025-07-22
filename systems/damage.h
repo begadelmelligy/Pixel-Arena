@@ -1,7 +1,6 @@
 #ifndef DAMAGE_H
 #define DAMAGE_H
 
-#include "../src/entity.h"
 #include "../src/world.h"
 
 typedef struct {

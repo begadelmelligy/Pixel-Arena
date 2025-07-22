@@ -1,9 +1,6 @@
 #ifndef ENTITY_DEBUGGER
 #define ENTITY_DEBUGGER
 
-#include "globals.h"
-#include "helper.h"
-#include "raygui.h"
 #include "raylib.h"
 #include "world.h"
 

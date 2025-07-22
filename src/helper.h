@@ -1,7 +1,6 @@
 #ifndef HELPER_H
 #define HELPER_H
 
-#include "globals.h"
 #include "world.h"
 
 extern const char *ComponentTypeName[];

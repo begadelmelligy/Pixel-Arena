@@ -1,4 +1,5 @@
 #include "ability_data.h"
+#include "../effects/ability_effects.h"
 
 Ability all_abilities[ABILITY_COUNT] = {
     [ABILITY_FIREBALL] =

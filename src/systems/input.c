@@ -1,5 +1,5 @@
 #include "../../systems/input.h"
-#include <stdio.h>
+#include "../game/data/entity_data.h"
 
 void sInput(World *world, float dt)
 {

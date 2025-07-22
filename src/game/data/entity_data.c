@@ -1,4 +1,6 @@
 #include "entity_data.h"
+#include "../../entity.h"
+#include "ability_data.h"
 
 cSprite all_entitites_types[ENTITY_TYPE_COUNT] = {
     [DARK_WIZARD] =

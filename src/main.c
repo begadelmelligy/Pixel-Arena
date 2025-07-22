@@ -1,10 +1,9 @@
 #include "ecs.h"
 #include "game/data/entity_data.h"
 #include "globals.h"
+#include "raygui.h"
 #include "raylib.h"
-#include "sprite_manager.h"
 #include "world.h"
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 

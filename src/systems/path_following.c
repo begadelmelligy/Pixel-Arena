@@ -1,5 +1,7 @@
 #include "../../systems/path_following.h"
+#include "../astar.h"
 #include "stdio.h"
+#include <math.h>
 
 #define PATH_REACH_THRESHOLD 5.0f
 

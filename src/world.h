@@ -4,7 +4,6 @@
 #include "raylib.h"
 #include "stdbool.h"
 #include "stdlib.h"
-#include <math.h>
 
 #include "globals.h"
 #include "grid.h"
@@ -102,6 +101,8 @@ typedef struct World {
     AdjustableParameters adj_para;
 
     SpriteManager *sprite_manager;
+    /*EventHandler event_handler[MAX_EVENTS];*/
+
     Keys keys;
     Grid grid;
     Debug debug;

@@ -1,7 +1,9 @@
 #include "../../systems/render.h"
+#include "../../components/position.h"
+#include "../entity_debugger.h"
+#include "../globals.h"
 #include "raylib.h"
 #include <math.h>
-#include <stdio.h>
 
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"

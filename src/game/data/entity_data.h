@@ -1,10 +1,7 @@
 #ifndef ENTITY_DATA_H
 #define ENTITY_DATA_H
 
-#include "../../entity.h"
 #include "../../world.h"
-#include "ability_data.h"
-#include "raylib.h"
 
 #define ENTITY_TYPE_COUNT 2
 

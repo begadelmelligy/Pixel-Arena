@@ -1,7 +1,5 @@
 #include "entity.h"
-#include "ds.h"
 #include "globals.h"
-#include "string.h"
 #include "world.h"
 
 int create_entity(World *world)

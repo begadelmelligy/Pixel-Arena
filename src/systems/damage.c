@@ -1,4 +1,5 @@
 #include "../../systems/damage.h"
+#include "../entity.h"
 #include <stdio.h>
 
 DamageEvent damage_events[MAX_EVENTS];

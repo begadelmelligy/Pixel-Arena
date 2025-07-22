@@ -1,7 +1,6 @@
 #ifndef ECS_H
 #define ECS_H
 
-#include "globals.h"
 #include "stdint.h"
 #include "world.h"
 
