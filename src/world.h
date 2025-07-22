@@ -21,6 +21,8 @@
 #include "../components/target.h"
 #include "../components/velocity.h"
 
+#include
+
 enum GameState {
     TITLE_SCREEN = 0,
     HUB = 1,
@@ -51,6 +53,8 @@ typedef struct Keys {
     bool key_space;
     bool key_shift;
     bool key_a;
+    bool key_w;
+    bool key_a_down;
     bool key_s;
     int selected_menu_item;
     int selected_unit_id;

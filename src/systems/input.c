@@ -10,18 +10,20 @@ void sInput(World *world, float dt)
     world->keys.right_click = IsMouseButtonPressed(MOUSE_BUTTON_RIGHT);
     world->keys.key_space = IsKeyPressed(KEY_SPACE);
     world->keys.key_s = IsKeyPressed(KEY_S);
+    world->keys.key_a = IsKeyPressed(KEY_A);
+    world->keys.key_w = IsKeyPressed(KEY_W);
     world->keys.key_shift = IsKeyDown(KEY_LEFT_SHIFT);
-    world->keys.key_a = IsKeyDown(KEY_A);
+    world->keys.key_a_down = IsKeyDown(KEY_A);
 
     // Debugging Section ---------------------------------------------------------------
-    world->debug.inpector_toggle_keys = world->keys.key_shift && world->keys.key_a;
+    world->debug.inpector_toggle_keys = world->keys.key_shift && world->keys.key_a_down;
 
     if (world->debug.inpector_toggle_keys && world->debug.can_toggle_inspector) {
         world->debug.inpector_is_visible = !world->debug.inpector_is_visible;
         world->debug.can_toggle_inspector = false;
     }
 
-    if (!world->keys.key_shift || !world->keys.key_a) {
+    if (!world->keys.key_shift || !world->keys.key_a_down) {
         world->debug.can_toggle_inspector = true;
     }
     //---------------------------------------------------------------------------------
@@ -53,6 +55,8 @@ void sInput(World *world, float dt)
             }
 
             if (world->mouse_state == SUMMON_SELECT) {
+                if (world->keys.key_a) {
+                }
                 if (world->keys.mouse_wheel < 0) {
                     world->adj_para.scroll_summon_spacing -= 10;
                 } else if (world->keys.mouse_wheel > 0) {
