@@ -64,4 +64,9 @@ typedef struct Elements {
     bool is_expanded;
 } Elements;
 
+typedef enum Formation {
+    CIRCLE = 0,
+    RECTANGLE = 1,
+} Formation;
+
 #endif

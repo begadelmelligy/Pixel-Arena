@@ -1,18 +1,22 @@
 #ifndef EVENT_HANDLER
 #define EVENT_HANDLER
 
-#include "../systems/summon.h"
+#include "event_type.h"
 #include "globals.h"
 
-typedef enum {
-    EVENT_SUMMON,
-} EventType;
-
-typedef struct EventHandler {
+typedef struct Event {
     EventType type;
     union {
-        SummonEvent summon[MAX_EVENTS];
+        SummonEvent summon;
     };
+} Event;
+
+typedef struct EventHandler {
+    Event events[MAX_EVENTS];
+    int count;
 } EventHandler;
+
+void event_handler_init(EventHandler *handler);
+int event_handler_push(EventHandler *handler, Event event);
 
 #endif

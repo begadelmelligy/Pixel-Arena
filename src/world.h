@@ -1,6 +1,7 @@
 #ifndef WORLD_H
 #define WORLD_H
 
+#include "event_handler.h"
 #include "raylib.h"
 #include "stdbool.h"
 #include "stdlib.h"
@@ -101,7 +102,7 @@ typedef struct World {
     AdjustableParameters adj_para;
 
     SpriteManager *sprite_manager;
-    /*EventHandler event_handler[MAX_EVENTS];*/
+    EventHandler event_handler;
 
     Keys keys;
     Grid grid;
