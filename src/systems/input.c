@@ -1,5 +1,6 @@
 #include "../../systems/input.h"
 #include "../game/data/entity_data.h"
+#include <stdlib.h>
 
 void sInput(World *world, float dt)
 {
@@ -50,19 +51,41 @@ void sInput(World *world, float dt)
                 world->game_state.game_state = GAME_COMBAT;
                 world->game_state.is_paused = false;
             }
+
+            // Change to Summon Select
             if (world->keys.key_s) {
                 world->mouse_state = SUMMON_SELECT;
             }
-
+            // SUMMON-STATE--------------------------------------------------------------------------------//
             if (world->mouse_state == SUMMON_SELECT) {
                 if (world->keys.key_a) {
+                    world->event.summon.num_entities = 4;
+                    world->event.summon.formation = CIRCLE;
+                    world->event.summon.type = DARK_WIZARD;
                 }
+                if (world->keys.key_s) {
+                    free(world->event.summon.x);
+                    free(world->event.summon.y);
+
+                    world->event.summon.num_entities = 4;
+                    world->event.summon.formation = CIRCLE;
+                    world->event.summon.type = LIGHT_WIZARD;
+                    world->event.summon.x = malloc(sizeof(double) * world->event.summon.num_entities);
+                    world->event.summon.y = malloc(sizeof(double) * world->event.summon.num_entities);
+                }
+
                 if (world->keys.mouse_wheel < 0) {
                     world->adj_para.scroll_summon_spacing -= 10;
                 } else if (world->keys.mouse_wheel > 0) {
                     world->adj_para.scroll_summon_spacing += 10;
                 }
+
+                if (world->keys.left_click) {
+                    event_handler_push(&world->event_handler, EVENT_SUMMON, world->event);
+                    world->mouse_state = FREE_MOUSE;
+                }
             }
+            //---------------------------------------------------------------------------------------------//
 
             break;
 

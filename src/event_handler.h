@@ -4,19 +4,18 @@
 #include "event_type.h"
 #include "globals.h"
 
+// Add more events here
 typedef struct Event {
-    EventType type;
-    union {
-        SummonEvent summon;
-    };
+    SummonEvent summon;
 } Event;
 
+// Add counts for each event
 typedef struct EventHandler {
+    int summon_count;
     Event events[MAX_EVENTS];
-    int count;
 } EventHandler;
 
-void event_handler_init(EventHandler *handler);
-int event_handler_push(EventHandler *handler, Event event);
+void init_event_handler(EventHandler *handler);
+int event_handler_push(EventHandler *handler, EventType event_type, Event event);
 
 #endif

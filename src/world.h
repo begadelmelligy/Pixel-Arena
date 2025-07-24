@@ -103,6 +103,7 @@ typedef struct World {
 
     SpriteManager *sprite_manager;
     EventHandler event_handler;
+    Event event;
 
     Keys keys;
     Grid grid;

@@ -1,18 +1,23 @@
 #include "event_handler.h"
-#include "globals.h"
+#include "event_type.h"
 #include <string.h>
 
-void event_handler_init(EventHandler *handler)
+void init_event_handler(EventHandler *handler)
 {
-    handler->count = 0;
+    handler->summon_count = 0;
     memset(handler->events, 0, sizeof(handler->events));
 }
 
-int event_handler_push(EventHandler *handler, Event event)
+int event_handler_push(EventHandler *handler, EventType event_type, Event event)
 {
-    if (handler->count >= MAX_EVENTS) {
-        return 0;
+    switch (event_type) {
+        case EVENT_SUMMON:
+            if (handler->summon_count >= MAX_EVENTS) {
+                return 0;
+            }
+            handler->events[handler->summon_count++] = event;
+            return 1;
+        case EVENT_NONE:
+            return 0;
     }
-    handler->events[handler->count++] = event;
-    return 1;
 }

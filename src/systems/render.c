@@ -1,60 +1,14 @@
 #include "../../systems/render.h"
 #include "../../components/position.h"
 #include "../entity_debugger.h"
+#include "../game/data/entity_data.h"
 #include "../globals.h"
 #include "raylib.h"
 #include <math.h>
+#include <stdlib.h>
 
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
-
-void highlight_summon(World *world, EntityType type, int num_entities, enum Formation formation)
-{
-    double angle = 2 * PI / num_entities;
-
-    cSprite summon_type = all_entitites_types[type];
-
-    Rectangle srcRect = {
-        .x = summon_type.sprite_col * world->sprite_manager->glad_sprite_width,
-        .y = summon_type.sprite_row * world->sprite_manager->glad_sprite_height,
-        .width = world->sprite_manager->glad_sprite_width * summon_type.direction,
-        .height = world->sprite_manager->glad_sprite_height,
-    };
-    int size_x = world->sprite_manager->glad_sprite_width * 3;
-    int size_y = world->sprite_manager->glad_sprite_height * 3;
-
-    switch (formation) {
-        case CIRCLE:
-            for (int i = 0; i < num_entities; i++) {
-                double x = world->keys.mouse_position.x + world->adj_para.scroll_summon_spacing * cos(i * angle);
-                double y = world->keys.mouse_position.y + world->adj_para.scroll_summon_spacing * sin(i * angle);
-                Rectangle srcDest = {
-                    .x = x - (float)(size_x) / 2,
-                    .y = y - (float)(size_y) / 2,
-                    .width = size_x,
-                    .height = size_y,
-                };
-                DrawTexturePro(world->sprite_manager->glad_texture, srcRect, srcDest, (Vector2){0, 0}, 0.0f,
-                               (Color){255, 255, 255, 127});
-            }
-            break;
-
-        case RECTANGLE:
-            for (int i = 0; i < num_entities; i++) {
-                double x = world->keys.mouse_position.x + world->adj_para.scroll_summon_spacing * i;
-                double y = world->keys.mouse_position.y;
-                Rectangle srcDest = {
-                    .x = x - (float)(size_x) / 2,
-                    .y = y - (float)(size_y) / 2,
-                    .width = size_x,
-                    .height = size_y,
-                };
-                DrawTexturePro(world->sprite_manager->glad_texture, srcRect, srcDest, (Vector2){0, 0}, 0.0f,
-                               (Color){255, 255, 255, 127});
-            }
-            break;
-    }
-}
 
 void draw_entities(World *world)
 {
@@ -146,7 +100,7 @@ void sRender(World *world, float dt)
             /*debug_draw_grid(world);*/
             draw_entities(world);
             if (world->mouse_state == SUMMON_SELECT) {
-                highlight_summon(world, LIGHT_WIZARD, 10, CIRCLE);
+                highlight_summon(world, world->event.summon);
             }
             break;
 
@@ -166,4 +120,54 @@ void sRender(World *world, float dt)
 
     DrawFPS(10, 10);
     EndDrawing();
+}
+
+void highlight_summon(World *world, SummonEvent summon_event)
+{
+    double angle = 2 * PI / summon_event.num_entities;
+
+    cSprite summon_type = all_entitites_types[summon_event.type];
+
+    Rectangle srcRect = {
+        .x = summon_type.sprite_col * world->sprite_manager->glad_sprite_width,
+        .y = summon_type.sprite_row * world->sprite_manager->glad_sprite_height,
+        .width = world->sprite_manager->glad_sprite_width * summon_type.direction,
+        .height = world->sprite_manager->glad_sprite_height,
+    };
+    int size_x = world->sprite_manager->glad_sprite_width * 3;
+    int size_y = world->sprite_manager->glad_sprite_height * 3;
+
+    switch (summon_event.formation) {
+        case CIRCLE:
+            for (int i = 0; i < summon_event.num_entities; i++) {
+                double x = world->keys.mouse_position.x + world->adj_para.scroll_summon_spacing * cos(i * angle);
+                double y = world->keys.mouse_position.y + world->adj_para.scroll_summon_spacing * sin(i * angle);
+                world->event.summon.x[i] = x;
+                world->event.summon.y[i] = y;
+                Rectangle srcDest = {
+                    .x = x - (float)(size_x) / 2,
+                    .y = y - (float)(size_y) / 2,
+                    .width = size_x,
+                    .height = size_y,
+                };
+                DrawTexturePro(world->sprite_manager->glad_texture, srcRect, srcDest, (Vector2){0, 0}, 0.0f,
+                               (Color){255, 255, 255, 127});
+            }
+            break;
+
+        case RECTANGLE:
+            for (int i = 0; i < summon_event.num_entities; i++) {
+                double x = world->keys.mouse_position.x + world->adj_para.scroll_summon_spacing * i;
+                double y = world->keys.mouse_position.y;
+                Rectangle srcDest = {
+                    .x = x - (float)(size_x) / 2,
+                    .y = y - (float)(size_y) / 2,
+                    .width = size_x,
+                    .height = size_y,
+                };
+                DrawTexturePro(world->sprite_manager->glad_texture, srcRect, srcDest, (Vector2){0, 0}, 0.0f,
+                               (Color){255, 255, 255, 127});
+            }
+            break;
+    }
 }

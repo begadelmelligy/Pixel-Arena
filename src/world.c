@@ -1,4 +1,5 @@
 #include "world.h"
+#include "event_handler.h"
 #include "helper.h"
 
 #include <stdlib.h>
@@ -40,6 +41,8 @@ World *create_world(void)
     SpriteManager *sm = malloc(sizeof(SpriteManager));
     world->sprite_manager = sm;
     init_sprite_manager(world->sprite_manager);
+
+    init_event_handler(&world->event_handler);
 
     return world;
 }

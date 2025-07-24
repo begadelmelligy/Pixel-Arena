@@ -15,6 +15,7 @@
 #include "../systems/proximity.h"
 #include "../systems/render.h"
 #include "../systems/state_change.h"
+#include "../systems/summon.h"
 #include "../systems/targeting.h"
 
 #include "../styles/dark/style_dark.h"
@@ -40,6 +41,7 @@ int main(void)
 
     /*Register the systems here*/
     ecs_register_system(sInput);
+    ecs_register_system(sSummon);
     ecs_register_system(sStateChange);
     ecs_register_system(sTargeting);
     ecs_register_system(sProximity);

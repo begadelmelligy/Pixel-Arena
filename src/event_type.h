@@ -2,7 +2,9 @@
 #define EVENT_TYPE
 
 #include "globals.h"
+#include "raylib.h"
 
+// Add more event types here
 typedef enum {
     EVENT_NONE = 0,
     EVENT_SUMMON,
@@ -10,8 +12,10 @@ typedef enum {
 
 typedef struct {
     int num_entities;
-    int type;
+    int type; // Entity Type (entity_data)
     enum Formation formation;
+    double *x;
+    double *y;
 } SummonEvent;
 
 #endif
