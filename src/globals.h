@@ -18,7 +18,7 @@
 #define INVALID_SYSTEM -1
 #define INVALID_COMPONENT_INDEX -1
 
-#define NUM_COMPONENT_TYPES 11
+#define NUM_COMPONENT_TYPES 12
 
 /*Add more components here*/
 enum ComponentType {

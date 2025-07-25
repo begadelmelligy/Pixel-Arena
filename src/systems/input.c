@@ -70,8 +70,8 @@ void sInput(World *world, float dt)
                     world->event.summon.num_entities = 4;
                     world->event.summon.formation = CIRCLE;
                     world->event.summon.type = LIGHT_WIZARD;
-                    world->event.summon.x = malloc(sizeof(double) * world->event.summon.num_entities);
-                    world->event.summon.y = malloc(sizeof(double) * world->event.summon.num_entities);
+                    world->event.summon.x = malloc(sizeof(float) * world->event.summon.num_entities);
+                    world->event.summon.y = malloc(sizeof(float) * world->event.summon.num_entities);
                 }
 
                 if (world->keys.mouse_wheel < 0) {

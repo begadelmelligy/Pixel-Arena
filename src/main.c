@@ -69,7 +69,6 @@ int main(void)
         ecs_update(world, delta);
     }
 
-    free(world->sprite_manager);
     destroy_world(world);
     CloseWindow();
     return 0;

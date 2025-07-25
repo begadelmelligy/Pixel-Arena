@@ -38,10 +38,7 @@ World *create_world(void)
 
     world->adj_para.scroll_summon_spacing = 50;
 
-    SpriteManager *sm = malloc(sizeof(SpriteManager));
-    world->sprite_manager = sm;
-    init_sprite_manager(world->sprite_manager);
-
+    init_sprite_manager(&world->sprite_manager);
     init_event_handler(&world->event_handler);
 
     return world;

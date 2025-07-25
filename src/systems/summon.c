@@ -9,30 +9,7 @@ void summon_entities(World *world, SummonEvent summon_event)
            summon_event.x[1], summon_event.y[1], summon_event.x[2], summon_event.y[2]);
 
     for (int i = 0; i < summon_event.num_entities; i++) {
-        int id = create_entity(world);
-        if (id != INVALID_ENTITY_ID) {
-            world->entities[id].tag_mask |= TAG_PLAYER_CREEPS;
-
-            cPosition p = {.x = summon_event.x[i], .y = summon_event.y[i]};
-            cVelocity v = {.dx = 0.f, .dy = 0.f, .speed = 200.0f};
-            cSprite entity_sprite = all_entitites_types[summon_event.type];
-            cSprite sprite = {
-                .spritesheet = world->sprite_manager->glad_texture,
-                .sprite_height = world->sprite_manager->glad_sprite_height,
-                .sprite_width = world->sprite_manager->glad_sprite_width,
-                .sprite_row = entity_sprite.sprite_row,
-                .sprite_col = entity_sprite.sprite_col,
-                .direction = entity_sprite.direction,
-            };
-            cHealth h = {.max_health = 100, .current_health = 100};
-            cGridPosition g = {.x = p.x / CELL_SIZE, .y = p.y / CELL_SIZE};
-
-            add_component(world, id, COMPONENT_POSITION, &p);
-            add_component(world, id, COMPONENT_VELOCITY, &v);
-            add_component(world, id, COMPONENT_HEALTH, &h);
-            add_component(world, id, COMPONENT_GRIDPOSITION, &g);
-            add_component(world, id, COMPONENT_SPRITE, &sprite);
-        }
+        summon_entity_template(world, summon_event.type, summon_event.x[i], summon_event.y[i]);
     }
 }
 

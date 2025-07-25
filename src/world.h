@@ -93,15 +93,15 @@ typedef struct World {
     cTarget target[MAX_ENTITIES];
     cAIState ai_state[MAX_ENTITIES];
 
-    cAbilityCaster ability_caster[MAX_RESTRICTED_ENTITIES];
-    cCastRequest cast_request[MAX_RESTRICTED_ENTITIES];
+    cAbilityCaster ability_caster[MAX_ENTITIES];
+    cCastRequest cast_request[MAX_ENTITIES];
 
     ComponentPool *component_pools;
     GameState game_state;
     enum MouseState mouse_state;
     AdjustableParameters adj_para;
 
-    SpriteManager *sprite_manager;
+    SpriteManager sprite_manager;
     EventHandler event_handler;
     Event event;
 
