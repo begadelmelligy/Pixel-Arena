@@ -1,4 +1,5 @@
 #include "../../systems/targeting.h"
+#include <stdio.h>
 
 int distance(int x, int y, int x_target, int y_target) { return abs(x - x_target) + abs(y - y_target); }
 
@@ -29,11 +30,11 @@ void sTargeting(World *world, float dt)
                 &((cGridPosition *)world->component_pools[COMPONENT_GRIDPOSITION].data)[grid_pos_idx];
             cTarget *target = &((cTarget *)world->component_pools[COMPONENT_TARGET].data)[target_idx];
 
-            if (world->entities[target->current_target].id == INVALID_ENTITY_ID) {
-                target->current_target = INVALID_ENTITY_ID;
-                target->target_distance = 10000;
-                target->is_active = false;
-            }
+            // Reset target
+            target->current_target = INVALID_ENTITY_ID;
+            target->target_distance = 10000;
+            target->is_active = false;
+            target->is_new = false;
 
             for (int j = 0; j < MAX_ENTITIES; j++) {
                 if (world->entities[j].id == INVALID_ENTITY_ID)
@@ -51,13 +52,6 @@ void sTargeting(World *world, float dt)
                     distance(grid_pos_targetee->x, grid_pos_targetee->y, grid_pos_target->x, grid_pos_target->y);
 
                 if (target->target_distance > temp_target_distance) {
-                    if (target->current_target == world->entities[j].id) {
-                        target->is_new = true;
-
-                    } else {
-                        target->is_new = false;
-                    }
-
                     target->target_distance = temp_target_distance;
                     target->current_target = world->entities[j].id;
                     target->is_active = true;
