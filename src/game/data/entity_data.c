@@ -2,29 +2,18 @@
 #include "../../entity.h"
 #include "ability_data.h"
 
-cSprite all_entitites_types[ENTITY_TYPE_COUNT] = {
-    [DARK_WIZARD] =
-        {
-            .sprite_row = 2,
-            .sprite_col = 5,
-            .direction = 1,
-        },
-
-    [LIGHT_WIZARD] =
-        {
-            .sprite_row = 2,
-            .sprite_col = 6,
-            .direction = 1,
-        },
-};
-
 EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {
     [DARK_WIZARD] =
         {
+            (cSprite){
+                .sprite_row = 2,
+                .sprite_col = 5,
+                .direction = 1,
+            },
+            .sprite_sheet_type = SHEET_GLADIATORS,
             .tag_mask = TAG_PLAYER_CREEPS,
             .max_health = 100,
             .speed = 200.0f,
-            .type = DARK_WIZARD,
             .ability_count = 1,
             .ability_id = {ABILITY_CHAIN_LIGHTNING},
             .comp_mask = (1 << COMPONENT_ABILITY_CASTER),
@@ -32,10 +21,30 @@ EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {
 
     [LIGHT_WIZARD] =
         {
+            (cSprite){
+                .sprite_row = 2,
+                .sprite_col = 6,
+                .direction = 1,
+            },
+            .sprite_sheet_type = SHEET_GLADIATORS,
             .tag_mask = TAG_PLAYER_CREEPS,
             .max_health = 100,
             .speed = 200.0f,
-            .type = LIGHT_WIZARD,
+            .ability_count = 2,
+            .ability_id = {ABILITY_FIREBALL, ABILITY_CHAIN_LIGHTNING},
+            .comp_mask = (1 << COMPONENT_ABILITY_CASTER),
+        },
+    [BLUE_ANGEL] =
+        {
+            (cSprite){
+                .sprite_row = 11,
+                .sprite_col = 0,
+                .direction = 1,
+            },
+            .sprite_sheet_type = SHEET_MONSTERS,
+            .tag_mask = TAG_PLAYER_CREEPS,
+            .max_health = 1000,
+            .speed = 500.0f,
             .ability_count = 2,
             .ability_id = {ABILITY_FIREBALL, ABILITY_CHAIN_LIGHTNING},
             .comp_mask = (1 << COMPONENT_ABILITY_CASTER),
@@ -46,6 +55,7 @@ EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {
 int summon_entity_template(World *world, EntityType type, float pos_x, float pos_y)
 {
     EntityTemplate entity = entity_template[type];
+    SpriteSheetData sprite_sheet_data = get_sprite_sheet(&world->sprite_manager, entity.sprite_sheet_type);
 
     int id = create_entity(world);
     if (id != INVALID_ENTITY_ID) {
@@ -54,14 +64,13 @@ int summon_entity_template(World *world, EntityType type, float pos_x, float pos
         cPosition p = {.x = pos_x, .y = pos_y};
         cVelocity v = {.dx = 0.f, .dy = 0.f, .speed = entity.speed};
 
-        cSprite entity_sprite = all_entitites_types[type];
         cSprite sprite = {
-            .spritesheet = world->sprite_manager.glad_texture,
-            .sprite_height = world->sprite_manager.glad_sprite_height,
-            .sprite_width = world->sprite_manager.glad_sprite_width,
-            .sprite_row = entity_sprite.sprite_row,
-            .sprite_col = entity_sprite.sprite_col,
-            .direction = entity_sprite.direction,
+            .sprite_sheet_data.sprite_sheet = sprite_sheet_data.sprite_sheet,
+            .sprite_sheet_data.sprite_height = sprite_sheet_data.sprite_height,
+            .sprite_sheet_data.sprite_width = sprite_sheet_data.sprite_width,
+            .sprite_row = entity.sprite.sprite_row,
+            .sprite_col = entity.sprite.sprite_col,
+            .direction = entity.sprite.direction,
         };
         cHealth h = {.max_health = entity.max_health, .current_health = entity.max_health};
         cGridPosition g = {.x = p.x / CELL_SIZE, .y = p.y / CELL_SIZE};
@@ -104,14 +113,15 @@ int summon_enemy_caster(World *world, float pos_x, float pos_y)
         cPosition p = {.x = pos_x, .y = pos_y};
         cVelocity v = {.dx = 0.f, .dy = 0.f, .speed = 200.0f};
 
-        cSprite dark_wizard_sprite = all_entitites_types[DARK_WIZARD];
+        EntityTemplate dark_wizard = entity_template[DARK_WIZARD];
+        SpriteSheetData sprite_sheet_data = get_sprite_sheet(&world->sprite_manager, dark_wizard.sprite_sheet_type);
         cSprite sprite = {
-            .spritesheet = world->sprite_manager.glad_texture,
-            .sprite_height = world->sprite_manager.glad_sprite_height,
-            .sprite_width = world->sprite_manager.glad_sprite_width,
-            .sprite_row = dark_wizard_sprite.sprite_row,
-            .sprite_col = dark_wizard_sprite.sprite_col,
-            .direction = dark_wizard_sprite.direction,
+            .sprite_sheet_data.sprite_sheet = sprite_sheet_data.sprite_sheet,
+            .sprite_sheet_data.sprite_height = sprite_sheet_data.sprite_height,
+            .sprite_sheet_data.sprite_width = sprite_sheet_data.sprite_width,
+            .sprite_row = dark_wizard.sprite.sprite_row,
+            .sprite_col = dark_wizard.sprite.sprite_col,
+            .direction = dark_wizard.sprite.direction,
         };
         cHealth h = {.max_health = 100, .current_health = 100};
         cGridPosition g = {.x = p.x / CELL_SIZE, .y = p.y / CELL_SIZE};
@@ -145,34 +155,5 @@ int summon_enemy_caster(World *world, float pos_x, float pos_y)
         add_component(world, id, COMPONENT_SPRITE, &sprite);
     }
 
-    return id;
-}
-
-int summon_test_entity(World *world, float pos_x, float pos_y)
-{
-
-    int id = create_entity(world);
-    if (id != INVALID_ENTITY_ID) {
-        world->entities[id].tag_mask |= TAG_PLAYER_CREEPS;
-
-        cPosition p = {.x = pos_x, .y = pos_y};
-        cVelocity v = {.dx = 0.f, .dy = 0.f, .speed = 200.0f};
-        cSprite sprite = {
-            .spritesheet = world->sprite_manager.glad_texture,
-            .sprite_height = world->sprite_manager.glad_sprite_height,
-            .sprite_width = world->sprite_manager.glad_sprite_width,
-            .sprite_row = 0,
-            .sprite_col = 3,
-            .direction = 1,
-        };
-        cHealth h = {.max_health = 100, .current_health = 100};
-        cGridPosition g = {.x = p.x / CELL_SIZE, .y = p.y / CELL_SIZE};
-
-        add_component(world, id, COMPONENT_POSITION, &p);
-        add_component(world, id, COMPONENT_VELOCITY, &v);
-        add_component(world, id, COMPONENT_HEALTH, &h);
-        add_component(world, id, COMPONENT_GRIDPOSITION, &g);
-        add_component(world, id, COMPONENT_SPRITE, &sprite);
-    }
     return id;
 }

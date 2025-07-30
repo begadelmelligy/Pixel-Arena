@@ -4,7 +4,6 @@
 #include "raygui.h"
 #include "raylib.h"
 #include "world.h"
-#include <stdlib.h>
 #include <string.h>
 
 #include "../systems/ability_casting.h"
@@ -54,7 +53,6 @@ int main(void)
 
     /*summon entities*/
     summon_enemy_caster(world, 100.f, 100.f);
-    summon_test_entity(world, 400.f, 200.f);
 
     game_start(world);
 

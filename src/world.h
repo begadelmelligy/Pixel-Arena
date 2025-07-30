@@ -50,9 +50,9 @@ typedef struct Keys {
     bool right_click;
     bool key_space;
     bool key_shift;
+    bool key_a_down;
     bool key_a;
     bool key_w;
-    bool key_a_down;
     bool key_s;
     int selected_menu_item;
     int selected_unit_id;

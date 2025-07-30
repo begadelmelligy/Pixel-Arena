@@ -3,10 +3,14 @@
 
 #include "raylib.h"
 
-typedef struct cSprite {
-    Texture2D spritesheet;
+typedef struct SpriteSheetData {
+    Texture2D sprite_sheet;
     int sprite_height;
     int sprite_width;
+} SpriteSheetData;
+
+typedef struct cSprite {
+    SpriteSheetData sprite_sheet_data;
     int sprite_row;
     int sprite_col;
     int direction;

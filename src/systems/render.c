@@ -5,7 +5,6 @@
 #include "../globals.h"
 #include "raylib.h"
 #include <math.h>
-#include <stdlib.h>
 
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
@@ -38,14 +37,14 @@ void draw_entities(World *world)
         }
 
         Rectangle srcRect = {
-            .x = sprite->sprite_col * sprite->sprite_width,
-            .y = sprite->sprite_row * sprite->sprite_height,
-            .width = sprite->sprite_width * sprite->direction,
-            .height = sprite->sprite_height,
+            .x = sprite->sprite_col * sprite->sprite_sheet_data.sprite_width,
+            .y = sprite->sprite_row * sprite->sprite_sheet_data.sprite_height,
+            .width = sprite->sprite_sheet_data.sprite_width * sprite->direction,
+            .height = sprite->sprite_sheet_data.sprite_height,
         };
 
-        int size_x = sprite->sprite_width * 3;
-        int size_y = sprite->sprite_height * 3;
+        int size_x = sprite->sprite_sheet_data.sprite_width * 3;
+        int size_y = sprite->sprite_sheet_data.sprite_height * 3;
 
         Rectangle srcDest = {
             .x = pos->x - (float)(size_x) / 2,
@@ -54,7 +53,7 @@ void draw_entities(World *world)
             .height = size_y,
         };
 
-        DrawTexturePro(sprite->spritesheet, srcRect, srcDest, (Vector2){0, 0}, 0.0f, WHITE);
+        DrawTexturePro(sprite->sprite_sheet_data.sprite_sheet, srcRect, srcDest, (Vector2){0, 0}, 0.0f, WHITE);
         DrawCircle((int)pos->x, (int)pos->y, 5, RED);
     }
 }
@@ -126,16 +125,17 @@ void highlight_summon(World *world, SummonEvent summon_event)
 {
     float angle = 2 * PI / summon_event.num_entities;
 
-    cSprite summon_type = all_entitites_types[summon_event.type];
+    EntityTemplate summon_type = entity_template[summon_event.type];
+    SpriteSheetData sprite_sheet_data = get_sprite_sheet(&world->sprite_manager, summon_type.sprite_sheet_type);
 
     Rectangle srcRect = {
-        .x = summon_type.sprite_col * world->sprite_manager.glad_sprite_width,
-        .y = summon_type.sprite_row * world->sprite_manager.glad_sprite_height,
-        .width = world->sprite_manager.glad_sprite_width * summon_type.direction,
-        .height = world->sprite_manager.glad_sprite_height,
+        .x = summon_type.sprite.sprite_col * sprite_sheet_data.sprite_width,
+        .y = summon_type.sprite.sprite_row * sprite_sheet_data.sprite_height,
+        .width = sprite_sheet_data.sprite_width * summon_type.sprite.direction,
+        .height = sprite_sheet_data.sprite_height,
     };
-    int size_x = world->sprite_manager.glad_sprite_width * 3;
-    int size_y = world->sprite_manager.glad_sprite_height * 3;
+    int size_x = sprite_sheet_data.sprite_width * 3;
+    int size_y = sprite_sheet_data.sprite_height * 3;
 
     switch (summon_event.formation) {
         case CIRCLE:
@@ -150,7 +150,7 @@ void highlight_summon(World *world, SummonEvent summon_event)
                     .width = size_x,
                     .height = size_y,
                 };
-                DrawTexturePro(world->sprite_manager.glad_texture, srcRect, srcDest, (Vector2){0, 0}, 0.0f,
+                DrawTexturePro(sprite_sheet_data.sprite_sheet, srcRect, srcDest, (Vector2){0, 0}, 0.0f,
                                (Color){255, 255, 255, 127});
             }
             break;
@@ -165,7 +165,7 @@ void highlight_summon(World *world, SummonEvent summon_event)
                     .width = size_x,
                     .height = size_y,
                 };
-                DrawTexturePro(world->sprite_manager.glad_texture, srcRect, srcDest, (Vector2){0, 0}, 0.0f,
+                DrawTexturePro(sprite_sheet_data.sprite_sheet, srcRect, srcDest, (Vector2){0, 0}, 0.0f,
                                (Color){255, 255, 255, 127});
             }
             break;

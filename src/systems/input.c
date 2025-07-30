@@ -59,17 +59,29 @@ void sInput(World *world, float dt)
             // SUMMON-STATE--------------------------------------------------------------------------------//
             if (world->mouse_state == SUMMON_SELECT) {
                 if (world->keys.key_a) {
+                    free(world->event.summon.x);
+                    free(world->event.summon.y);
                     world->event.summon.num_entities = 4;
                     world->event.summon.formation = CIRCLE;
                     world->event.summon.type = DARK_WIZARD;
+                    world->event.summon.x = malloc(sizeof(float) * world->event.summon.num_entities);
+                    world->event.summon.y = malloc(sizeof(float) * world->event.summon.num_entities);
                 }
                 if (world->keys.key_s) {
                     free(world->event.summon.x);
                     free(world->event.summon.y);
-
                     world->event.summon.num_entities = 4;
                     world->event.summon.formation = CIRCLE;
                     world->event.summon.type = LIGHT_WIZARD;
+                    world->event.summon.x = malloc(sizeof(float) * world->event.summon.num_entities);
+                    world->event.summon.y = malloc(sizeof(float) * world->event.summon.num_entities);
+                }
+                if (world->keys.key_w) {
+                    free(world->event.summon.x);
+                    free(world->event.summon.y);
+                    world->event.summon.num_entities = 4;
+                    world->event.summon.formation = CIRCLE;
+                    world->event.summon.type = BLUE_ANGEL;
                     world->event.summon.x = malloc(sizeof(float) * world->event.summon.num_entities);
                     world->event.summon.y = malloc(sizeof(float) * world->event.summon.num_entities);
                 }
@@ -93,7 +105,7 @@ void sInput(World *world, float dt)
         case GAME_COMBAT:
 
             if (world->keys.right_click) {
-                summon_test_entity(world, world->keys.mouse_position.x, world->keys.mouse_position.y);
+                summon_entity_template(world, LIGHT_WIZARD, world->keys.mouse_position.x, world->keys.mouse_position.y);
             }
 
             if (world->keys.key_space) {
