@@ -1,6 +1,7 @@
 #ifndef PROFILER_H
 #define PROFILER_H
 
+#include "raylib.h"
 #include "stdbool.h"
 #define MAX_PROFILER_SECTIONS 32
 #define MAX_NAME_LENGTH 32
@@ -23,7 +24,7 @@ extern bool profiler_enable;
 void profiler_begin(const char *name);
 void profiler_end(const char *name);
 void profiler_reset(void);
-void profiler_draw(int x, int y);
+void profiler_draw(int x, int y, Font font);
 
 #define PROFILE_BEGIN(name) profiler_begin(name)
 #define PROFILE_END(name) profiler_end(name)

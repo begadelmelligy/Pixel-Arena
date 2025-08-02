@@ -1,7 +1,6 @@
 #include "entity_debugger.h"
-#include "entity.h"
-#include "globals.h"
-#include "helper.h"
+#include "../ecs_core/entity.h"
+#include "../helper.h"
 #include "raygui.h"
 #include <stdio.h>
 

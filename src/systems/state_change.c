@@ -1,5 +1,5 @@
 #include "../../systems/state_change.h"
-#include "../profiler.h"
+#include "../dev_tools/profiler.h"
 
 void sStateChange(World *world, float dt)
 {

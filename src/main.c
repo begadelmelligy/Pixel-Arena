@@ -1,12 +1,14 @@
-#include "ecs.h"
+#include "ecs_core/ecs.h"
 #include "game/data/entity_data.h"
-#include "globals.h"
 #include "raygui.h"
 #include "raylib.h"
 #include "world.h"
 #include <string.h>
 
-#include "profiler.h"
+#include "globals.h"
+#include "support/fonts.h"
+
+#include "dev_tools/profiler.h"
 
 #include "../systems/ability_casting.h"
 #include "../systems/damage.h"
@@ -32,10 +34,11 @@ int main(void)
     InitWindow(WIDTH, HEIGHT, TITLE);
     SetTargetFPS(FPS);
 
-    Font custom_font = LoadFont("assets/fonts/JetBrainsMonoNerdFont-Bold.ttf");
+    init_fonts();
+
     /*GuiLoadStyleDark();*/
     GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
-    GuiSetFont(custom_font);
+    GuiSetFont(fonts.main);
 
     World *world = create_world();
     init_ecs();
@@ -72,7 +75,7 @@ int main(void)
         PROFILE_END("Main");
 
         if (profiler_enable) {
-            profiler_draw(WIDTH - 300, 10);
+            profiler_draw(WIDTH - 300, 10, fonts.text);
         }
     }
 

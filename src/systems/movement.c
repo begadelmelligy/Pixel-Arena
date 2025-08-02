@@ -1,5 +1,5 @@
 #include "../../systems/movement.h"
-#include "../profiler.h"
+#include "../dev_tools/profiler.h"
 
 void sMovement(World *world, float delta)
 {

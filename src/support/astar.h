@@ -1,7 +1,7 @@
 #ifndef ASTAR_H
 #define ASTAR_H
 
-#include "world.h"
+#include "../world.h"
 
 /*Functions to help with AStart Pathfinding*/
 int heuristic(Node *a, Node *b);

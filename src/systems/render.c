@@ -1,9 +1,8 @@
 #include "../../systems/render.h"
 #include "../../components/position.h"
-#include "../entity_debugger.h"
+#include "../dev_tools/entity_debugger.h"
+#include "../dev_tools/profiler.h"
 #include "../game/data/entity_data.h"
-#include "../globals.h"
-#include "../profiler.h"
 #include "raylib.h"
 #include <math.h>
 

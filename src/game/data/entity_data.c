@@ -1,5 +1,5 @@
 #include "entity_data.h"
-#include "../../entity.h"
+#include "../../ecs_core/entity.h"
 #include "ability_data.h"
 
 EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {

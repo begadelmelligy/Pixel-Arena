@@ -1,5 +1,5 @@
 #include "../../systems/proximity.h"
-#include "../profiler.h"
+#include "../dev_tools/profiler.h"
 #include "stdbool.h"
 #include <stdio.h>
 

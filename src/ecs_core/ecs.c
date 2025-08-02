@@ -1,5 +1,4 @@
 #include "ecs.h"
-#include "globals.h"
 
 #define MAX_SYSTEMS 11
 

@@ -1,6 +1,6 @@
 #include "../../systems/path_following.h"
-#include "../astar.h"
-#include "../profiler.h"
+#include "../dev_tools/profiler.h"
+#include "../support/astar.h"
 #include "stdio.h"
 #include <math.h>
 

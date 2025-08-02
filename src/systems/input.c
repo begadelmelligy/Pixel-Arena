@@ -1,6 +1,6 @@
 #include "../../systems/input.h"
+#include "../dev_tools/profiler.h"
 #include "../game/data/entity_data.h"
-#include "../profiler.h"
 #include <stdlib.h>
 
 void sInput(World *world, float dt)

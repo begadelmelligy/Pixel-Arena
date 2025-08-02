@@ -1,6 +1,6 @@
 #include "../../systems/damage.h"
-#include "../entity.h"
-#include "../profiler.h"
+#include "../dev_tools/profiler.h"
+#include "../ecs_core/entity.h"
 #include <stdio.h>
 
 DamageEvent damage_events[MAX_EVENTS];

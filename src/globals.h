@@ -1,6 +1,7 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
+#include "raylib.h"
 #include "stdbool.h"
 #include <stdint.h>
 

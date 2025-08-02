@@ -49,13 +49,14 @@ void profiler_reset(void)
     }
 }
 
-void profiler_draw(int x, int y)
+void profiler_draw(int x, int y, Font font)
 {
     for (int i = 0; i < profiler.section_count; i++) {
         ProfilerSection *s = &profiler.sections[i];
         double avg_time_ms = (s->call_count > 0) ? (s->total_time / s->call_count) * 1000.0 : 0.0;
         char buffer[128];
         snprintf(buffer, sizeof(buffer), "%s: %.3f ms (%d)", s->name, avg_time_ms, s->call_count);
-        DrawText(buffer, x, y + i * 20, 16, RAYWHITE);
+        DrawTextEx(font, buffer, (Vector2){x, y + i * 20}, 16, 2, RAYWHITE);
+        /*DrawText(buffer, x, y + i * 20, 16, RAYWHITE);*/
     }
 }

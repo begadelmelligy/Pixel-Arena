@@ -1,7 +1,7 @@
 #ifndef ABILITY_H
 #define ABILITY_H
 
-#include "../src/ds.h"
+#include "../src/support/ds.h"
 #include "stdbool.h"
 
 typedef struct Ability {

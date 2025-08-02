@@ -1,8 +1,7 @@
 #ifndef ECS_H
 #define ECS_H
 
-#include "stdint.h"
-#include "world.h"
+#include "../world.h"
 
 typedef uint32_t SystemID;
 

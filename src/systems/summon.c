@@ -1,6 +1,6 @@
 #include "../../systems/summon.h"
-#include "../entity.h"
-#include "../profiler.h"
+#include "../dev_tools/profiler.h"
+#include "../ecs_core/entity.h"
 #include <stdio.h>
 
 void summon_entities(World *world, SummonEvent summon_event)

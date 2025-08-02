@@ -1,6 +1,6 @@
 #include "../../systems/ability_casting.h"
+#include "../dev_tools/profiler.h"
 #include "../game/data/ability_data.h"
-#include "../profiler.h"
 #include <stdio.h>
 
 void sAbilityCasting(World *world, float dt)
