@@ -8,7 +8,7 @@
 
 #include "dev_tools/sprite_manager.h"
 #include "globals.h"
-#include "grid.h"
+#include "support/grid.h"
 
 #include "../components/ability.h"
 #include "../components/aistate.h"

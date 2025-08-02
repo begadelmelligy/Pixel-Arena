@@ -57,6 +57,5 @@ void profiler_draw(int x, int y, Font font)
         char buffer[128];
         snprintf(buffer, sizeof(buffer), "%s: %.3f ms (%d)", s->name, avg_time_ms, s->call_count);
         DrawTextEx(font, buffer, (Vector2){x, y + i * 20}, 16, 2, RAYWHITE);
-        /*DrawText(buffer, x, y + i * 20, 16, RAYWHITE);*/
     }
 }

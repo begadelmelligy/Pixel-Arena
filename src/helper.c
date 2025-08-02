@@ -1,6 +1,5 @@
 #include "helper.h"
 #include "globals.h"
-#include "grid.h"
 #include "raylib.h"
 #include <stdio.h>
 #include <string.h>
@@ -53,16 +52,6 @@ void initialize_grid(World *world)
             world->grid.node[y][x].open = 0;
 
             world->grid.node[y][x].parent = NULL;
-        }
-    }
-}
-
-void debug_draw_grid(World *world)
-{
-    (void)world;
-    for (int y = 0; y < GRID_HEIGHT; y++) {
-        for (int x = 0; x < GRID_WIDTH; x++) {
-            DrawRectangleLines(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE, WHITE);
         }
     }
 }

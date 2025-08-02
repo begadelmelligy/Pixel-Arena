@@ -1,7 +1,7 @@
 #ifndef PATH_H
 #define PATH_H
 
-#include "../src/grid.h"
+#include "../src/support/grid.h"
 
 typedef struct PathRequest {
     int target_x;

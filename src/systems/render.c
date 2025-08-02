@@ -97,7 +97,6 @@ void sRender(World *world, float dt)
         case WAVESETUP:
             text = "SETUP WAVE";
             DrawText(text, 800, 100, 30, RED);
-            /*debug_draw_grid(world);*/
             draw_entities(world);
             if (world->mouse_state == SUMMON_SELECT) {
                 highlight_summon(world, world->event.summon);
