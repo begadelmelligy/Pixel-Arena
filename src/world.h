@@ -54,6 +54,8 @@ typedef struct Keys {
     bool key_a;
     bool key_w;
     bool key_s;
+    bool key_f2;
+    bool key_f3;
     int selected_menu_item;
     int selected_unit_id;
 } Keys;

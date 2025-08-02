@@ -1,4 +1,5 @@
 #include "../../systems/proximity.h"
+#include "../profiler.h"
 #include "stdbool.h"
 #include <stdio.h>
 
@@ -6,6 +7,7 @@
 
 void sProximity(World *world, float dt)
 {
+    PROFILE_BEGIN("System Proximity");
     (void)dt;
     ComponentMask required_comp = (1 << COMPONENT_AISTATE) | (1 << COMPONENT_TARGET) | (1 << COMPONENT_PATH);
 
@@ -71,4 +73,5 @@ void sProximity(World *world, float dt)
             }
         }
     }
+    PROFILE_END("System Proximity");
 }

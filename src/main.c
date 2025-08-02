@@ -6,6 +6,8 @@
 #include "world.h"
 #include <string.h>
 
+#include "profiler.h"
+
 #include "../systems/ability_casting.h"
 #include "../systems/damage.h"
 #include "../systems/input.h"
@@ -57,6 +59,7 @@ int main(void)
     game_start(world);
 
     while (!WindowShouldClose()) {
+        profiler_reset();
         float delta = GetFrameTime();
 
         /*clips delta change for debugging*/
@@ -64,7 +67,13 @@ int main(void)
             delta = 0.1;
         }
 
+        PROFILE_BEGIN("Main");
         ecs_update(world, delta);
+        PROFILE_END("Main");
+
+        if (profiler_enable) {
+            profiler_draw(WIDTH - 300, 10);
+        }
     }
 
     destroy_world(world);

@@ -1,8 +1,10 @@
 #include "../../systems/movement.h"
+#include "../profiler.h"
 
 void sMovement(World *world, float delta)
 {
 
+    PROFILE_BEGIN("System Movement");
     ComponentMask required_comp = (1 << COMPONENT_POSITION) | (1 << COMPONENT_VELOCITY) | (1 << COMPONENT_GRIDPOSITION);
 
     if (!world->game_state.is_paused) {
@@ -28,4 +30,5 @@ void sMovement(World *world, float delta)
             grid_pos->y = pos->y / CELL_SIZE;
         }
     }
+    PROFILE_END("System Movement");
 }

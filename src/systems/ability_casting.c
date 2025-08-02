@@ -1,9 +1,11 @@
 #include "../../systems/ability_casting.h"
 #include "../game/data/ability_data.h"
+#include "../profiler.h"
 #include <stdio.h>
 
 void sAbilityCasting(World *world, float dt)
 {
+    PROFILE_BEGIN("System AbilityCasting");
     (void)dt;
     ComponentMask required_comp = (1 << COMPONENT_ABILITY_CASTER) | (1 << COMPONENT_CAST_REQUEST);
 
@@ -44,4 +46,5 @@ void sAbilityCasting(World *world, float dt)
             cast_request->is_active = false;
         }
     }
+    PROFILE_END("System AbilityCasting");
 }

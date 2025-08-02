@@ -1,9 +1,11 @@
 #include "../../systems/input.h"
 #include "../game/data/entity_data.h"
+#include "../profiler.h"
 #include <stdlib.h>
 
 void sInput(World *world, float dt)
 {
+    PROFILE_BEGIN("System Input");
     (void)dt;
     world->keys.mouse_position = GetMousePosition();
     world->keys.mouse_wheel = GetMouseWheelMove();
@@ -13,6 +15,8 @@ void sInput(World *world, float dt)
     world->keys.key_s = IsKeyPressed(KEY_S);
     world->keys.key_a = IsKeyPressed(KEY_A);
     world->keys.key_w = IsKeyPressed(KEY_W);
+    world->keys.key_f2 = IsKeyPressed(KEY_F2);
+    world->keys.key_f3 = IsKeyPressed(KEY_F3);
     world->keys.key_shift = IsKeyDown(KEY_LEFT_SHIFT);
     world->keys.key_a_down = IsKeyDown(KEY_A);
 
@@ -26,6 +30,11 @@ void sInput(World *world, float dt)
 
     if (!world->keys.key_shift || !world->keys.key_a_down) {
         world->debug.can_toggle_inspector = true;
+    }
+
+    // Profiler
+    if (world->keys.key_f2) {
+        profiler_enable = !profiler_enable;
     }
     //---------------------------------------------------------------------------------
 
@@ -124,4 +133,5 @@ void sInput(World *world, float dt)
 
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
+    PROFILE_END("System Input");
 }

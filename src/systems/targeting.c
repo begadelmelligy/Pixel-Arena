@@ -1,10 +1,12 @@
 #include "../../systems/targeting.h"
+#include "../profiler.h"
 #include <stdio.h>
 
 int distance(int x, int y, int x_target, int y_target) { return abs(x - x_target) + abs(y - y_target); }
 
 void sTargeting(World *world, float dt)
 {
+    PROFILE_BEGIN("System Targeting");
     (void)dt;
 
     ComponentMask required_comp = (1 << COMPONENT_GRIDPOSITION) | (1 << COMPONENT_TARGET) | (1 << COMPONENT_AISTATE);
@@ -58,4 +60,5 @@ void sTargeting(World *world, float dt)
                 }
             }
         }
+    PROFILE_END("System Targeting");
 }

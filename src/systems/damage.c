@@ -1,5 +1,6 @@
 #include "../../systems/damage.h"
 #include "../entity.h"
+#include "../profiler.h"
 #include <stdio.h>
 
 DamageEvent damage_events[MAX_EVENTS];
@@ -32,6 +33,7 @@ void apply_damage(World *world, int entity_id, float amount)
 
 void sDamage(World *world, float dt)
 {
+    PROFILE_BEGIN("System Damage");
     (void)dt;
 
     if (!world->game_state.is_paused) {
@@ -41,4 +43,5 @@ void sDamage(World *world, float dt)
 
         damage_event_count = 0;
     }
+    PROFILE_END("System Damage");
 }

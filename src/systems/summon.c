@@ -1,5 +1,6 @@
 #include "../../systems/summon.h"
 #include "../entity.h"
+#include "../profiler.h"
 #include <stdio.h>
 
 void summon_entities(World *world, SummonEvent summon_event)
@@ -15,6 +16,8 @@ void summon_entities(World *world, SummonEvent summon_event)
 
 void sSummon(World *world, float dt)
 {
+    PROFILE_BEGIN("System Summon");
+
     (void)dt;
 
     EventHandler *event_handler = &world->event_handler;
@@ -24,4 +27,6 @@ void sSummon(World *world, float dt)
         summon_entities(world, e.summon);
     }
     event_handler->summon_count = 0;
+
+    PROFILE_END("System Summon");
 }

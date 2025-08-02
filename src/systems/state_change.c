@@ -1,7 +1,9 @@
 #include "../../systems/state_change.h"
+#include "../profiler.h"
 
 void sStateChange(World *world, float dt)
 {
+    PROFILE_BEGIN("System StateChange");
     (void)dt;
     ComponentMask required_comp = (1 << COMPONENT_AISTATE);
 
@@ -24,4 +26,5 @@ void sStateChange(World *world, float dt)
             state->next_state = -1;
         }
     }
+    PROFILE_END("System StateChange");
 }

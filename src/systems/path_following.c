@@ -1,5 +1,6 @@
 #include "../../systems/path_following.h"
 #include "../astar.h"
+#include "../profiler.h"
 #include "stdio.h"
 #include <math.h>
 
@@ -7,6 +8,8 @@
 
 void sPathFollowing(World *world, float dt)
 {
+    PROFILE_BEGIN("System PathFollowing");
+
     (void)dt;
 
     ComponentMask required_comp =
@@ -82,6 +85,7 @@ void sPathFollowing(World *world, float dt)
             }
         }
     }
+    PROFILE_END("System PathFollowing");
 }
 
 void sPathRequest(World *world, float dt)

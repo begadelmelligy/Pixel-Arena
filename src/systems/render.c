@@ -3,6 +3,7 @@
 #include "../entity_debugger.h"
 #include "../game/data/entity_data.h"
 #include "../globals.h"
+#include "../profiler.h"
 #include "raylib.h"
 #include <math.h>
 
@@ -60,6 +61,7 @@ void draw_entities(World *world)
 
 void sRender(World *world, float dt)
 {
+    PROFILE_BEGIN("System Render");
     (void)dt;
     char *text;
 
@@ -119,6 +121,8 @@ void sRender(World *world, float dt)
 
     DrawFPS(10, 10);
     EndDrawing();
+
+    PROFILE_END("System Render");
 }
 
 void highlight_summon(World *world, SummonEvent summon_event)
