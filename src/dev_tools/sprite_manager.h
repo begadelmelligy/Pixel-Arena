@@ -1,7 +1,7 @@
 #ifndef SPRITE_MANAGER_H
 #define SPRITE_MANAGER_H
 
-#include "../components/sprite.h"
+#include "../../components/sprite.h"
 #include "raylib.h"
 
 enum SpriteSheetType {

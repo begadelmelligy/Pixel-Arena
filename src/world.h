@@ -6,9 +6,9 @@
 #include "stdbool.h"
 #include "stdlib.h"
 
+#include "dev_tools/sprite_manager.h"
 #include "globals.h"
 #include "grid.h"
-#include "sprite_manager.h"
 
 #include "../components/ability.h"
 #include "../components/aistate.h"
