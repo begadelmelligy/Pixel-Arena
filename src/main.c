@@ -11,6 +11,8 @@
 #include "dev_tools/profiler.h"
 
 #include "../systems/ability_casting.h"
+#include "../systems/ability_cooldown.h"
+#include "../systems/ability_picker.h"
 #include "../systems/damage.h"
 #include "../systems/input.h"
 #include "../systems/movement.h"
@@ -52,7 +54,9 @@ int main(void)
     ecs_register_system(sPathRequest);
     ecs_register_system(sPathFollowing);
     ecs_register_system(sMovement);
+    ecs_register_system(sAbilityPicker);
     ecs_register_system(sAbilityCasting);
+    ecs_register_system(sAbilityCooldown);
     ecs_register_system(sDamage);
     ecs_register_system(sRender);
 
@@ -70,9 +74,9 @@ int main(void)
             delta = 0.1;
         }
 
-        PROFILE_BEGIN("Main");
+        PROFILE_BEGIN("Main Loop");
         ecs_update(world, delta);
-        PROFILE_END("Main");
+        PROFILE_END("Main Loop");
 
         if (profiler_enable) {
             profiler_draw(WIDTH - 300, 10, fonts.text);

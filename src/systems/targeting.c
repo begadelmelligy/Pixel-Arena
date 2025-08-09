@@ -9,8 +9,7 @@ void sTargeting(World *world, float dt)
     PROFILE_BEGIN("System Targeting");
     (void)dt;
 
-    ComponentMask required_comp = (1 << COMPONENT_GRIDPOSITION) | (1 << COMPONENT_TARGET) | (1 << COMPONENT_AISTATE);
-
+    ComponentMask required_comp = (1 << COMPONENT_GRIDPOSITION) | (1 << COMPONENT_TARGET);
     ComponentMask required_comp_target = (1 << COMPONENT_GRIDPOSITION);
 
     ComponentMask required_tag = TAG_ENEMY_HERO;

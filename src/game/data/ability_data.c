@@ -5,8 +5,9 @@ Ability all_abilities[ABILITY_COUNT] = {
     [ABILITY_FIREBALL] =
         {
             .ability_id = ABILITY_FIREBALL,
+            .priority = PRIORITY_ULTIMATE,
             .range = 100,
-            .cooldown = 3.0f,
+            .cooldown = 15.0f,
             .cast_time = 0.5f,
             .requires_target = true,
             .cast_function = cast_fireball,
@@ -15,8 +16,9 @@ Ability all_abilities[ABILITY_COUNT] = {
     [ABILITY_CHAIN_LIGHTNING] =
         {
             .ability_id = ABILITY_CHAIN_LIGHTNING,
+            .priority = PRIORITY_MEDIUM,
             .range = 200,
-            .cooldown = 10.0f,
+            .cooldown = 5.0f,
             .cast_time = 0.2f,
             .requires_target = true,
             .cast_function = cast_chain_lightning,

@@ -28,7 +28,7 @@ World *create_world(void)
     initialize_component_pool(world, COMPONENT_PATH, world->path, sizeof(cPath));
     initialize_component_pool(world, COMPONENT_TARGET, world->target, sizeof(cTarget));
     initialize_component_pool(world, COMPONENT_AISTATE, world->ai_state, sizeof(cAIState));
-    initialize_component_pool(world, COMPONENT_ABILITY_CASTER, world->ability_caster, sizeof(cAbilityCaster));
+    initialize_component_pool(world, COMPONENT_ABILITY_CONTAINER, world->ability_container, sizeof(cAbilityContainer));
     initialize_component_pool(world, COMPONENT_CAST_REQUEST, world->cast_request, sizeof(cCastRequest));
     initialize_component_pool(world, COMPONENT_SPRITE, world->sprite, sizeof(cSprite));
 
@@ -93,7 +93,7 @@ void remove_component(World *world, int entity_id, int component_type)
         freePath(component_data);
     }
 
-    if (component_type == COMPONENT_ABILITY_CASTER) {
+    if (component_type == COMPONENT_ABILITY_CONTAINER) {
         void *component_data = (char *)pool->data + index_to_remove * pool->component_size;
         freePath(component_data);
         dictFree(&get_ability_caster(world, entity_id)->abilities);
@@ -191,12 +191,12 @@ cAIState *get_ai_state(World *world, int entity_id)
     return &((cAIState *)world->component_pools[COMPONENT_AISTATE].data)[index];
 }
 
-cAbilityCaster *get_ability_caster(World *world, int entity_id)
+cAbilityContainer *get_ability_caster(World *world, int entity_id)
 {
-    int index = world->entities[entity_id].component_indices[COMPONENT_ABILITY_CASTER];
+    int index = world->entities[entity_id].component_indices[COMPONENT_ABILITY_CONTAINER];
     if (index == INVALID_COMPONENT_INDEX)
         return NULL;
-    return &((cAbilityCaster *)world->component_pools[COMPONENT_ABILITY_CASTER].data)[index];
+    return &((cAbilityContainer *)world->component_pools[COMPONENT_ABILITY_CONTAINER].data)[index];
 }
 
 cCastRequest *get_cast_request(World *world, int entity_id)

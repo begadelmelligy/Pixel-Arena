@@ -3,6 +3,8 @@
 
 #include "../world.h"
 
+#define MAX_SYSTEMS 13
+
 typedef uint32_t SystemID;
 
 void init_ecs(void);

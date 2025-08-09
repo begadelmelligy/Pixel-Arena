@@ -4,8 +4,18 @@
 #include "../src/support/ds.h"
 #include "stdbool.h"
 
+enum AbilityPriority {
+    PRIORITY_NONE = 0,
+    PRIORITY_LOW = 1,
+    PRIORITY_NORMAL = 2,
+    PRIORITY_MEDIUM = 3,
+    PRIORITY_HIGH = 4,
+    PRIORITY_ULTIMATE = 5,
+};
+
 typedef struct Ability {
     int ability_id;
+    enum AbilityPriority priority;
     float range;
     float cooldown;
     float cast_time;
@@ -13,13 +23,13 @@ typedef struct Ability {
     void (*cast_function)(void *world, int caster, int target);
 } Ability;
 
-typedef struct cAbilityCaster {
+typedef struct cAbilityContainer {
     int ability_count;
     Dict abilities;
     Dict remaining_cd;
     float remaining_cast_time;
     bool is_casting;
-} cAbilityCaster;
+} cAbilityContainer;
 
 typedef struct cCastRequest {
     int ability_id;

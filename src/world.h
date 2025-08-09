@@ -95,7 +95,7 @@ typedef struct World {
     cTarget target[MAX_ENTITIES];
     cAIState ai_state[MAX_ENTITIES];
 
-    cAbilityCaster ability_caster[MAX_ENTITIES];
+    cAbilityContainer ability_container[MAX_ENTITIES];
     cCastRequest cast_request[MAX_ENTITIES];
 
     ComponentPool *component_pools;
@@ -126,7 +126,7 @@ cGridPosition *get_grid_position(World *world, int entity_id);
 cPath *get_path(World *world, int entity_id);
 cTarget *get_target(World *world, int entity_id);
 cAIState *get_ai_state(World *world, int entity_id);
-cAbilityCaster *get_ability_caster(World *world, int entity_id);
+cAbilityContainer *get_ability_caster(World *world, int entity_id);
 cCastRequest *get_cast_request(World *world, int entity_id);
 cSprite *get_sprite(World *world, int entity_id);
 

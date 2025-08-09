@@ -16,7 +16,7 @@ EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {
             .speed = 200.0f,
             .ability_count = 1,
             .ability_id = {ABILITY_CHAIN_LIGHTNING},
-            .comp_mask = (1 << COMPONENT_ABILITY_CASTER),
+            .comp_mask = (1 << COMPONENT_ABILITY_CONTAINER),
         },
 
     [LIGHT_WIZARD] =
@@ -32,7 +32,7 @@ EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {
             .speed = 200.0f,
             .ability_count = 2,
             .ability_id = {ABILITY_FIREBALL, ABILITY_CHAIN_LIGHTNING},
-            .comp_mask = (1 << COMPONENT_ABILITY_CASTER),
+            .comp_mask = (1 << COMPONENT_ABILITY_CONTAINER),
         },
     [BLUE_ANGEL] =
         {
@@ -47,7 +47,7 @@ EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {
             .speed = 500.0f,
             .ability_count = 2,
             .ability_id = {ABILITY_FIREBALL, ABILITY_CHAIN_LIGHTNING},
-            .comp_mask = (1 << COMPONENT_ABILITY_CASTER),
+            .comp_mask = (1 << COMPONENT_ABILITY_CONTAINER),
         },
 
 };
@@ -74,29 +74,35 @@ int summon_entity_template(World *world, EntityType type, float pos_x, float pos
         };
         cHealth h = {.max_health = entity.max_health, .current_health = entity.max_health};
         cGridPosition g = {.x = p.x / CELL_SIZE, .y = p.y / CELL_SIZE};
-        cAbilityCaster ability_caster;
+        cTarget target = {
+            .current_target = INVALID_ENTITY_ID, .target_distance = 100000, .is_new = true, .is_active = false};
+        cAbilityContainer ability_container;
+        cCastRequest cast_request;
 
         if (entity.ability_count > 0) {
-            ability_caster.ability_count = entity.ability_count;
+            ability_container.ability_count = entity.ability_count;
             Ability ability[entity.ability_count];
-            dictInit(&ability_caster.remaining_cd, entity.ability_count, sizeof(float));
-            dictInit(&ability_caster.abilities, entity.ability_count, sizeof(Ability));
+            dictInit(&ability_container.remaining_cd, entity.ability_count, sizeof(float));
+            dictInit(&ability_container.abilities, entity.ability_count, sizeof(Ability));
             float cd = 0.0f;
             for (int i = 0; i < entity.ability_count; i++) {
-                dictAdd(&ability_caster.remaining_cd, entity.ability_id[i], &cd);
+                dictAdd(&ability_container.remaining_cd, entity.ability_id[i], &cd);
 
                 ability[i] = all_abilities[entity.ability_id[i]];
-                dictAdd(&ability_caster.abilities, entity.ability_id[i], &ability[i]);
+                dictAdd(&ability_container.abilities, entity.ability_id[i], &ability[i]);
 
-                /*cCastRequest cast_request = {.ability_id = ABILITY_CHAIN_LIGHTNING, .target = 1, .is_active = true};*/
+                cast_request =
+                    (cCastRequest){.ability_id = ABILITY_NONE, .target = INVALID_ENTITY_ID, .is_active = false};
             }
-            add_component(world, id, COMPONENT_ABILITY_CASTER, &ability_caster);
+            add_component(world, id, COMPONENT_ABILITY_CONTAINER, &ability_container);
+            add_component(world, id, COMPONENT_CAST_REQUEST, &cast_request);
         }
 
         add_component(world, id, COMPONENT_POSITION, &p);
         add_component(world, id, COMPONENT_VELOCITY, &v);
         add_component(world, id, COMPONENT_HEALTH, &h);
         add_component(world, id, COMPONENT_GRIDPOSITION, &g);
+        add_component(world, id, COMPONENT_TARGET, &target);
         add_component(world, id, COMPONENT_SPRITE, &sprite);
     }
 
@@ -129,19 +135,23 @@ int summon_enemy_caster(World *world, float pos_x, float pos_y)
         cTarget target = {
             .current_target = INVALID_ENTITY_ID, .target_distance = 100000, .is_new = true, .is_active = false};
         cAIState state = {.current_state = STATE_IDLE, .next_state = STATE_EMPTY};
-        cAbilityCaster ability_caster;
+        cAbilityContainer ability_container;
 
-        ability_caster.ability_count = 1;
+        ability_container.ability_count = 2;
 
-        float cd = 0.0f;
-        dictInit(&ability_caster.remaining_cd, 1, sizeof(float));
-        dictAdd(&ability_caster.remaining_cd, ABILITY_CHAIN_LIGHTNING, &cd);
+        float cd1 = 0.0f;
+        float cd2 = 0.0f;
+        dictInit(&ability_container.remaining_cd, 2, sizeof(float));
+        dictAdd(&ability_container.remaining_cd, ABILITY_CHAIN_LIGHTNING, &cd1);
+        dictAdd(&ability_container.remaining_cd, ABILITY_FIREBALL, &cd2);
 
         Ability ability1 = all_abilities[ABILITY_CHAIN_LIGHTNING];
-        dictInit(&ability_caster.abilities, 1, sizeof(Ability));
-        dictAdd(&ability_caster.abilities, ABILITY_CHAIN_LIGHTNING, &ability1);
+        Ability ability2 = all_abilities[ABILITY_FIREBALL];
+        dictInit(&ability_container.abilities, 2, sizeof(Ability));
+        dictAdd(&ability_container.abilities, ABILITY_CHAIN_LIGHTNING, &ability1);
+        dictAdd(&ability_container.abilities, ABILITY_FIREBALL, &ability2);
 
-        cCastRequest cast_request = {.ability_id = ABILITY_CHAIN_LIGHTNING, .target = 1, .is_active = true};
+        cCastRequest cast_request = {.ability_id = ABILITY_NONE, .target = 1, .is_active = false};
 
         add_component(world, id, COMPONENT_POSITION, &p);
         add_component(world, id, COMPONENT_VELOCITY, &v);
@@ -150,7 +160,7 @@ int summon_enemy_caster(World *world, float pos_x, float pos_y)
         add_component(world, id, COMPONENT_PATH, &path);
         add_component(world, id, COMPONENT_TARGET, &target);
         add_component(world, id, COMPONENT_AISTATE, &state);
-        add_component(world, id, COMPONENT_ABILITY_CASTER, &ability_caster);
+        add_component(world, id, COMPONENT_ABILITY_CONTAINER, &ability_container);
         add_component(world, id, COMPONENT_CAST_REQUEST, &cast_request);
         add_component(world, id, COMPONENT_SPRITE, &sprite);
     }

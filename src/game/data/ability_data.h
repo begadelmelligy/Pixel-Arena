@@ -3,11 +3,12 @@
 
 #include "../../../components/ability.h"
 
-#define ABILITY_COUNT 2
+#define ABILITY_COUNT 3
 
 typedef enum {
-    ABILITY_FIREBALL,
-    ABILITY_CHAIN_LIGHTNING,
+    ABILITY_NONE = 0,
+    ABILITY_FIREBALL = 1,
+    ABILITY_CHAIN_LIGHTNING = 2,
 } AbilityID;
 
 extern Ability all_abilities[ABILITY_COUNT];
