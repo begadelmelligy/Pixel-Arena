@@ -48,7 +48,6 @@ int main(void)
     /*Register the systems here*/
     ecs_register_system(sInput);
     ecs_register_system(sSummon);
-    ecs_register_system(sStateChange);
     ecs_register_system(sTargeting);
     ecs_register_system(sProximity);
     ecs_register_system(sPathRequest);
@@ -58,6 +57,7 @@ int main(void)
     ecs_register_system(sAbilityCasting);
     ecs_register_system(sAbilityCooldown);
     ecs_register_system(sDamage);
+    ecs_register_system(sStateChange);
     ecs_register_system(sRender);
 
     /*summon entities*/

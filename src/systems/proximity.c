@@ -19,11 +19,11 @@ void sProximity(World *world, float dt)
             if ((world->entities[i].component_masks & required_comp) == 0)
                 continue;
 
-            int state_idx = world->entities[i].component_indices[COMPONENT_AISTATE];
+            int aistate_idx = world->entities[i].component_indices[COMPONENT_AISTATE];
             int target_idx = world->entities[i].component_indices[COMPONENT_TARGET];
             int path_idx = world->entities[i].component_indices[COMPONENT_PATH];
 
-            cAIState *state = &((cAIState *)world->component_pools[COMPONENT_AISTATE].data)[state_idx];
+            cAIState *aistate = &((cAIState *)world->component_pools[COMPONENT_AISTATE].data)[aistate_idx];
             cTarget *target = &((cTarget *)world->component_pools[COMPONENT_TARGET].data)[target_idx];
             cPath *path = &((cPath *)world->component_pools[COMPONENT_PATH].data)[path_idx];
 
@@ -40,33 +40,26 @@ void sProximity(World *world, float dt)
             }
 
             if (target->is_active) {
+                /*If not chasing reset the pathing data*/
+                if (aistate->current_state != STATE_CHASING) {
+                    for (int i = 0; i < path->length; i++) {
+                        path->nodes[i] = NULL;
+                    }
+                    path->length = 0;
+                    path->current_index = 0;
+                    path->active = false;
+                    path->request.pending = false;
+                }
 
+                /*TODO: Update Proximity range to the entities range*/
                 if (target->target_distance > PROXIMITY_RANGE) {
                     enum AIState to_state = STATE_CHASING;
-                    bool can_transition = transition(state, to_state);
+                    bool can_transition = transition(aistate, to_state);
 
                     if (can_transition) {
-
                         path->request.pending = true;
                         path->request.target_x = target_grid_pos->x;
                         path->request.target_y = target_grid_pos->y;
-                        continue;
-                    }
-                }
-
-                if (target->target_distance <= PROXIMITY_RANGE) {
-                    enum AIState to_state = STATE_COMBAT;
-                    bool can_transition = transition(state, to_state);
-
-                    if (can_transition) {
-                        for (int i = 0; i < path->length; i++) {
-                            path->nodes[i] = NULL;
-                        }
-
-                        path->length = 0;
-                        path->current_index = 0;
-                        path->active = false;
-                        path->request.pending = false;
                         continue;
                     }
                 }

@@ -137,19 +137,19 @@ int summon_enemy_caster(World *world, float pos_x, float pos_y)
         cAIState state = {.current_state = STATE_IDLE, .next_state = STATE_EMPTY};
         cAbilityContainer ability_container;
 
-        ability_container.ability_count = 2;
+        ability_container.ability_count = 1;
 
         float cd1 = 0.0f;
         float cd2 = 0.0f;
-        dictInit(&ability_container.remaining_cd, 2, sizeof(float));
+        dictInit(&ability_container.remaining_cd, 1, sizeof(float));
         dictAdd(&ability_container.remaining_cd, ABILITY_CHAIN_LIGHTNING, &cd1);
-        dictAdd(&ability_container.remaining_cd, ABILITY_FIREBALL, &cd2);
+        /*dictAdd(&ability_container.remaining_cd, ABILITY_FIREBALL, &cd2);*/
 
         Ability ability1 = all_abilities[ABILITY_CHAIN_LIGHTNING];
-        Ability ability2 = all_abilities[ABILITY_FIREBALL];
-        dictInit(&ability_container.abilities, 2, sizeof(Ability));
+        /*Ability ability2 = all_abilities[ABILITY_FIREBALL];*/
+        dictInit(&ability_container.abilities, 1, sizeof(Ability));
         dictAdd(&ability_container.abilities, ABILITY_CHAIN_LIGHTNING, &ability1);
-        dictAdd(&ability_container.abilities, ABILITY_FIREBALL, &ability2);
+        /*dictAdd(&ability_container.abilities, ABILITY_FIREBALL, &ability2);*/
 
         cCastRequest cast_request = {.ability_id = ABILITY_NONE, .target = 1, .is_active = false};
 

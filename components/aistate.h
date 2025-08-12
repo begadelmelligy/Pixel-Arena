@@ -8,7 +8,7 @@ enum AIState {
     STATE_EMPTY = -1,
     STATE_IDLE = 0,
     STATE_CHASING = 1,
-    STATE_COMBAT = 2,
+    STATE_CASTING = 2,
 };
 
 typedef struct cAIState {
