@@ -7,15 +7,14 @@ void sAbilityCasting(World *world, float dt)
 {
     PROFILE_BEGIN("System AbilityCasting");
     (void)dt;
-    ComponentMask required_comp =
-        (1 << COMPONENT_ABILITY_CONTAINER) | (1 << COMPONENT_CAST_REQUEST) | (1 << COMPONENT_AISTATE);
+    ComponentMask required_comp = (1 << COMPONENT_ABILITY_CONTAINER) | (1 << COMPONENT_CAST_REQUEST) | (1 << COMPONENT_AISTATE);
 
     if (!world->game_state.is_paused) {
         for (int i = 0; i < MAX_RESTRICTED_ENTITIES; i++) {
 
             if (world->entities[i].id == INVALID_ENTITY_ID)
                 continue;
-            if ((world->entities[i].component_masks & required_comp) == 0)
+            if ((world->entities[i].component_masks & required_comp) != required_comp)
                 continue;
 
             int ability_container_idx = world->entities[i].component_indices[COMPONENT_ABILITY_CONTAINER];
@@ -24,8 +23,7 @@ void sAbilityCasting(World *world, float dt)
 
             cAbilityContainer *ability_container =
                 &((cAbilityContainer *)world->component_pools[COMPONENT_ABILITY_CONTAINER].data)[ability_container_idx];
-            cCastRequest *cast_request =
-                &((cCastRequest *)world->component_pools[COMPONENT_CAST_REQUEST].data)[cast_request_idx];
+            cCastRequest *cast_request = &((cCastRequest *)world->component_pools[COMPONENT_CAST_REQUEST].data)[cast_request_idx];
             cAIState *aistate = &((cAIState *)world->component_pools[COMPONENT_AISTATE].data)[aistate_idx];
 
             if (cast_request->is_active == false) {

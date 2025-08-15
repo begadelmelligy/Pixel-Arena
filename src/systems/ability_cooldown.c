@@ -12,7 +12,7 @@ void sAbilityCooldown(World *world, float dt)
 
             if (world->entities[i].id == INVALID_ENTITY_ID)
                 continue;
-            if ((world->entities[i].component_masks & required_comp) == 0)
+            if ((world->entities[i].component_masks & required_comp) != required_comp)
                 continue;
 
             int ability_container_idx = world->entities[i].component_indices[COMPONENT_ABILITY_CONTAINER];
@@ -29,8 +29,7 @@ void sAbilityCooldown(World *world, float dt)
                     } else if (current_cooldown < 0.0f) {
                         current_cooldown = 0.0f;
                     }
-                    dictUpdateValue(&ability_container->remaining_cd, ability_container->remaining_cd.entries[j].key,
-                                    &current_cooldown);
+                    dictUpdateValue(&ability_container->remaining_cd, ability_container->remaining_cd.entries[j].key, &current_cooldown);
                 }
             }
         }

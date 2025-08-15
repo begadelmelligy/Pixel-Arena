@@ -3,6 +3,7 @@
 #include "raygui.h"
 #include "raylib.h"
 #include "world.h"
+#include <stdio.h>
 #include <string.h>
 
 #include "globals.h"

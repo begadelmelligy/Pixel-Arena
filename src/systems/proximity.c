@@ -16,7 +16,7 @@ void sProximity(World *world, float dt)
 
             if (world->entities[i].id == INVALID_ENTITY_ID)
                 continue;
-            if ((world->entities[i].component_masks & required_comp) == 0)
+            if ((world->entities[i].component_masks & required_comp) != required_comp)
                 continue;
 
             int aistate_idx = world->entities[i].component_indices[COMPONENT_AISTATE];
@@ -27,17 +27,17 @@ void sProximity(World *world, float dt)
             cTarget *target = &((cTarget *)world->component_pools[COMPONENT_TARGET].data)[target_idx];
             cPath *path = &((cPath *)world->component_pools[COMPONENT_PATH].data)[path_idx];
 
-            int target_grid_pos_idx = world->entities[target->current_target].component_indices[COMPONENT_GRIDPOSITION];
-            cGridPosition *target_grid_pos =
-                &((cGridPosition *)world->component_pools[COMPONENT_GRIDPOSITION].data)[target_grid_pos_idx];
-
             /*If target is gone (-1) stop pathing request*/
             if (target->current_target == INVALID_ENTITY_ID) {
                 path->length = 0;
                 path->current_index = 0;
                 path->active = false;
                 path->request.pending = false;
+                continue;
             }
+
+            int target_grid_pos_idx = world->entities[target->current_target].component_indices[COMPONENT_GRIDPOSITION];
+            cGridPosition *target_grid_pos = &((cGridPosition *)world->component_pools[COMPONENT_GRIDPOSITION].data)[target_grid_pos_idx];
 
             if (target->is_active) {
                 /*If not chasing reset the pathing data*/
@@ -60,6 +60,19 @@ void sProximity(World *world, float dt)
                         path->request.pending = true;
                         path->request.target_x = target_grid_pos->x;
                         path->request.target_y = target_grid_pos->y;
+                        continue;
+                    }
+                }
+
+                if (target->target_distance <= PROXIMITY_RANGE) {
+                    enum AIState to_state = STATE_IDLE;
+                    bool can_transition = transition(aistate, to_state);
+
+                    if (can_transition) {
+                        path->length = 0;
+                        path->current_index = 0;
+                        path->active = false;
+                        path->request.pending = false;
                         continue;
                     }
                 }

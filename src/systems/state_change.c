@@ -12,7 +12,7 @@ void sStateChange(World *world, float dt)
 
             if (world->entities[i].id == INVALID_ENTITY_ID)
                 continue;
-            if ((world->entities[i].component_masks & required_comp) == 0)
+            if ((world->entities[i].component_masks & required_comp) != required_comp)
                 continue;
 
             int state_idx = world->entities[i].component_indices[COMPONENT_AISTATE];

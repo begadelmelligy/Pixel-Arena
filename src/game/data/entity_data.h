@@ -16,11 +16,12 @@ typedef enum EntityType {
 typedef struct EntityTemplate {
     cSprite sprite;
     enum SpriteSheetType sprite_sheet_type;
-    int tag_mask;
     float speed;
     float max_health;
     int ability_count;
     AbilityID ability_id[MAX_ABILITIES_TEMPLATE];
+    enum EntityTag tag;
+    TagMask tag_mask;
     ComponentMask comp_mask;
 } EntityTemplate;
 

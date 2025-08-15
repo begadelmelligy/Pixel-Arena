@@ -17,7 +17,7 @@ void draw_entities(World *world)
 
         if (world->entities[i].id == INVALID_ENTITY_ID)
             continue;
-        if ((world->entities[i].component_masks & required_comp) == 0)
+        if ((world->entities[i].component_masks & required_comp) != required_comp)
             continue;
 
         int pos_idx = world->entities[i].component_indices[COMPONENT_POSITION];
@@ -69,9 +69,8 @@ void sRender(World *world, float dt)
 
     // Debugging Section -------------------------------------------------------------------
     if (world->debug.inpector_is_visible) {
-        GuiWindowFloating(world, &world->debug.window_position, &world->debug.window_size, &world->debug.minimized,
-                          &world->debug.moving, &world->debug.resizing, world->debug.scroll_threshold,
-                          &world->debug.scroll, "Entity Inspector");
+        GuiWindowFloating(world, &world->debug.window_position, &world->debug.window_size, &world->debug.minimized, &world->debug.moving,
+                          &world->debug.resizing, world->debug.scroll_threshold, &world->debug.scroll, "Entity Inspector");
     }
     //--------------------------------------------------------------------------------------
 
@@ -152,8 +151,7 @@ void highlight_summon(World *world, SummonEvent summon_event)
                     .width = size_x,
                     .height = size_y,
                 };
-                DrawTexturePro(sprite_sheet_data.sprite_sheet, srcRect, srcDest, (Vector2){0, 0}, 0.0f,
-                               (Color){255, 255, 255, 127});
+                DrawTexturePro(sprite_sheet_data.sprite_sheet, srcRect, srcDest, (Vector2){0, 0}, 0.0f, (Color){255, 255, 255, 127});
             }
             break;
 
@@ -167,8 +165,7 @@ void highlight_summon(World *world, SummonEvent summon_event)
                     .width = size_x,
                     .height = size_y,
                 };
-                DrawTexturePro(sprite_sheet_data.sprite_sheet, srcRect, srcDest, (Vector2){0, 0}, 0.0f,
-                               (Color){255, 255, 255, 127});
+                DrawTexturePro(sprite_sheet_data.sprite_sheet, srcRect, srcDest, (Vector2){0, 0}, 0.0f, (Color){255, 255, 255, 127});
             }
             break;
     }

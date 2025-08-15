@@ -20,6 +20,7 @@
 #define INVALID_COMPONENT_INDEX -1
 
 #define NUM_COMPONENT_TYPES 12
+#define NUM_ENTITY_TAGS 4
 
 /*Add more components here*/
 enum ComponentType {
@@ -37,11 +38,11 @@ enum ComponentType {
 };
 
 enum EntityTag {
-    TAG_NONE = 0,
-    TAG_ENEMY_HERO = 1 << 0,
-    TAG_PLAYER_CREEPS = 1 << 1,
-    TAG_PLAYER_BOSS = 1 << 2,
-    TAG_PLAYER_HERO = 1 << 3
+    TAG_NONE = 99,
+    TAG_ENEMY_HERO = 0,
+    TAG_PLAYER_CREEPS = 1,
+    TAG_PLAYER_BOSS = 2,
+    TAG_PLAYER_HERO = 3,
 };
 
 typedef struct AdjustableParameters {
@@ -54,6 +55,7 @@ typedef uint8_t TagMask;
 typedef struct Entity {
     int id;
     ComponentMask component_masks;
+    enum EntityTag tag;
     TagMask tag_mask;
     int component_indices[NUM_COMPONENT_TYPES];
 } Entity;

@@ -1,6 +1,7 @@
 #include "entity_data.h"
 #include "../../ecs_core/entity.h"
 #include "ability_data.h"
+#include <stdio.h>
 
 EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {
     [DARK_WIZARD] =
@@ -11,7 +12,8 @@ EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {
                 .direction = 1,
             },
             .sprite_sheet_type = SHEET_GLADIATORS,
-            .tag_mask = TAG_PLAYER_CREEPS,
+            .tag = TAG_PLAYER_CREEPS,
+            .tag_mask = (1 << TAG_PLAYER_CREEPS),
             .max_health = 100,
             .speed = 200.0f,
             .ability_count = 1,
@@ -27,11 +29,12 @@ EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {
                 .direction = 1,
             },
             .sprite_sheet_type = SHEET_GLADIATORS,
-            .tag_mask = TAG_PLAYER_CREEPS,
+            .tag = TAG_PLAYER_CREEPS,
+            .tag_mask = (1 << TAG_PLAYER_CREEPS),
             .max_health = 100,
             .speed = 200.0f,
             .ability_count = 2,
-            .ability_id = {ABILITY_FIREBALL, ABILITY_CHAIN_LIGHTNING},
+            .ability_id = {ABILITY_FIREBALL},
             .comp_mask = (1 << COMPONENT_ABILITY_CONTAINER),
         },
     [BLUE_ANGEL] =
@@ -42,7 +45,8 @@ EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {
                 .direction = 1,
             },
             .sprite_sheet_type = SHEET_MONSTERS,
-            .tag_mask = TAG_PLAYER_CREEPS,
+            .tag = TAG_PLAYER_CREEPS,
+            .tag_mask = (1 << TAG_PLAYER_CREEPS),
             .max_health = 1000,
             .speed = 500.0f,
             .ability_count = 2,
@@ -59,7 +63,8 @@ int summon_entity_template(World *world, EntityType type, float pos_x, float pos
 
     int id = create_entity(world);
     if (id != INVALID_ENTITY_ID) {
-        world->entities[id].tag_mask |= entity.tag_mask;
+        world->entities[id].tag = entity.tag;
+        world->entities[id].tag_mask = entity.tag_mask;
 
         cPosition p = {.x = pos_x, .y = pos_y};
         cVelocity v = {.dx = 0.f, .dy = 0.f, .speed = entity.speed};
@@ -74,9 +79,9 @@ int summon_entity_template(World *world, EntityType type, float pos_x, float pos
         };
         cHealth h = {.max_health = entity.max_health, .current_health = entity.max_health};
         cGridPosition g = {.x = p.x / CELL_SIZE, .y = p.y / CELL_SIZE};
-        cTarget target = {
-            .current_target = INVALID_ENTITY_ID, .target_distance = 100000, .is_new = true, .is_active = false};
+        cTarget target = {.current_target = INVALID_ENTITY_ID, .target_distance = 100000, .is_new = true, .is_active = false};
         cAbilityContainer ability_container;
+        cAIState state = {.current_state = STATE_IDLE, .next_state = STATE_EMPTY};
         cCastRequest cast_request;
 
         if (entity.ability_count > 0) {
@@ -84,15 +89,17 @@ int summon_entity_template(World *world, EntityType type, float pos_x, float pos
             Ability ability[entity.ability_count];
             dictInit(&ability_container.remaining_cd, entity.ability_count, sizeof(float));
             dictInit(&ability_container.abilities, entity.ability_count, sizeof(Ability));
-            float cd = 0.0f;
+            float cd[entity.ability_count];
             for (int i = 0; i < entity.ability_count; i++) {
-                dictAdd(&ability_container.remaining_cd, entity.ability_id[i], &cd);
+                cd[i] = 0.0f;
+            }
+            for (int i = 0; i < entity.ability_count; i++) {
+                dictAdd(&ability_container.remaining_cd, entity.ability_id[i], &cd[i]);
 
                 ability[i] = all_abilities[entity.ability_id[i]];
                 dictAdd(&ability_container.abilities, entity.ability_id[i], &ability[i]);
 
-                cast_request =
-                    (cCastRequest){.ability_id = ABILITY_NONE, .target = INVALID_ENTITY_ID, .is_active = false};
+                cast_request = (cCastRequest){.ability_id = ABILITY_NONE, .target = INVALID_ENTITY_ID, .is_active = false};
             }
             add_component(world, id, COMPONENT_ABILITY_CONTAINER, &ability_container);
             add_component(world, id, COMPONENT_CAST_REQUEST, &cast_request);
@@ -103,6 +110,7 @@ int summon_entity_template(World *world, EntityType type, float pos_x, float pos
         add_component(world, id, COMPONENT_HEALTH, &h);
         add_component(world, id, COMPONENT_GRIDPOSITION, &g);
         add_component(world, id, COMPONENT_TARGET, &target);
+        add_component(world, id, COMPONENT_AISTATE, &state);
         add_component(world, id, COMPONENT_SPRITE, &sprite);
     }
 
@@ -114,7 +122,8 @@ int summon_enemy_caster(World *world, float pos_x, float pos_y)
 
     int id = create_entity(world);
     if (id != INVALID_ENTITY_ID) {
-        world->entities[id].tag_mask |= TAG_ENEMY_HERO;
+        world->entities[id].tag = TAG_ENEMY_HERO;
+        world->entities[id].tag_mask = (1 << TAG_ENEMY_HERO);
 
         cPosition p = {.x = pos_x, .y = pos_y};
         cVelocity v = {.dx = 0.f, .dy = 0.f, .speed = 200.0f};
@@ -132,8 +141,7 @@ int summon_enemy_caster(World *world, float pos_x, float pos_y)
         cHealth h = {.max_health = 100, .current_health = 100};
         cGridPosition g = {.x = p.x / CELL_SIZE, .y = p.y / CELL_SIZE};
         cPath path = {.length = 0, .current_index = 0, .active = false};
-        cTarget target = {
-            .current_target = INVALID_ENTITY_ID, .target_distance = 100000, .is_new = true, .is_active = false};
+        cTarget target = {.current_target = INVALID_ENTITY_ID, .target_distance = 100000, .is_new = true, .is_active = false};
         cAIState state = {.current_state = STATE_IDLE, .next_state = STATE_EMPTY};
         cAbilityContainer ability_container;
 
