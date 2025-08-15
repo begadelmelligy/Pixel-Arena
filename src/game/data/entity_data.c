@@ -33,7 +33,7 @@ EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {
             .tag_mask = (1 << TAG_PLAYER_CREEPS),
             .max_health = 100,
             .speed = 200.0f,
-            .ability_count = 2,
+            .ability_count = 1,
             .ability_id = {ABILITY_FIREBALL},
             .comp_mask = (1 << COMPONENT_ABILITY_CONTAINER),
         },
@@ -66,9 +66,6 @@ int summon_entity_template(World *world, EntityType type, float pos_x, float pos
         world->entities[id].tag = entity.tag;
         world->entities[id].tag_mask = entity.tag_mask;
 
-        cPosition p = {.x = pos_x, .y = pos_y};
-        cVelocity v = {.dx = 0.f, .dy = 0.f, .speed = entity.speed};
-
         cSprite sprite = {
             .sprite_sheet_data.sprite_sheet = sprite_sheet_data.sprite_sheet,
             .sprite_sheet_data.sprite_height = sprite_sheet_data.sprite_height,
@@ -77,29 +74,25 @@ int summon_entity_template(World *world, EntityType type, float pos_x, float pos
             .sprite_col = entity.sprite.sprite_col,
             .direction = entity.sprite.direction,
         };
+        cPosition p = {.x = pos_x, .y = pos_y};
+        cVelocity v = {.dx = 0.f, .dy = 0.f, .speed = entity.speed};
         cHealth h = {.max_health = entity.max_health, .current_health = entity.max_health};
         cGridPosition g = {.x = p.x / CELL_SIZE, .y = p.y / CELL_SIZE};
         cTarget target = {.current_target = INVALID_ENTITY_ID, .target_distance = 100000, .is_new = true, .is_active = false};
-        cAbilityContainer ability_container;
         cAIState state = {.current_state = STATE_IDLE, .next_state = STATE_EMPTY};
-        cCastRequest cast_request;
+        cAbilityContainer ability_container = {.ability_count = entity.ability_count, .is_casting = false, .remaining_cast_time = 0};
+        cCastRequest cast_request = {.ability_id = ABILITY_NONE, .target = INVALID_ENTITY_ID, .is_active = false};
 
         if (entity.ability_count > 0) {
-            ability_container.ability_count = entity.ability_count;
             Ability ability[entity.ability_count];
             dictInit(&ability_container.remaining_cd, entity.ability_count, sizeof(float));
             dictInit(&ability_container.abilities, entity.ability_count, sizeof(Ability));
-            float cd[entity.ability_count];
             for (int i = 0; i < entity.ability_count; i++) {
-                cd[i] = 0.0f;
-            }
-            for (int i = 0; i < entity.ability_count; i++) {
-                dictAdd(&ability_container.remaining_cd, entity.ability_id[i], &cd[i]);
+                float cd = 0.0f;
+                dictAdd(&ability_container.remaining_cd, entity.ability_id[i], &cd);
 
                 ability[i] = all_abilities[entity.ability_id[i]];
                 dictAdd(&ability_container.abilities, entity.ability_id[i], &ability[i]);
-
-                cast_request = (cCastRequest){.ability_id = ABILITY_NONE, .target = INVALID_ENTITY_ID, .is_active = false};
             }
             add_component(world, id, COMPONENT_ABILITY_CONTAINER, &ability_container);
             add_component(world, id, COMPONENT_CAST_REQUEST, &cast_request);
@@ -113,7 +106,6 @@ int summon_entity_template(World *world, EntityType type, float pos_x, float pos
         add_component(world, id, COMPONENT_AISTATE, &state);
         add_component(world, id, COMPONENT_SPRITE, &sprite);
     }
-
     return id;
 }
 
@@ -143,23 +135,19 @@ int summon_enemy_caster(World *world, float pos_x, float pos_y)
         cPath path = {.length = 0, .current_index = 0, .active = false};
         cTarget target = {.current_target = INVALID_ENTITY_ID, .target_distance = 100000, .is_new = true, .is_active = false};
         cAIState state = {.current_state = STATE_IDLE, .next_state = STATE_EMPTY};
-        cAbilityContainer ability_container;
+        cAbilityContainer ability_container = {.ability_count = 1, .is_casting = false, .remaining_cast_time = 0};
+        cCastRequest cast_request = {.ability_id = ABILITY_NONE, .target = 1, .is_active = false};
 
-        ability_container.ability_count = 1;
-
-        float cd1 = 0.0f;
-        float cd2 = 0.0f;
-        dictInit(&ability_container.remaining_cd, 1, sizeof(float));
-        dictAdd(&ability_container.remaining_cd, ABILITY_CHAIN_LIGHTNING, &cd1);
-        /*dictAdd(&ability_container.remaining_cd, ABILITY_FIREBALL, &cd2);*/
+        float cd = 0.0f;
+        dictInit(&ability_container.remaining_cd, ability_container.ability_count, sizeof(float));
+        dictAdd(&ability_container.remaining_cd, ABILITY_CHAIN_LIGHTNING, &cd);
+        /*dictAdd(&ability_container.remaining_cd, ABILITY_FIREBALL, &cd);*/
 
         Ability ability1 = all_abilities[ABILITY_CHAIN_LIGHTNING];
         /*Ability ability2 = all_abilities[ABILITY_FIREBALL];*/
-        dictInit(&ability_container.abilities, 1, sizeof(Ability));
+        dictInit(&ability_container.abilities, ability_container.ability_count, sizeof(Ability));
         dictAdd(&ability_container.abilities, ABILITY_CHAIN_LIGHTNING, &ability1);
         /*dictAdd(&ability_container.abilities, ABILITY_FIREBALL, &ability2);*/
-
-        cCastRequest cast_request = {.ability_id = ABILITY_NONE, .target = 1, .is_active = false};
 
         add_component(world, id, COMPONENT_POSITION, &p);
         add_component(world, id, COMPONENT_VELOCITY, &v);

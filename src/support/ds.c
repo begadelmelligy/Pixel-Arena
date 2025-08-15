@@ -75,11 +75,13 @@ void dictRemove(Dict *dict, const int key)
         printf("Dict doesn't Exist\n");
         return;
     }
-
     for (int i = 0; i < dict->count; i++) {
         if (dict->entries[i].key == key) {
-            dict->entries[i].key = 0;
-            dict->entries[i].value = NULL;
+            free(dict->entries[i].value);
+            // Shift remaining entries down
+            for (int j = i; j < dict->count - 1; j++) {
+                dict->entries[j] = dict->entries[j + 1];
+            }
             dict->count--;
             return;
         }

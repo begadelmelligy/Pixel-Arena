@@ -70,7 +70,7 @@ void sAbilityPicker(World *world, float dt)
                 .target = target->current_target,
                 .is_active = true,
             };
-            printf("Requested to Cast Ability: %d\n", cast_request->ability_id);
+            /*printf("Requested to Cast Ability: %d\n", cast_request->ability_id);*/
         }
     }
     PROFILE_END("System AbilityPicker");
