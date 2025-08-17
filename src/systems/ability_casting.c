@@ -1,7 +1,6 @@
 #include "../../systems/ability_casting.h"
 #include "../dev_tools/profiler.h"
 #include "../game/data/ability_data.h"
-#include <stdio.h>
 
 void sAbilityCasting(World *world, float dt)
 {
@@ -10,7 +9,7 @@ void sAbilityCasting(World *world, float dt)
     ComponentMask required_comp = (1 << COMPONENT_ABILITY_CONTAINER) | (1 << COMPONENT_CAST_REQUEST) | (1 << COMPONENT_AISTATE);
 
     if (!world->game_state.is_paused) {
-        for (int i = 0; i < MAX_RESTRICTED_ENTITIES; i++) {
+        for (int i = 0; i < MAX_ENTITIES; i++) {
 
             if (world->entities[i].id == INVALID_ENTITY_ID)
                 continue;

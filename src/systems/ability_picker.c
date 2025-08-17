@@ -1,7 +1,6 @@
 #include "../../systems/ability_picker.h"
 #include "../dev_tools/profiler.h"
 #include "../game/data/ability_data.h"
-#include <stdio.h>
 
 void sAbilityPicker(World *world, float dt)
 {

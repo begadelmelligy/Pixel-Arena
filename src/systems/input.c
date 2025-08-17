@@ -79,7 +79,7 @@ void sInput(World *world, float dt)
                 if (world->keys.key_a) {
                     free(world->event.summon.x);
                     free(world->event.summon.y);
-                    world->event.summon.num_entities = 4;
+                    world->event.summon.num_entities = 1;
                     world->event.summon.formation = CIRCLE;
                     world->event.summon.type = DARK_WIZARD;
                     world->event.summon.x = malloc(sizeof(float) * world->event.summon.num_entities);

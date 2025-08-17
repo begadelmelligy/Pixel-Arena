@@ -1,6 +1,5 @@
 #include "../../systems/ability_cooldown.h"
 #include "../dev_tools/profiler.h"
-#include <stdio.h>
 
 void sAbilityCooldown(World *world, float dt)
 {
@@ -8,7 +7,7 @@ void sAbilityCooldown(World *world, float dt)
     ComponentMask required_comp = (1 << COMPONENT_ABILITY_CONTAINER);
 
     if (!world->game_state.is_paused && world->game_state.game_state == GAME_COMBAT) {
-        for (int i = 0; i < MAX_RESTRICTED_ENTITIES; i++) {
+        for (int i = 0; i < MAX_ENTITIES; i++) {
 
             if (world->entities[i].id == INVALID_ENTITY_ID)
                 continue;

@@ -13,6 +13,7 @@
 #include "../systems/ability_casting.h"
 #include "../systems/ability_cooldown.h"
 #include "../systems/ability_picker.h"
+#include "../systems/bounding_rect_check.h"
 #include "../systems/damage.h"
 #include "../systems/input.h"
 #include "../systems/movement.h"
@@ -56,6 +57,7 @@ int main(void)
     ecs_register_system(sAbilityPicker);
     ecs_register_system(sAbilityCasting);
     ecs_register_system(sAbilityCooldown);
+    ecs_register_system(sBoundingRectCheck);
     ecs_register_system(sDamage);
     ecs_register_system(sStateChange);
     ecs_register_system(sRender);

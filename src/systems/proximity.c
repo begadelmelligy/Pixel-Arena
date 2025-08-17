@@ -1,7 +1,6 @@
 #include "../../systems/proximity.h"
 #include "../dev_tools/profiler.h"
 #include "stdbool.h"
-#include <stdio.h>
 
 #define PROXIMITY_RANGE 10
 

@@ -3,7 +3,7 @@
 
 #include "../world.h"
 
-#define MAX_SYSTEMS 14
+#define MAX_SYSTEMS 15
 
 typedef uint32_t SystemID;
 
