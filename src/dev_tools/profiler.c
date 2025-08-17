@@ -4,12 +4,10 @@
 #include <string.h>
 
 #include "profiler.h"
-#include "stdbool.h"
 #include <stdio.h>
 #include <string.h>
 
 Profiler profiler = {0};
-bool profiler_enable = true;
 
 void profiler_begin(const char *name)
 {

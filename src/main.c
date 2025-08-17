@@ -79,7 +79,7 @@ int main(void)
         ecs_update(world, delta);
         PROFILE_END("Main Loop");
 
-        if (profiler_enable) {
+        if (world->debug.profiler_vis) {
             profiler_draw(WIDTH - 300, 10, fonts.text);
         }
     }

@@ -73,6 +73,8 @@ typedef struct Debug {
     bool resizing;
     Vector2 scroll_threshold;
     Vector2 scroll;
+    bool profiler_vis;
+    bool AARR_vis;
 } Debug;
 
 typedef struct {

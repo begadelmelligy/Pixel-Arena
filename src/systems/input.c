@@ -21,6 +21,7 @@ void sInput(World *world, float dt)
     world->keys.key_a_down = IsKeyDown(KEY_A);
 
     // Debugging Section ---------------------------------------------------------------
+    // Inspector START
     world->debug.inpector_toggle_keys = world->keys.key_shift && world->keys.key_a_down;
 
     if (world->debug.inpector_toggle_keys && world->debug.can_toggle_inspector) {
@@ -31,11 +32,19 @@ void sInput(World *world, float dt)
     if (!world->keys.key_shift || !world->keys.key_a_down) {
         world->debug.can_toggle_inspector = true;
     }
+    // Inpsector END
 
-    // Profiler
+    // Profiler START
     if (world->keys.key_f2) {
-        profiler_enable = !profiler_enable;
+        world->debug.profiler_vis = !world->debug.profiler_vis;
     }
+
+    // AARR START
+    if (world->keys.key_f3) {
+        world->debug.AARR_vis = !world->debug.AARR_vis;
+    }
+    // AARR END
+
     //---------------------------------------------------------------------------------
 
     switch (world->game_state.game_state) {

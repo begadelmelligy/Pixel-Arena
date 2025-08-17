@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include <string.h>
 
-const char *ComponentTypeName[] = {"Position", "Velocity", "Health",         "Properties",   "Gridposition", "Path",
-                                   "Target",   "Aistate",  "Ability_caster", "Cast_request", "Sprite"};
+const char *ComponentTypeName[] = {"Position", "Velocity", "Health",         "Properties",   "Grid Position", "Path",
+                                   "Target",   "AiState",  "Ability Caster", "Cast Request", "Sprite",        "AARR"};
 
 void initialize_component_pool(World *world, enum ComponentType type, void *data, size_t component_size)
 {
@@ -80,6 +80,8 @@ void initialize_debug_mode_parameters(World *world)
     world->debug.resizing = false;
     world->debug.scroll_threshold = (Vector2){300, HEIGHT};
     world->debug.scroll = (Vector2){0, 0};
+    world->debug.profiler_vis = true;
+    world->debug.AARR_vis = true;
 }
 
 const char *get_component_type_name(enum ComponentType type)

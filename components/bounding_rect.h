@@ -6,7 +6,6 @@
 
 typedef struct cBoundingRect {
     Rectangle rect;
-    bool is_visible;
 } cBoundingRect;
 
 #endif

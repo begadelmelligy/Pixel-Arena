@@ -60,7 +60,7 @@ void draw_entities(World *world)
             int bounding_box_idx = world->entities[i].component_indices[COMPONENT_BOUNDING_RECT];
             cBoundingRect *bounding_box = &((cBoundingRect *)world->component_pools[COMPONENT_BOUNDING_RECT].data)[bounding_box_idx];
 
-            if (bounding_box->is_visible) {
+            if (world->debug.AARR_vis) {
                 DrawRectangleLines(bounding_box->rect.x, bounding_box->rect.y, bounding_box->rect.width, bounding_box->rect.height, WHITE);
             }
         }

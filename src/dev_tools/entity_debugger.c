@@ -25,8 +25,7 @@ static void DrawContent(World *world, Vector2 position, Vector2 scroll)
         Rectangle remove_entities_button = {position.x + 200 + scroll.x, position.y + offsetY + scroll.y, 25, 25};
 
         char toggle_label[128];
-        snprintf(toggle_label, sizeof(toggle_label), "%s %s", world->debug.ele[i].is_toggled ? "-" : "+",
-                 world->debug.ele[i].name);
+        snprintf(toggle_label, sizeof(toggle_label), "%s %s", world->debug.ele[i].is_toggled ? "-" : "+", world->debug.ele[i].name);
 
         if (GuiButton(entities_button, toggle_label)) {
             world->debug.ele[i].is_expanded = !world->debug.ele[i].is_expanded;
@@ -60,8 +59,8 @@ static void DrawContent(World *world, Vector2 position, Vector2 scroll)
     }
 }
 
-void GuiWindowFloating(World *world, Vector2 *position, Vector2 *size, bool *minimized, bool *moving, bool *resizing,
-                       Vector2 content_size, Vector2 *scroll, const char *title)
+void GuiWindowFloating(World *world, Vector2 *position, Vector2 *size, bool *minimized, bool *moving, bool *resizing, Vector2 content_size,
+                       Vector2 *scroll, const char *title)
 {
 
     int close_title_size_delta_half = (RAYGUI_WINDOWBOX_STATUSBAR_HEIGHT - RAYGUI_WINDOW_CLOSEBUTTON_SIZE) / 2;
@@ -140,9 +139,9 @@ void GuiWindowFloating(World *world, Vector2 *position, Vector2 *size, bool *min
 
         // scissor and draw content within a scroll panel
         Rectangle scissor = {0};
-        GuiScrollPanel((Rectangle){position->x, position->y + RAYGUI_WINDOWBOX_STATUSBAR_HEIGHT, size->x,
-                                   size->y - RAYGUI_WINDOWBOX_STATUSBAR_HEIGHT},
-                       NULL, (Rectangle){position->x, position->y, content_size.x, content_size.y}, scroll, &scissor);
+        GuiScrollPanel(
+            (Rectangle){position->x, position->y + RAYGUI_WINDOWBOX_STATUSBAR_HEIGHT, size->x, size->y - RAYGUI_WINDOWBOX_STATUSBAR_HEIGHT},
+            NULL, (Rectangle){position->x, position->y, content_size.x, content_size.y}, scroll, &scissor);
 
         bool require_scissor = size->x < content_size.x || size->y < content_size.y;
 

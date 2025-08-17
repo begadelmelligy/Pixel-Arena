@@ -90,15 +90,12 @@ int summon_entity_template(World *world, EntityType type, float pos_x, float pos
         cAIState state = {.current_state = STATE_IDLE, .next_state = STATE_EMPTY};
         cAbilityContainer ability_container = {.ability_count = entity.ability_count, .is_casting = false, .remaining_cast_time = 0};
         cCastRequest cast_request = {.ability_id = ABILITY_NONE, .target = INVALID_ENTITY_ID, .is_active = false};
-        cBoundingRect bounding_rect = {
-            .rect =
-                (Rectangle){
-                    pos_x - ((float)sprite_sheet_data.sprite_width * sprite.sprite_multi / 2) * entity.bb_x_scale,
-                    pos_y - ((float)sprite_sheet_data.sprite_height * sprite.sprite_multi / 2) * entity.bb_y_scale,
-                    ((float)sprite_sheet_data.sprite_width * sprite.sprite_multi) * entity.bb_x_scale,
-                    ((float)sprite_sheet_data.sprite_height * sprite.sprite_multi) * entity.bb_y_scale,
-                },
-            .is_visible = true};
+        cBoundingRect bounding_rect = {.rect = (Rectangle){
+                                           pos_x - ((float)sprite_sheet_data.sprite_width * sprite.sprite_multi / 2) * entity.bb_x_scale,
+                                           pos_y - ((float)sprite_sheet_data.sprite_height * sprite.sprite_multi / 2) * entity.bb_y_scale,
+                                           ((float)sprite_sheet_data.sprite_width * sprite.sprite_multi) * entity.bb_x_scale,
+                                           ((float)sprite_sheet_data.sprite_height * sprite.sprite_multi) * entity.bb_y_scale,
+                                       }};
 
         if (entity.ability_count > 0) {
             Ability ability[entity.ability_count];
@@ -157,14 +154,12 @@ int summon_enemy_caster(World *world, float pos_x, float pos_y)
         cAbilityContainer ability_container = {.ability_count = 1, .is_casting = false, .remaining_cast_time = 0};
         cCastRequest cast_request = {.ability_id = ABILITY_NONE, .target = 1, .is_active = false};
         cBoundingRect bounding_rect = {
-            .rect =
-                (Rectangle){
-                    pos_x - ((float)sprite_sheet_data.sprite_width * sprite.sprite_multi / 2) * dark_wizard.bb_x_scale,
-                    pos_y - ((float)sprite_sheet_data.sprite_height * sprite.sprite_multi / 2) * dark_wizard.bb_y_scale,
-                    ((float)sprite_sheet_data.sprite_width * sprite.sprite_multi) * dark_wizard.bb_x_scale,
-                    ((float)sprite_sheet_data.sprite_height * sprite.sprite_multi) * dark_wizard.bb_y_scale,
-                },
-            .is_visible = true};
+            .rect = (Rectangle){
+                pos_x - ((float)sprite_sheet_data.sprite_width * sprite.sprite_multi / 2) * dark_wizard.bb_x_scale,
+                pos_y - ((float)sprite_sheet_data.sprite_height * sprite.sprite_multi / 2) * dark_wizard.bb_y_scale,
+                ((float)sprite_sheet_data.sprite_width * sprite.sprite_multi) * dark_wizard.bb_x_scale,
+                ((float)sprite_sheet_data.sprite_height * sprite.sprite_multi) * dark_wizard.bb_y_scale,
+            }};
 
         float cd = 0.0f;
         dictInit(&ability_container.remaining_cd, ability_container.ability_count, sizeof(float));
