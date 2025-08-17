@@ -41,7 +41,7 @@ void sInput(World *world, float dt)
 
     // AARR START
     if (world->keys.key_f3) {
-        world->debug.AARR_vis = !world->debug.AARR_vis;
+        world->debug.AABR_vis = !world->debug.AABR_vis;
     }
     // AARR END
 

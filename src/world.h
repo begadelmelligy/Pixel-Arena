@@ -74,7 +74,7 @@ typedef struct Debug {
     Vector2 scroll_threshold;
     Vector2 scroll;
     bool profiler_vis;
-    bool AARR_vis;
+    bool AABR_vis;
 } Debug;
 
 typedef struct {

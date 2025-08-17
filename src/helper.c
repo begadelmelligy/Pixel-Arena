@@ -81,7 +81,7 @@ void initialize_debug_mode_parameters(World *world)
     world->debug.scroll_threshold = (Vector2){300, HEIGHT};
     world->debug.scroll = (Vector2){0, 0};
     world->debug.profiler_vis = true;
-    world->debug.AARR_vis = true;
+    world->debug.AABR_vis = true;
 }
 
 const char *get_component_type_name(enum ComponentType type)
