@@ -1,6 +1,7 @@
 #include "entity_data.h"
 #include "../../ecs_core/entity.h"
 #include "ability_data.h"
+#include "raylib.h"
 #include <stdio.h>
 
 EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {
@@ -11,6 +12,8 @@ EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {
                 .sprite_col = 5,
                 .direction = 1,
             },
+            .bb_x_scale = 1,
+            .bb_y_scale = 1,
             .sprite_sheet_type = SHEET_GLADIATORS,
             .tag = TAG_PLAYER_CREEPS,
             .tag_mask = (1 << TAG_PLAYER_CREEPS),
@@ -28,6 +31,8 @@ EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {
                 .sprite_col = 6,
                 .direction = 1,
             },
+            .bb_x_scale = 0.5,
+            .bb_y_scale = 1,
             .sprite_sheet_type = SHEET_GLADIATORS,
             .tag = TAG_PLAYER_CREEPS,
             .tag_mask = (1 << TAG_PLAYER_CREEPS),
@@ -44,6 +49,8 @@ EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {
                 .sprite_col = 0,
                 .direction = 1,
             },
+            .bb_x_scale = 1,
+            .bb_y_scale = 1,
             .sprite_sheet_type = SHEET_MONSTERS,
             .tag = TAG_PLAYER_CREEPS,
             .tag_mask = (1 << TAG_PLAYER_CREEPS),
@@ -73,6 +80,7 @@ int summon_entity_template(World *world, EntityType type, float pos_x, float pos
             .sprite_row = entity.sprite.sprite_row,
             .sprite_col = entity.sprite.sprite_col,
             .direction = entity.sprite.direction,
+            .sprite_multi = 3,
         };
         cPosition p = {.x = pos_x, .y = pos_y};
         cVelocity v = {.dx = 0.f, .dy = 0.f, .speed = entity.speed};
@@ -82,6 +90,15 @@ int summon_entity_template(World *world, EntityType type, float pos_x, float pos
         cAIState state = {.current_state = STATE_IDLE, .next_state = STATE_EMPTY};
         cAbilityContainer ability_container = {.ability_count = entity.ability_count, .is_casting = false, .remaining_cast_time = 0};
         cCastRequest cast_request = {.ability_id = ABILITY_NONE, .target = INVALID_ENTITY_ID, .is_active = false};
+        cBoundingRect bounding_rect = {
+            .rect =
+                (Rectangle){
+                    pos_x - ((float)sprite_sheet_data.sprite_width * sprite.sprite_multi / 2) * entity.bb_x_scale,
+                    pos_y - ((float)sprite_sheet_data.sprite_height * sprite.sprite_multi / 2) * entity.bb_y_scale,
+                    ((float)sprite_sheet_data.sprite_width * sprite.sprite_multi) * entity.bb_x_scale,
+                    ((float)sprite_sheet_data.sprite_height * sprite.sprite_multi) * entity.bb_y_scale,
+                },
+            .is_visible = true};
 
         if (entity.ability_count > 0) {
             Ability ability[entity.ability_count];
@@ -105,6 +122,7 @@ int summon_entity_template(World *world, EntityType type, float pos_x, float pos
         add_component(world, id, COMPONENT_TARGET, &target);
         add_component(world, id, COMPONENT_AISTATE, &state);
         add_component(world, id, COMPONENT_SPRITE, &sprite);
+        add_component(world, id, COMPONENT_BOUNDING_RECT, &bounding_rect);
     }
     return id;
 }
@@ -129,6 +147,7 @@ int summon_enemy_caster(World *world, float pos_x, float pos_y)
             .sprite_row = dark_wizard.sprite.sprite_row,
             .sprite_col = dark_wizard.sprite.sprite_col,
             .direction = dark_wizard.sprite.direction,
+            .sprite_multi = 3,
         };
         cHealth h = {.max_health = 100, .current_health = 100};
         cGridPosition g = {.x = p.x / CELL_SIZE, .y = p.y / CELL_SIZE};
@@ -137,6 +156,15 @@ int summon_enemy_caster(World *world, float pos_x, float pos_y)
         cAIState state = {.current_state = STATE_IDLE, .next_state = STATE_EMPTY};
         cAbilityContainer ability_container = {.ability_count = 1, .is_casting = false, .remaining_cast_time = 0};
         cCastRequest cast_request = {.ability_id = ABILITY_NONE, .target = 1, .is_active = false};
+        cBoundingRect bounding_rect = {
+            .rect =
+                (Rectangle){
+                    pos_x - ((float)sprite_sheet_data.sprite_width * sprite.sprite_multi / 2) * dark_wizard.bb_x_scale,
+                    pos_y - ((float)sprite_sheet_data.sprite_height * sprite.sprite_multi / 2) * dark_wizard.bb_y_scale,
+                    ((float)sprite_sheet_data.sprite_width * sprite.sprite_multi) * dark_wizard.bb_x_scale,
+                    ((float)sprite_sheet_data.sprite_height * sprite.sprite_multi) * dark_wizard.bb_y_scale,
+                },
+            .is_visible = true};
 
         float cd = 0.0f;
         dictInit(&ability_container.remaining_cd, ability_container.ability_count, sizeof(float));
@@ -159,6 +187,7 @@ int summon_enemy_caster(World *world, float pos_x, float pos_y)
         add_component(world, id, COMPONENT_ABILITY_CONTAINER, &ability_container);
         add_component(world, id, COMPONENT_CAST_REQUEST, &cast_request);
         add_component(world, id, COMPONENT_SPRITE, &sprite);
+        add_component(world, id, COMPONENT_BOUNDING_RECT, &bounding_rect);
     }
 
     return id;

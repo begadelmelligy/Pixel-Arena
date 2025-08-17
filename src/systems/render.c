@@ -9,6 +9,7 @@
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
 
+// Draws entities with the correct direction
 void draw_entities(World *world)
 {
     ComponentMask required_comp = (1 << COMPONENT_POSITION) | (1 << COMPONENT_SPRITE) | (1 << COMPONENT_TARGET);
@@ -43,8 +44,8 @@ void draw_entities(World *world)
             .height = sprite->sprite_sheet_data.sprite_height,
         };
 
-        int size_x = sprite->sprite_sheet_data.sprite_width * 3;
-        int size_y = sprite->sprite_sheet_data.sprite_height * 3;
+        int size_x = sprite->sprite_sheet_data.sprite_width * sprite->sprite_multi;
+        int size_y = sprite->sprite_sheet_data.sprite_height * sprite->sprite_multi;
 
         Rectangle srcDest = {
             .x = pos->x - (float)(size_x) / 2,
@@ -54,7 +55,15 @@ void draw_entities(World *world)
         };
 
         DrawTexturePro(sprite->sprite_sheet_data.sprite_sheet, srcRect, srcDest, (Vector2){0, 0}, 0.0f, WHITE);
-        DrawCircle((int)pos->x, (int)pos->y, 5, RED);
+        /*DrawCircle((int)pos->x, (int)pos->y, 5, RED);*/
+        if ((world->entities[i].component_masks & (1 << COMPONENT_BOUNDING_RECT)) == (1 << COMPONENT_BOUNDING_RECT)) {
+            int bounding_box_idx = world->entities[i].component_indices[COMPONENT_BOUNDING_RECT];
+            cBoundingRect *bounding_box = &((cBoundingRect *)world->component_pools[COMPONENT_BOUNDING_RECT].data)[bounding_box_idx];
+
+            if (bounding_box->is_visible) {
+                DrawRectangleLines(bounding_box->rect.x, bounding_box->rect.y, bounding_box->rect.width, bounding_box->rect.height, WHITE);
+            }
+        }
     }
 }
 

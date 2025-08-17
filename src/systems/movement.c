@@ -27,6 +27,15 @@ void sMovement(World *world, float delta)
             pos->y += vel->dy * delta;
             grid_pos->x = pos->x / CELL_SIZE;
             grid_pos->y = pos->y / CELL_SIZE;
+
+            // If entity has bounding box. Update it's position
+            if ((world->entities[i].component_masks & (1 << COMPONENT_BOUNDING_RECT)) == (1 << COMPONENT_BOUNDING_RECT)) {
+                int bounding_box_idx = world->entities[i].component_indices[COMPONENT_BOUNDING_RECT];
+                cBoundingRect *bounding_box = &((cBoundingRect *)world->component_pools[COMPONENT_BOUNDING_RECT].data)[bounding_box_idx];
+
+                bounding_box->rect.x += vel->dx * delta;
+                bounding_box->rect.y += vel->dy * delta;
+            }
         }
     }
     PROFILE_END("System Movement");

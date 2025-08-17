@@ -11,6 +11,7 @@ typedef struct SpriteSheetData {
 
 typedef struct cSprite {
     SpriteSheetData sprite_sheet_data;
+    int sprite_multi;
     int sprite_row;
     int sprite_col;
     int direction;

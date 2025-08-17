@@ -1,7 +1,6 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-#include "raylib.h"
 #include "stdbool.h"
 #include <stdint.h>
 
@@ -19,7 +18,7 @@
 #define INVALID_SYSTEM -1
 #define INVALID_COMPONENT_INDEX -1
 
-#define NUM_COMPONENT_TYPES 12
+#define NUM_COMPONENT_TYPES 13
 #define NUM_ENTITY_TAGS 4
 
 /*Add more components here*/
@@ -35,6 +34,7 @@ enum ComponentType {
     COMPONENT_ABILITY_CONTAINER = 8,
     COMPONENT_CAST_REQUEST = 9,
     COMPONENT_SPRITE = 10,
+    COMPONENT_BOUNDING_RECT = 11,
 };
 
 enum EntityTag {

@@ -16,6 +16,7 @@ typedef enum EntityType {
 typedef struct EntityTemplate {
     cSprite sprite;
     enum SpriteSheetType sprite_sheet_type;
+    float bb_x_scale, bb_y_scale;
     float speed;
     float max_health;
     int ability_count;

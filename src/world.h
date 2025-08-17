@@ -12,6 +12,7 @@
 
 #include "../components/ability.h"
 #include "../components/aistate.h"
+#include "../components/bounding_rect.h"
 #include "../components/grid_position.h"
 #include "../components/health.h"
 #include "../components/path.h"
@@ -94,6 +95,7 @@ typedef struct World {
     cPath path[MAX_ENTITIES];
     cTarget target[MAX_ENTITIES];
     cAIState ai_state[MAX_ENTITIES];
+    cBoundingRect bounding_rect[MAX_ENTITIES];
 
     cAbilityContainer ability_container[MAX_ENTITIES];
     cCastRequest cast_request[MAX_ENTITIES];

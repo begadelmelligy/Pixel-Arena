@@ -31,6 +31,7 @@ World *create_world(void)
     initialize_component_pool(world, COMPONENT_ABILITY_CONTAINER, world->ability_container, sizeof(cAbilityContainer));
     initialize_component_pool(world, COMPONENT_CAST_REQUEST, world->cast_request, sizeof(cCastRequest));
     initialize_component_pool(world, COMPONENT_SPRITE, world->sprite, sizeof(cSprite));
+    initialize_component_pool(world, COMPONENT_BOUNDING_RECT, world->bounding_rect, sizeof(cBoundingRect));
 
     initialize_keys(world);
     initialize_grid(world);
