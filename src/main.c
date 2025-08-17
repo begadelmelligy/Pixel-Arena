@@ -1,13 +1,12 @@
 #include "ecs_core/ecs.h"
 #include "game/data/entity_data.h"
+#include "globals.h"
 #include "raygui.h"
 #include "raylib.h"
+#include "support/fonts.h"
 #include "world.h"
 #include <stdio.h>
 #include <string.h>
-
-#include "globals.h"
-#include "support/fonts.h"
 
 #include "dev_tools/profiler.h"
 
