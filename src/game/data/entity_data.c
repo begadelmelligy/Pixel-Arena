@@ -66,6 +66,7 @@ EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {
 
 int summon_entity_template(World *world, EntityType type, float pos_x, float pos_y)
 {
+    // This is to snap the summoned entities to the grid's center to avoid pathfinding bugs
     float posX = floor(pos_x / (float)CELL_SIZE) * (float)CELL_SIZE + (float)CELL_SIZE / 2;
     float posY = floor(pos_y / (float)CELL_SIZE) * (float)CELL_SIZE + (float)CELL_SIZE / 2;
     EntityTemplate entity = entity_template[type];
@@ -130,12 +131,15 @@ int summon_entity_template(World *world, EntityType type, float pos_x, float pos
 int summon_enemy_caster(World *world, float pos_x, float pos_y)
 {
 
+    // This is to snap the summoned entities to the grid's center to avoid pathfinding bugs
+    float posX = floor(pos_x / (float)CELL_SIZE) * (float)CELL_SIZE + (float)CELL_SIZE / 2;
+    float posY = floor(pos_y / (float)CELL_SIZE) * (float)CELL_SIZE + (float)CELL_SIZE / 2;
     int id = create_entity(world);
     if (id != INVALID_ENTITY_ID) {
         world->entities[id].tag = TAG_ENEMY_HERO;
         world->entities[id].tag_mask = (1 << TAG_ENEMY_HERO);
 
-        cPosition p = {.x = pos_x, .y = pos_y};
+        cPosition p = {.x = posX, .y = posY};
         cVelocity v = {.dx = 0.f, .dy = 0.f, .speed = 200.0f};
 
         EntityTemplate dark_wizard = entity_template[DARK_WIZARD];
@@ -158,8 +162,8 @@ int summon_enemy_caster(World *world, float pos_x, float pos_y)
         cCastRequest cast_request = {.ability_id = ABILITY_NONE, .target = 1, .is_active = false};
         cBoundingRect bounding_rect = {
             .rect = (Rectangle){
-                pos_x - ((float)sprite_sheet_data.sprite_width * sprite.sprite_multi / 2) * dark_wizard.bb_x_scale,
-                pos_y - ((float)sprite_sheet_data.sprite_height * sprite.sprite_multi / 2) * dark_wizard.bb_y_scale,
+                posX - ((float)sprite_sheet_data.sprite_width * sprite.sprite_multi / 2) * dark_wizard.bb_x_scale,
+                posY - ((float)sprite_sheet_data.sprite_height * sprite.sprite_multi / 2) * dark_wizard.bb_y_scale,
                 ((float)sprite_sheet_data.sprite_width * sprite.sprite_multi) * dark_wizard.bb_x_scale,
                 ((float)sprite_sheet_data.sprite_height * sprite.sprite_multi) * dark_wizard.bb_y_scale,
             }};
