@@ -2,6 +2,7 @@
 #include "../../ecs_core/entity.h"
 #include "ability_data.h"
 #include "raylib.h"
+#include <math.h>
 #include <stdio.h>
 
 EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {
@@ -12,8 +13,8 @@ EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {
                 .sprite_col = 5,
                 .direction = 1,
             },
-            .bb_x_scale = 1,
-            .bb_y_scale = 1,
+            .bb_x_scale = 0.4,
+            .bb_y_scale = 0.8,
             .sprite_sheet_type = SHEET_GLADIATORS,
             .tag = TAG_PLAYER_CREEPS,
             .tag_mask = (1 << TAG_PLAYER_CREEPS),
@@ -49,8 +50,8 @@ EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {
                 .sprite_col = 0,
                 .direction = 1,
             },
-            .bb_x_scale = 1,
-            .bb_y_scale = 1,
+            .bb_x_scale = 0.4,
+            .bb_y_scale = 0.8,
             .sprite_sheet_type = SHEET_MONSTERS,
             .tag = TAG_PLAYER_CREEPS,
             .tag_mask = (1 << TAG_PLAYER_CREEPS),
@@ -65,6 +66,8 @@ EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {
 
 int summon_entity_template(World *world, EntityType type, float pos_x, float pos_y)
 {
+    float posX = floor(pos_x / (float)CELL_SIZE) * (float)CELL_SIZE + (float)CELL_SIZE / 2;
+    float posY = floor(pos_y / (float)CELL_SIZE) * (float)CELL_SIZE + (float)CELL_SIZE / 2;
     EntityTemplate entity = entity_template[type];
     SpriteSheetData sprite_sheet_data = get_sprite_sheet(&world->sprite_manager, entity.sprite_sheet_type);
 
@@ -82,7 +85,7 @@ int summon_entity_template(World *world, EntityType type, float pos_x, float pos
             .direction = entity.sprite.direction,
             .sprite_multi = 3,
         };
-        cPosition p = {.x = pos_x, .y = pos_y};
+        cPosition p = {.x = posX, .y = posY};
         cVelocity v = {.dx = 0.f, .dy = 0.f, .speed = entity.speed};
         cHealth h = {.max_health = entity.max_health, .current_health = entity.max_health};
         cGridPosition g = {.x = p.x / CELL_SIZE, .y = p.y / CELL_SIZE};
@@ -91,8 +94,8 @@ int summon_entity_template(World *world, EntityType type, float pos_x, float pos
         cAbilityContainer ability_container = {.ability_count = entity.ability_count, .is_casting = false, .remaining_cast_time = 0};
         cCastRequest cast_request = {.ability_id = ABILITY_NONE, .target = INVALID_ENTITY_ID, .is_active = false};
         cBoundingRect bounding_rect = {.rect = (Rectangle){
-                                           pos_x - ((float)sprite_sheet_data.sprite_width * sprite.sprite_multi / 2) * entity.bb_x_scale,
-                                           pos_y - ((float)sprite_sheet_data.sprite_height * sprite.sprite_multi / 2) * entity.bb_y_scale,
+                                           posX - ((float)sprite_sheet_data.sprite_width * sprite.sprite_multi / 2) * entity.bb_x_scale,
+                                           posY - ((float)sprite_sheet_data.sprite_height * sprite.sprite_multi / 2) * entity.bb_y_scale,
                                            ((float)sprite_sheet_data.sprite_width * sprite.sprite_multi) * entity.bb_x_scale,
                                            ((float)sprite_sheet_data.sprite_height * sprite.sprite_multi) * entity.bb_y_scale,
                                        }};

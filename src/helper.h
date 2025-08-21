@@ -10,6 +10,7 @@ void initialize_keys(World *world);
 void initialize_grid(World *world);
 
 void initialize_debug_mode_parameters(World *world);
+void debug_draw_grid(World *world);
 
 const char *get_component_type_name(enum ComponentType type);
 

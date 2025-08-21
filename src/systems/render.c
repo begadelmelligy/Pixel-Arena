@@ -3,6 +3,7 @@
 #include "../dev_tools/entity_debugger.h"
 #include "../dev_tools/profiler.h"
 #include "../game/data/entity_data.h"
+#include "../helper.h"
 #include "raylib.h"
 #include <math.h>
 
@@ -105,6 +106,7 @@ void sRender(World *world, float dt)
         case WAVESETUP:
             text = "SETUP WAVE";
             DrawText(text, 800, 100, 30, RED);
+            debug_draw_grid(world);
             draw_entities(world);
             if (world->mouse_state == SUMMON_SELECT) {
                 highlight_summon(world, world->event.summon);

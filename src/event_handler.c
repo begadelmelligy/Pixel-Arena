@@ -19,5 +19,7 @@ int event_handler_push(EventHandler *handler, EventType event_type, Event event)
             return 1;
         case EVENT_NONE:
             return 0;
+        default:
+            return 0;
     }
 }

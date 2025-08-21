@@ -9,11 +9,11 @@
 
 typedef struct Node {
     int entity_id;
+    bool walkable;
     int x, y;
     int g, h, f;
-    bool walkable;
-    int closed;
-    int open;
+    int closed; // A* closed list
+    int open;   // A* open list
     struct Node *parent;
 } Node;
 
