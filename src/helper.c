@@ -38,20 +38,9 @@ void initialize_grid(World *world)
 {
     for (int y = 0; y < GRID_HEIGHT; y++) {
         for (int x = 0; x < GRID_WIDTH; x++) {
-            world->grid.node[y][x].entity_id = -1;
             world->grid.node[y][x].walkable = true;
-
             world->grid.node[y][x].x = x;
             world->grid.node[y][x].y = y;
-
-            world->grid.node[y][x].g = 0;
-            world->grid.node[y][x].h = 0;
-            world->grid.node[y][x].f = 0;
-
-            world->grid.node[y][x].closed = 0;
-            world->grid.node[y][x].open = 0;
-
-            world->grid.node[y][x].parent = NULL;
         }
     }
 }

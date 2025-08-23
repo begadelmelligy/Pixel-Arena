@@ -18,6 +18,5 @@ typedef struct cPath {
 } cPath;
 
 void freePath(void *component_data);
-void freePath(void *component_data);
 
 #endif
