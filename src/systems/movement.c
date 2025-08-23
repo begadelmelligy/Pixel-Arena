@@ -5,7 +5,8 @@ void sMovement(World *world, float delta)
 {
 
     PROFILE_BEGIN("System Movement");
-    ComponentMask required_comp = (1 << COMPONENT_POSITION) | (1 << COMPONENT_VELOCITY) | (1 << COMPONENT_GRIDPOSITION);
+    ComponentMask required_comp =
+        (1 << COMPONENT_POSITION) | (1 << COMPONENT_VELOCITY) | (1 << COMPONENT_GRIDPOSITION) | (1 << COMPONENT_AISTATE);
 
     if (!world->game_state.is_paused) {
         for (int i = 0; i < MAX_ENTITIES; i++) {
@@ -18,10 +19,17 @@ void sMovement(World *world, float delta)
             int pos_idx = world->entities[i].component_indices[COMPONENT_POSITION];
             int grid_pos_idx = world->entities[i].component_indices[COMPONENT_GRIDPOSITION];
             int vel_idx = world->entities[i].component_indices[COMPONENT_VELOCITY];
+            int aistate_idx = world->entities[i].component_indices[COMPONENT_AISTATE];
 
             cPosition *pos = &((cPosition *)world->component_pools[COMPONENT_POSITION].data)[pos_idx];
             cGridPosition *grid_pos = &((cGridPosition *)world->component_pools[COMPONENT_GRIDPOSITION].data)[grid_pos_idx];
             cVelocity *vel = &((cVelocity *)world->component_pools[COMPONENT_VELOCITY].data)[vel_idx];
+            cAIState *aistate = &((cAIState *)world->component_pools[COMPONENT_AISTATE].data)[aistate_idx];
+
+            // Add more states here if needed
+            if (aistate->current_state == STATE_CASTING) {
+                continue;
+            }
 
             pos->x += vel->dx * delta;
             pos->y += vel->dy * delta;

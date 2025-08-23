@@ -31,9 +31,10 @@ void sBoundingRectCheck(World *world, float dt)
                 cBoundingRect *bounding_rect_j =
                     &((cBoundingRect *)world->component_pools[COMPONENT_BOUNDING_RECT].data)[bounding_rect_idx_j];
 
-                if (CheckCollisionRecs(bounding_rect->rect, bounding_rect_j->rect)) {
-                    printf("Entity: %d, collided with %d \n", world->entities[i].id, world->entities[j].id);
-                }
+                // This will be used to do whatever is needed on collision
+                /*if (CheckCollisionRecs(bounding_rect->rect, bounding_rect_j->rect)) {*/
+                /*    printf("Entity: %d, collided with %d \n", world->entities[i].id, world->entities[j].id);*/
+                /*}*/
             }
         }
     }

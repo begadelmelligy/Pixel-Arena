@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include <string.h>
 
-const char *ComponentTypeName[] = {"Position", "Velocity", "Health",         "Properties",   "Grid Position", "Path",
-                                   "Target",   "AiState",  "Ability Caster", "Cast Request", "Sprite",        "AARR"};
+const char *ComponentTypeName[] = {"Position", "Velocity",       "Health",       "Properties", "Grid Position", "Path",       "Target",
+                                   "AiState",  "Ability Caster", "Cast Request", "Sprite",     "AARR",          "Hover Range"};
 
 void initialize_component_pool(World *world, enum ComponentType type, void *data, size_t component_size)
 {

@@ -19,6 +19,7 @@ EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {
             .tag = TAG_PLAYER_CREEPS,
             .tag_mask = (1 << TAG_PLAYER_CREEPS),
             .max_health = 100,
+            .range = 10,
             .speed = 200.0f,
             .ability_count = 1,
             .ability_id = {ABILITY_CHAIN_LIGHTNING},
@@ -38,6 +39,7 @@ EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {
             .tag = TAG_PLAYER_CREEPS,
             .tag_mask = (1 << TAG_PLAYER_CREEPS),
             .max_health = 100,
+            .range = 15,
             .speed = 200.0f,
             .ability_count = 1,
             .ability_id = {ABILITY_FIREBALL},
@@ -56,6 +58,7 @@ EntityTemplate entity_template[ENTITY_TYPE_COUNT] = {
             .tag = TAG_PLAYER_CREEPS,
             .tag_mask = (1 << TAG_PLAYER_CREEPS),
             .max_health = 1000,
+            .range = 5,
             .speed = 500.0f,
             .ability_count = 2,
             .ability_id = {ABILITY_FIREBALL, ABILITY_CHAIN_LIGHTNING},
@@ -86,11 +89,12 @@ int summon_entity_template(World *world, EntityType type, float pos_x, float pos
             .direction = entity.sprite.direction,
             .sprite_multi = 3,
         };
-        cPosition p = {.x = posX, .y = posY};
-        cVelocity v = {.dx = 0.f, .dy = 0.f, .speed = entity.speed};
-        cHealth h = {.max_health = entity.max_health, .current_health = entity.max_health};
-        cGridPosition g = {.x = p.x / CELL_SIZE, .y = p.y / CELL_SIZE};
-        cTarget target = {.current_target = INVALID_ENTITY_ID, .target_distance = 100000, .is_new = true, .is_active = false};
+        cPosition position = {.x = posX, .y = posY};
+        cVelocity velocity = {.dx = 0.f, .dy = 0.f, .speed = entity.speed};
+        cHoverRange hover_range = {entity.range};
+        cHealth health = {.max_health = entity.max_health, .current_health = entity.max_health};
+        cGridPosition grid_position = {.x = position.x / CELL_SIZE, .y = position.y / CELL_SIZE};
+        cTarget target = {.current_target = INVALID_ENTITY_ID, .target_distance = 100000, .is_active = false};
         cAIState state = {.current_state = STATE_IDLE, .next_state = STATE_EMPTY};
         cAbilityContainer ability_container = {.ability_count = entity.ability_count, .is_casting = false, .remaining_cast_time = 0};
         cCastRequest cast_request = {.ability_id = ABILITY_NONE, .target = INVALID_ENTITY_ID, .is_active = false};
@@ -116,10 +120,11 @@ int summon_entity_template(World *world, EntityType type, float pos_x, float pos
             add_component(world, id, COMPONENT_CAST_REQUEST, &cast_request);
         }
 
-        add_component(world, id, COMPONENT_POSITION, &p);
-        add_component(world, id, COMPONENT_VELOCITY, &v);
-        add_component(world, id, COMPONENT_HEALTH, &h);
-        add_component(world, id, COMPONENT_GRIDPOSITION, &g);
+        add_component(world, id, COMPONENT_POSITION, &position);
+        add_component(world, id, COMPONENT_VELOCITY, &velocity);
+        add_component(world, id, COMPONENT_HOVER_RANGE, &hover_range);
+        add_component(world, id, COMPONENT_HEALTH, &health);
+        add_component(world, id, COMPONENT_GRIDPOSITION, &grid_position);
         add_component(world, id, COMPONENT_TARGET, &target);
         add_component(world, id, COMPONENT_AISTATE, &state);
         add_component(world, id, COMPONENT_SPRITE, &sprite);
@@ -155,8 +160,9 @@ int summon_enemy_caster(World *world, float pos_x, float pos_y)
         };
         cHealth h = {.max_health = 100, .current_health = 100};
         cGridPosition g = {.x = p.x / CELL_SIZE, .y = p.y / CELL_SIZE};
+        cHoverRange hover_range = {.max_range = dark_wizard.range};
         cPath path = {.length = 0, .current_index = 0, .active = false};
-        cTarget target = {.current_target = INVALID_ENTITY_ID, .target_distance = 100000, .is_new = true, .is_active = false};
+        cTarget target = {.current_target = INVALID_ENTITY_ID, .target_distance = 100000, .is_active = false};
         cAIState state = {.current_state = STATE_IDLE, .next_state = STATE_EMPTY};
         cAbilityContainer ability_container = {.ability_count = 1, .is_casting = false, .remaining_cast_time = 0};
         cCastRequest cast_request = {.ability_id = ABILITY_NONE, .target = 1, .is_active = false};
@@ -181,6 +187,7 @@ int summon_enemy_caster(World *world, float pos_x, float pos_y)
 
         add_component(world, id, COMPONENT_POSITION, &p);
         add_component(world, id, COMPONENT_VELOCITY, &v);
+        add_component(world, id, COMPONENT_HOVER_RANGE, &hover_range);
         add_component(world, id, COMPONENT_HEALTH, &h);
         add_component(world, id, COMPONENT_GRIDPOSITION, &g);
         add_component(world, id, COMPONENT_PATH, &path);

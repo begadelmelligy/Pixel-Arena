@@ -1,13 +1,13 @@
 #include "../../components/aistate.h"
 #include <stdio.h>
 
-enum AIState next_legal_state[NUM_STATES][NUM_STATES - 1] = {
+enum AIState next_legal_state[NUM_STATES][NUM_STATES] = {
     [STATE_IDLE] = {STATE_CHASING, STATE_CASTING},
-    [STATE_CHASING] = {STATE_IDLE, STATE_CASTING},
+    [STATE_CHASING] = {STATE_IDLE, STATE_CASTING, STATE_CHASING},
     [STATE_CASTING] = {STATE_IDLE},
 };
 
-int next_legal_count[NUM_STATES] = {2, 2, 1};
+int next_legal_count[NUM_STATES] = {2, 3, 1};
 
 bool transition(cAIState *aistate, enum AIState candidate)
 {

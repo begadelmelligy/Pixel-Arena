@@ -35,6 +35,7 @@ enum ComponentType {
     COMPONENT_CAST_REQUEST = 9,
     COMPONENT_SPRITE = 10,
     COMPONENT_BOUNDING_RECT = 11,
+    COMPONENT_HOVER_RANGE = 12,
 };
 
 enum EntityTag {

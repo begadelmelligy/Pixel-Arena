@@ -18,6 +18,7 @@
 #include "../components/path.h"
 #include "../components/position.h"
 #include "../components/properties.h"
+#include "../components/range.h"
 #include "../components/sprite.h"
 #include "../components/target.h"
 #include "../components/velocity.h"
@@ -98,6 +99,7 @@ typedef struct World {
     cTarget target[MAX_ENTITIES];
     cAIState ai_state[MAX_ENTITIES];
     cBoundingRect bounding_rect[MAX_ENTITIES];
+    cHoverRange range[MAX_ENTITIES];
 
     cAbilityContainer ability_container[MAX_ENTITIES];
     cCastRequest cast_request[MAX_ENTITIES];

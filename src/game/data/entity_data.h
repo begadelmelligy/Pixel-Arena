@@ -18,6 +18,7 @@ typedef struct EntityTemplate {
     enum SpriteSheetType sprite_sheet_type;
     float bb_x_scale, bb_y_scale;
     float speed;
+    float range;
     float max_health;
     int ability_count;
     AbilityID ability_id[MAX_ABILITIES_TEMPLATE];

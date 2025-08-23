@@ -1,5 +1,6 @@
 #include "world.h"
 #include "event_handler.h"
+#include "globals.h"
 #include "helper.h"
 
 #include <stdlib.h>
@@ -32,6 +33,7 @@ World *create_world(void)
     initialize_component_pool(world, COMPONENT_CAST_REQUEST, world->cast_request, sizeof(cCastRequest));
     initialize_component_pool(world, COMPONENT_SPRITE, world->sprite, sizeof(cSprite));
     initialize_component_pool(world, COMPONENT_BOUNDING_RECT, world->bounding_rect, sizeof(cBoundingRect));
+    initialize_component_pool(world, COMPONENT_HOVER_RANGE, world->range, sizeof(cHoverRange));
 
     initialize_keys(world);
     initialize_grid(world);

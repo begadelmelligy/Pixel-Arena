@@ -19,7 +19,7 @@ typedef enum {
     RARITY_ELITE = 3,
     RARITY_SUPER = 4,
     RARITY_LEGENDARY = 5,
-    RARITY_MYTHIC
+    RARITY_MYTHIC,
 } UnitRarity;
 
 typedef struct cProperties {
