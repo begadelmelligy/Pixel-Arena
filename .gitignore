@@ -45,3 +45,6 @@ vgcore.*
 *.bak
 *.orig
 *.old
+
+# Ignore venv
+venv/
