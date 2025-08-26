@@ -3,9 +3,9 @@ import pygame as pg
 WIDTH = 1280
 HEIGHT = 1280
 
-GRID_COLS = 50
-GRID_ROWS = 50
-MAX_COST = 100000000000
+GRID_COLS = 25
+GRID_ROWS = 25
+MAX_COST = 10000
 
 
 class TileWorld:
